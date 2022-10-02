@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid all_cards">
+    {% for shelter in shelterAll %}
+    <a href="{% url 'shelters_news' shelter.name shelter.id %}">
+        <div class="all_card">
+            <h2>{{shelter.name}}</h2>
+        </div>        
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

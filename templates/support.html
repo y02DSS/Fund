@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid support">
+    <p>Поддержать на любую сумму</p>
+    <p style="font-size: 14px; color: gray">Спасибо, мне не нужно вознаграждение, я просто хочу поддержать проект.</p>
+    <div class="dropdown support_shelter">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Выбрать приют
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {% for shelter in shelterAll %}
+                <li><a class="dropdown-item" href="#" id={{shelter.id}}_shelter>{{shelter.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <p class="money_summ"><input id="money_summ" value="100"> ₽</p>
+    <a href="#" class="money_summ_view" id="money_summ_view">Поддержать на 100 руб.</a>
+</div>
+{% endblock %}

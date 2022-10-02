@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Личный кабинет приюта - {{name_account}}</h1>
+<div class="login">  
+    <a href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Создать карточку</a>
+    <a href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal">Добавить карточку животного</a>
+    <a href="#" data-bs-target="#CreateNews" id="form_create_news_shelter" data-bs-toggle="modal">Разместить новость</a>
+    <a href="#">Подать отсчет за месяц</a>
+    <a href="#"  data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
+    <a href="#">Срочные запросы</a>
+    <a href="#">Бюджет расходов в месяц</a>
+    <a href="#">Убыло животных</a>
+    <a href="#">Прибыло животных</a>
+</div>
+<div class="modal fade" id="CreateCardAnimal" name="all_forms" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CreateCardAnimalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="NameLabel"></h5>
+          <button type="button" class="btn-close close-all-forms" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" enctype="multipart/form-data" method="POST" class="login-model-form">
+          <div class="modal-body">
+              <div>
+                {% csrf_token %}
+                <div class="all-form onesForm"></div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-all-forms" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+<div id="FORM_form_create_card_shelter" style="display: none">{{form_create_card_shelter}}</div>
+<div id="FORM_form_create_news_shelter" style="display: none">{{form_create_news_shelter}}</div>
+<div id="FORM_form_create_card_animal" style="display: none">{{form_create_card_animal}}</div>
+<div id="FORM_form_date_visits" style="display: none">{{form_date_visits}}</div>
+{% endblock %}

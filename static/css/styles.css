@@ -1,0 +1,191 @@
+.site-button {
+  background-color: blue;
+  text-align: center;
+  padding: 10px 30px;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px; }
+
+.site-button:hover {
+  color: black; }
+
+.menu_header {
+  text-align: center;
+  padding: 15px; }
+  .menu_header a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 18px; }
+  .menu_header .logo {
+    width: 9vw !important; }
+  .menu_header .button {
+    height: 10%;
+    color: white;
+    background-color: blue; }
+  .menu_header .button:hover {
+    color: yellow; }
+
+.cards {
+  padding-top: 25px; }
+  .cards .card {
+    padding: 0px !important;
+    text-decoration: none;
+    margin-right: 0px; }
+    .cards .card .img {
+      position: relative;
+      z-index: 1; }
+      .cards .card .img .post_text {
+        position: absolute;
+        display: none;
+        top: 45%;
+        left: 25%;
+        color: white;
+        font-size: 22px;
+        font-weight: 600; }
+      .cards .card .img .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; }
+    .cards .card .name {
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase; }
+    .cards .card .text {
+      color: gray; }
+    .cards .card .info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px; }
+      .cards .card .info .left .persent {
+        margin-bottom: 0px;
+        color: blue;
+        font-size: 18px;
+        font-weight: 500; }
+      .cards .card .info .right .summ {
+        margin-bottom: 0px;
+        font-size: 22px;
+        font-weight: 500; }
+      .cards .card .info .info_text {
+        color: gray;
+        text-transform: uppercase; }
+  .cards .card:hover {
+    box-shadow: 0px 0px 10px black; }
+    .cards .card:hover img {
+      filter: blur(3px); }
+    .cards .card:hover .background {
+      background-color: blue;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5; }
+    .cards .card:hover .post_text {
+      z-index: 3;
+      display: block; }
+
+.all_help_description .name {
+  font-size: 24px;
+  margin-bottom: 0px; }
+
+.all_help_description .city {
+  font-size: 18px;
+  color: gray; }
+
+.all_help_description .help_description {
+  text-align: center;
+  width: 40%; }
+
+.all_help_description .main-info {
+  display: flex;
+  align-items: center; }
+  .all_help_description .main-info .pick_up_anival {
+    margin-left: 20px; }
+
+.help_money {
+  width: 60%;
+  border: 1px solid blue;
+  box-shadow: 0px 0px 5px black;
+  padding: 2%; }
+  .help_money .main {
+    color: blue;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0px; }
+  .help_money .description {
+    color: gray; }
+  .help_money .input_money {
+    border: 1px solid blue;
+    border-radius: 5px; }
+  .help_money .what_is_send_money {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600; }
+
+.support {
+  border: 1px solid blue;
+  border-radius: 5px;
+  padding: 10px 10px 40px 10px;
+  width: 30% !important; }
+  .support .support_shelter {
+    margin-bottom: 10px; }
+  .support .money_summ {
+    margin-bottom: 25px; }
+  .support .money_summ_view {
+    background-color: blue;
+    text-align: center;
+    padding: 20px 50px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    margin: 20px 0; }
+
+.partners {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 100px; }
+  .partners .name {
+    font-size: 24px;
+    font-weight: 600; }
+
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin: 0 auto; }
+  .login a {
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+    padding: 20px 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-align: center; }
+  .login a:hover {
+    color: yellow; }
+
+.all-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center; }
+  .all-form input, .all-form select, .all-form textarea {
+    height: 30px;
+    border: 2px solid blue;
+    border-radius: 5px;
+    margin-bottom: 10px; }
+  .all-form label {
+    font-size: 18px; }
+
+.all_cards {
+  display: flex;
+  flex-direction: column; }
+  .all_cards .all_card {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid blue;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px black; }
+
+/*# sourceMappingURL=styles.css.map */

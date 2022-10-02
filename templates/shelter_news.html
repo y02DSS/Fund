@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{shelter_news.name}}</h1>
+<div class="container-fluid all_cards">
+    {% for news in shelter_news.news.all %}
+    <div class="all_card">
+        <h2>{{news.name_news}}</h2>
+        <p>{{news.date_news}}</p>
+        <p>{{news.text_news}}</p>
+    </div>        
+    {% endfor %}
+</div>
+{% endblock %}
