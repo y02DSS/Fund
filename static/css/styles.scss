@@ -232,24 +232,49 @@
 }
 
 .login{
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-    margin: 0 auto;
-
-    a{
-        background-color: blue;
-        color: white;
-        text-decoration: none;
-        padding: 20px 40px;
-        border-radius: 10px;
-        margin-bottom: 10px;
+    .login-card{
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid blue;
+        margin: 20px;
         text-align: center;
+
+        h3{
+            margin-top:20px;
+        }
+
+        p{
+            span{
+                font-size: 18px;
+                font-weight: 500;
+            }
+
+            a{
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                text-decoration: none;
+            }
+        }
+
+        .login-button{
+            white-space: nowrap;
+            background-color: blue;
+            color: white;
+            text-decoration: none;
+            padding: 20px 40px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        a:hover{
+            color: yellow;
+        }        
+        
     }
 
-    a:hover{
-        color: yellow;
-    }
+
 }
 
 .all-form{

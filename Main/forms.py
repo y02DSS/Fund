@@ -1,8 +1,9 @@
+from calendar import c
 from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport
 
 # Форма авторизации
 class LoginForm(forms.Form): 
@@ -41,7 +42,7 @@ class AddRegisterForm(ModelForm):
          'director_name': 'Имя директора приюта',
          'contact': 'Ввидите номер телефона',
          'requisites': 'Введите свои реквизиты',
-         'social_network': 'Добавьте ссылки на социавльные сети',
+         'social_network': 'Добавьте ссылки на социальные сети',
          'number_of_animals': 'Сколько сейчас у вас животных?'
       }
 
@@ -80,6 +81,12 @@ class CreateCardAnimal(ModelForm):
             'age': 'Возраст'
          }
 
+
+# Форма удаления карточки животного
+class DeleteCardAnimal(forms.Form):
+   pass
+
+
 # Форма создания новости приюта
 class CreateNewsShelter(ModelForm):
    class Meta:
@@ -90,7 +97,32 @@ class CreateNewsShelter(ModelForm):
          'text_news': 'Напишите новость'
       }
 
+
+# Форма пропавшего животного
 class AddLostAnimals(ModelForm):
    class Meta:
       model = LostAnimals
       fields = ['photo', 'city', 'breed', 'description']
+
+
+# Форма отправки email
+class HotEmail(forms.Form):
+   email_hot = forms.CharField(max_length=200, label="Email")
+   text_hot = forms.CharField(widget=forms.Textarea, label="Обращение")
+
+
+#
+class BudgetMonth(forms.Form):
+   budget_money = forms.CharField(max_length=200, label="Необходимая сумма")
+   budget_file = forms.FileField(required=False, label="Добавьте файл")
+
+
+class NewShelterReport(ModelForm):
+   class Meta:
+      model = ShelterReport
+      fields = ['name_report', 'text_report', 'file_report']
+      labels = {
+         'name_report': 'Имя отчета',
+         'text_report': 'Описание',
+         'file_report': 'Добавьте файл'
+      }

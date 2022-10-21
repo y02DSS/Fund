@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class ShelterNews(models.Model):
+class ShelterNews(models.Model): # Все новости приютов
     name_news = models.CharField(max_length=200)
     date_news = models.DateField(auto_now_add=True)
     text_news = models.TextField()
@@ -11,7 +11,7 @@ class ShelterNews(models.Model):
 
 
 class ShelterReport(models.Model):
-    id = models.AutoField(primary_key=True)
+    company_report = models.CharField(max_length=200)
     name_report = models.CharField(max_length=200)
     text_report = models.TextField(blank=True, null=True)
     file_report = models.FileField(upload_to='static/uploads/files/reports')
@@ -35,7 +35,7 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     social_network = models.CharField(max_length=200, blank=True, null=True)
     number_of_animals = models.IntegerField(blank=True, null=True)
     news = models.ManyToManyField(ShelterNews)
-    reports = models.ForeignKey(ShelterReport, on_delete = models.CASCADE, blank=True, null=True)
+    # reports = models.ForeignKey(ShelterReport, on_delete = models.CASCADE, blank=True, null=True)
     date_visits = models.DateField(blank=True, null=True)
     register = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
 
@@ -51,7 +51,7 @@ class Collection(models.Model): # Карточка с животным
     summ_persent = models.CharField(max_length=200, blank=True, null=True)
     photo = models.ImageField(upload_to='static/img/cardsAnimal', blank=True, null=True)
     video = models.FileField(upload_to='static/video/cardsAnimal', blank=True, null=True)
-    status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Не опреденно", "Не опреденно")))
+    status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Не опреденно", "Не опреденно"), ("Архив", "Архив")))
     breed = models.CharField(max_length=200, blank=True, null=True)
     gender = models.CharField(max_length=200, blank=True, null=True)
     age = models.CharField(max_length=200, blank=True, null=True)

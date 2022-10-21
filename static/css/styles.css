@@ -150,20 +150,32 @@
     font-size: 24px;
     font-weight: 600; }
 
-.login {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-  margin: 0 auto; }
-  .login a {
+.login .login-card {
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid blue;
+  margin: 20px;
+  text-align: center; }
+  .login .login-card h3 {
+    margin-top: 20px; }
+  .login .login-card p span {
+    font-size: 18px;
+    font-weight: 500; }
+  .login .login-card p a {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none; }
+  .login .login-card .login-button {
+    white-space: nowrap;
     background-color: blue;
     color: white;
     text-decoration: none;
     padding: 20px 40px;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin: 20px;
     text-align: center; }
-  .login a:hover {
+  .login .login-card a:hover {
     color: yellow; }
 
 .all-form {

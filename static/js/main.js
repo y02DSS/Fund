@@ -46,6 +46,9 @@ var form_create_card_shelter = document.getElementById("form_create_card_shelter
 var form_create_card_animal = document.getElementById("form_create_card_animal");
 var form_create_news_shelter = document.getElementById("form_create_news_shelter");
 var form_date_visits = document.getElementById("form_date_visits");
+var form_hot_email = document.getElementById("form_hot_email");
+var form_budget_month = document.getElementById("form_budget_month");
+var form_new_shelter_report = document.getElementById("form_new_shelter_report");
 
 $(form_create_card_shelter).on("click", function() { 
     all_forms.id = form_create_card_shelter.getAttribute("data-bs-target").slice(1);
@@ -78,6 +81,26 @@ $(form_date_visits).on("click", function() {
     document.getElementById('NameLabel').innerHTML = form_date_visits.innerHTML
 });
 
+$(form_hot_email).on("click", function() { 
+    all_forms.id = form_hot_email.getAttribute("data-bs-target").slice(1);
+    onesForm.innerHTML = document.getElementById('FORM_form_hot_email').innerHTML;
+    document.getElementById('FORM_form_hot_email').style.display = 'block';
+    document.getElementById('NameLabel').innerHTML = form_hot_email.innerHTML
+});
+
+$(form_budget_month).on("click", function() { 
+    all_forms.id = form_budget_month.getAttribute("data-bs-target").slice(1);
+    onesForm.innerHTML = document.getElementById('FORM_form_budget_month').innerHTML;
+    document.getElementById('FORM_form_budget_month').style.display = 'block';
+    document.getElementById('NameLabel').innerHTML = form_budget_month.innerHTML
+});
+
+$(form_new_shelter_report).on("click", function() { 
+    all_forms.id = form_new_shelter_report.getAttribute("data-bs-target").slice(1);
+    onesForm.innerHTML = document.getElementById('FORM_form_new_shelter_report').innerHTML;
+    document.getElementById('FORM_form_new_shelter_report').style.display = 'block';
+    document.getElementById('NameLabel').innerHTML = form_new_shelter_report.innerHTML
+});
 
 close_all_forms = document.getElementsByClassName("close-all-forms")
 
@@ -86,4 +109,7 @@ $(close_all_forms[0]).on("click", function() {
     document.getElementById('FORM_form_create_card_animal').style.display = 'none';
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
+    document.getElementById('FORM_form_hot_email').style.display = 'none';
+    document.getElementById('FORM_form_budget_month').style.display = 'none';
+    document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
 });
