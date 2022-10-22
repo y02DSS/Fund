@@ -23,6 +23,7 @@ document.getElementById("registry_button").onclick = function() {
     login_form.style.display = "none"
 };
 
+
 // Динамическое отображение нужной формы в login
 var all_forms = document.getElementsByName("all_forms")[0];
 
@@ -113,3 +114,16 @@ $(close_all_forms[0]).on("click", function() {
     document.getElementById('FORM_form_budget_month').style.display = 'none';
     document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
 });
+
+
+
+
+
+// Многострочная вставка в placeholder
+document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' + 
+                                                        'Вторник - 8:30-17:00' + '\n' +
+                                                        'Среда - 8:30-17:00' + '\n' +
+                                                        'Четверг - 8:30-17:00' + '\n' +
+                                                        'Пятница - 8:30-17:00' + '\n' +
+                                                        'Суббота - не работаем' + '\n' +
+                                                        'Воскресенье - не работаем' + '\n' 

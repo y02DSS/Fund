@@ -45,7 +45,7 @@ def inject_form(request):  # Работает на всех страницах
 
 def index(request):
     collection = Collection.objects.all()
-    return render(request, "index.html", {"collection": collection})
+    return render(request, "index.html", {"collection": collection[:8]})
 
 
 def helpPage(request, helpID):
@@ -176,8 +176,8 @@ def login(request, rights):
 
             form_date_visits = DateVisits(request.POST)
             if form_date_visits.is_valid():
-                new_date = form_date_visits.cleaned_data['date_visits']
-                # new_date.save()
+                new_shelter.date_visits = form_date_visits.cleaned_data['date_visits']
+                new_shelter.save()
                 return redirect(login, rights)
 
         else:

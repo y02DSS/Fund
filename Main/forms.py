@@ -48,20 +48,26 @@ class AddRegisterForm(ModelForm):
 
 
 # Даты посещения 
-class XYZ_DateInput(forms.DateInput):
-    input_type = "date"
-    def __init__(self, **kwargs):
-        kwargs["format"] = "%Y-%m-%d"
-        super().__init__(**kwargs)
+# class XYZ_DateInput(forms.DateInput):
+#     input_type = "date"
+#     def __init__(self, **kwargs):
+#         kwargs["format"] = "%Y-%m-%d"
+#         super().__init__(**kwargs)
+
+# class DateVisits(ModelForm):
+#    class Meta:
+#       model = AccountShelter
+#       fields = ['date_visits']
+#       labels = {'date_visits': 'Дата посещения'}
+#       widgets = {
+#          'date_visits': XYZ_DateInput(format=["%Y-%m-%d"], ),
+#       }
 
 class DateVisits(ModelForm):
    class Meta:
       model = AccountShelter
       fields = ['date_visits']
-      labels = {'date_visits': 'Дата посещения'}
-      widgets = {
-         'date_visits': XYZ_DateInput(format=["%Y-%m-%d"], ),
-      }
+      labels = {'date_visits': 'Даты посещений'}
 
 
 # Форма создания карточки животного

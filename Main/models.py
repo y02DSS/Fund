@@ -36,7 +36,8 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     number_of_animals = models.IntegerField(blank=True, null=True)
     news = models.ManyToManyField(ShelterNews)
     # reports = models.ForeignKey(ShelterReport, on_delete = models.CASCADE, blank=True, null=True)
-    date_visits = models.DateField(blank=True, null=True)
+    # date_visits = models.DateField(blank=True, null=True)
+    date_visits = models.TextField(max_length=1000, blank=True, null=True)
     register = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
 
     def __str__(self):

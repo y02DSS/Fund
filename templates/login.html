@@ -21,7 +21,7 @@
           <p><a href="/help/{{name.id}}" target="_blank">{{name}}</a> 
               <!-- <form action="{% url 'login' rights %}" class="form" method="POST">
                 {% csrf_token %} -->
-                <a href="#" style="color:red"> (Удалить)</a>
+                <a href="#" style="color:red" name="delete"> (Удалить)</a>
               <!-- </form> -->
           </p>
         {% endfor %}
@@ -44,6 +44,9 @@
     </div>
     <div class="login-card col">
       <a class="login-button" href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
+      <h3>Даты посещений:</h3>
+      <p>{{shelter.date_visits}}</p>
+      
     </div>
     <!-- <div class="login-card col">
         <a href="#">Убыло животных</a>

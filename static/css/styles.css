@@ -1,5 +1,5 @@
 .site-button {
-  background-color: blue;
+  background-color: #7200e0;
   text-align: center;
   padding: 10px 30px;
   text-decoration: none;
@@ -22,7 +22,7 @@
   .menu_header .button {
     height: 10%;
     color: white;
-    background-color: blue; }
+    background-color: #7200e0; }
   .menu_header .button:hover {
     color: yellow; }
 
@@ -61,7 +61,7 @@
       margin-top: 20px; }
       .cards .card .info .left .persent {
         margin-bottom: 0px;
-        color: blue;
+        color: #7200e0;
         font-size: 18px;
         font-weight: 500; }
       .cards .card .info .right .summ {
@@ -76,7 +76,7 @@
     .cards .card:hover img {
       filter: blur(3px); }
     .cards .card:hover .background {
-      background-color: blue;
+      background-color: #7200e0;
       z-index: 2;
       width: 100%;
       height: 100%;
@@ -84,6 +84,64 @@
     .cards .card:hover .post_text {
       z-index: 3;
       display: block; }
+
+.main-big-text {
+  font-size: 48px; }
+
+.main-button {
+  margin: 0 auto;
+  text-align: center; }
+
+.main-button a {
+  padding: 10px 20px;
+  border: 1px solid #7200e0;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  color: #7200e0;
+  font-size: 18px; }
+
+.how-help {
+  margin-top: 5vw;
+  background-color: rgba(247, 222, 77, 0.2);
+  padding: 10vw; }
+
+.small-post-help div {
+  text-align: center;
+  margin: 0 auto; }
+  .small-post-help div div {
+    background-color: rgba(114, 177, 255, 0.2);
+    padding: 20px;
+    border-radius: 300px;
+    width: 100px;
+    height: 100px; }
+    .small-post-help div div img {
+      width: 100%;
+      margin-top: 12px; }
+
+.teke-animal-home {
+  margin-top: 20px;
+  height: 200px; }
+  .teke-animal-home .col-4 img {
+    background-color: #7200e0;
+    border-radius: 100px; }
+  .teke-animal-home .col-8 {
+    margin: auto 0; }
+
+.main-text-take-home {
+  font-size: 24px;
+  color: #7200e0; }
+
+.text-take-home {
+  font-size: 18px; }
+
+.last-help-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px; }
+  .last-help-list .line-help-main-text {
+    text-align: center;
+    font-size: 24px; }
 
 .all_help_description .name {
   font-size: 24px;
@@ -105,18 +163,18 @@
 
 .help_money {
   width: 60%;
-  border: 1px solid blue;
+  border: 1px solid #7200e0;
   box-shadow: 0px 0px 5px black;
   padding: 2%; }
   .help_money .main {
-    color: blue;
+    color: #7200e0;
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 0px; }
   .help_money .description {
     color: gray; }
   .help_money .input_money {
-    border: 1px solid blue;
+    border: 1px solid #7200e0;
     border-radius: 5px; }
   .help_money .what_is_send_money {
     margin-top: 10px;
@@ -124,7 +182,7 @@
     font-weight: 600; }
 
 .support {
-  border: 1px solid blue;
+  border: 1px solid #7200e0;
   border-radius: 5px;
   padding: 10px 10px 40px 10px;
   width: 30% !important; }
@@ -133,7 +191,7 @@
   .support .money_summ {
     margin-bottom: 25px; }
   .support .money_summ_view {
-    background-color: blue;
+    background-color: #7200e0;
     text-align: center;
     padding: 20px 50px;
     text-decoration: none;
@@ -153,7 +211,7 @@
 .login .login-card {
   padding: 20px;
   border-radius: 5px;
-  border: 1px solid blue;
+  border: 1px solid #7200e0;
   margin: 20px;
   text-align: center; }
   .login .login-card h3 {
@@ -168,7 +226,7 @@
     text-decoration: none; }
   .login .login-card .login-button {
     white-space: nowrap;
-    background-color: blue;
+    background-color: #7200e0;
     color: white;
     text-decoration: none;
     padding: 20px 40px;
@@ -184,7 +242,7 @@
   text-align: center; }
   .all-form input, .all-form select, .all-form textarea {
     height: 30px;
-    border: 2px solid blue;
+    border: 2px solid #7200e0;
     border-radius: 5px;
     margin-bottom: 10px; }
   .all-form label {
@@ -196,8 +254,12 @@
   .all_cards .all_card {
     margin: 20px 0;
     padding: 10px;
-    border: 1px solid blue;
+    border: 1px solid #7200e0;
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px black; }
+
+#id_date_visits {
+  height: 180px !important;
+  white-space: pre-wrap !important; }
 
 /*# sourceMappingURL=styles.css.map */
