@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load help_filter %}
+
+{% block content %}
+<p class="main-big-text text-center">Найди своего любимца</p>
+<div class="filter-animals">
+    <div class="d-flex">
+        <div>
+            <select name="shelters" id="select_shelter">
+                <option value="Все приюты" id="first_shelter">Все приюты</option> 
+                {% for shelter in shelters %}
+                    <option selected value="{{shelter}}">{{shelter}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <p style="margin: 0 20px">или</p>
+        <div>
+            <select name="shelters" id="select_city">
+                <option value="Все города" id="first_city">Все города</option> 
+                {% for city in citys %}
+                    <option value="{{city}}">{{city}}</option>
+                {% endfor %}
+            </select>
+        </div>        
+    </div>
+</div>
+
+<section class="container-fluid cards row g-5" id="cards_animal">
+    {% for card in collection %}
+    <div class="col-3 col-offset-2 card_animal" name="{{card.choice_shelter}}+{{card.city}}">
+        <a href="help/{{card.id}}" class="card">
+            <div class="img">
+                <img class="w-100" src="/static/img/header.jpg">
+                <div class="background"></div>
+                <p class="post_text">Поддержать проект</p>
+            </div>
+            <div class="p-3">
+                <p class="name">{{card.name}}</p>
+                <p class="text">{{card.comment}}</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width:{% persent card.summ_now card.summ %}%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">{% persent card.summ_now card.summ %}%</div>
+                </div>
+                <div class="info">
+                    <div class="left">
+                        <p class="persent">{% persent card.summ_now card.summ %} %</p>
+                        <p class="info_text">Идет сбор {{card.summ}}</p>
+                    </div>
+                    <div class="right">
+                        <p class="summ">{{card.summ_now}} ₽</p>
+                        <p class="info_text">Собрано</p>
+                    </div>
+                </div> 
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</section>
+
+{% endblock %}

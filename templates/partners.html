@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for company in all_partners %}
-    <div class="partners">
-        <p class="name">{{company.name}}</p>
-        <a href="#"><img class="w-25" src="../{{company.logo}}"></a>
-        <p class="about">{{company.about}}</p>
-        <p class="description">{{company.description}}</p>
-    </div>
-{% endfor %}
+<section class="mt-5">
+    <p class="main-big-text text-center">Наши партнеры</p>
+    {% for company in all_partners %}
+        <div class="partners">
+            <p class="name">{{company.name}}</p>
+            <a href="#"><img class="w-25" src="../{{company.logo}}"></a>
+            <p class="about">{{company.about}}</p>
+            <p class="description">{{company.description}}</p>
+        </div>
+    {% endfor %}    
+</section>
+
 {% endblock %}

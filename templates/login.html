@@ -2,19 +2,22 @@
 
 {% block content %}
 <h1>Личный кабинет приюта - {{name_account}}</h1>
-<div class="login container-fluid row">
-    <div class="login-card col">
-        <a class="login-button" href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Карточка приюта</a>
-        <h3>Ваша карточка приюта:</h3>
-        <p><span>Имя</span> - {{shelter.name}}</p>
-        <p><span>Город и адрес</span> - {{shelter.city}} {{shelter.address}}</p>
-        <p><span>Описание</span> - {{shelter.about}}</p>
-        <p><span>Имя директора</span> - {{shelter.director_name}}</p>
-        <p><span>Контакты</span> - {{shelter.contact}}</p>
-        <p><span>Реквизиты</span> - {{shelter.requisites}}</p>
-        <p><span>Социальные сети</span> - {{shelter.social_network}}</p>
+<div class="login container-fluid row g-5">
+    <div class="col-4">
+        <div class="login-card main-card">
+          <a class="login-button" href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Карточка приюта</a>
+          <h3>Ваша карточка приюта:</h3>
+          <p><span>Имя</span> - {{shelter.name}}</p>
+          <p><span>Город и адрес</span> - {{shelter.city}} {{shelter.address}}</p>
+          <p><span>Описание</span> - {{shelter.about}}</p>
+          <p><span>Имя директора</span> - {{shelter.director_name}}</p>
+          <p><span>Контакты</span> - {{shelter.contact}}</p>
+          <p><span>Реквизиты</span> - {{shelter.requisites}}</p>
+          <p><span>Социальные сети</span> - {{shelter.social_network}}</p>          
+        </div>
     </div>
-    <div class="login-card col">
+    <div class="col-4">
+      <div class="login-card main-card">
         <a class="login-button" href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal">Добавить карточку животного</a>
         <h3>Всего животных - {{shelter.number_of_animals}}</h3>
         {% for name in collection %}
@@ -25,33 +28,43 @@
               <!-- </form> -->
           </p>
         {% endfor %}
+      </div>
     </div>
-    <div class="login-card col">
+    <div class="col-4">
+      <div class="login-card main-card">
         <a class="login-button" href="#" data-bs-target="#CreateNews" id="form_create_news_shelter" data-bs-toggle="modal">Разместить новость</a>
         <h3>Ваши новоти</h3>
         {% for news in shelter.news.all %}
           {{news.name_news}}<br>
         {% endfor %}
+      </div>
     </div>
-    <div class="login-card col">
+    <div class="col-4">
+      <div class="login-card">
         <a class="login-button" href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal">Бюджет расходов в месяц</a>
+      </div>
     </div>
-    <div class="login-card col">
+    <div class="col-4">
+      <div class="login-card">
         <a class="login-button" href="#" data-bs-target="#ReportMonth" id="form_new_shelter_report" data-bs-toggle="modal">Подать отчет за месяц</a>
+      </div>
     </div>
-    <div class="login-card col">
-      <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
+    <div class="col-4">
+      <div class="login-card">
+        <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
+      </div>
     </div>
-    <div class="login-card col">
-      <a class="login-button" href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
-      <h3>Даты посещений:</h3>
-      <p>{{shelter.date_visits}}</p>
-      
+    <div class="col-12">
+      <div class="login-card">
+        <a class="login-button" href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
+        <h3>Даты посещений:</h3>
+        <p>{{shelter.date_visits}}</p>
+      </div>
     </div>
-    <!-- <div class="login-card col">
+    <!-- <div class="col">
         <a href="#">Убыло животных</a>
     </div>
-    <div class="login-card col">
+    <div class="col">
         <a href="#">Прибыло животных</a>
     </div> -->
 </div>

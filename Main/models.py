@@ -54,7 +54,7 @@ class Collection(models.Model): # Карточка с животным
     video = models.FileField(upload_to='static/video/cardsAnimal', blank=True, null=True)
     status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Не опреденно", "Не опреденно"), ("Архив", "Архив")))
     breed = models.CharField(max_length=200, blank=True, null=True)
-    gender = models.CharField(max_length=200, blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=(('Девочка', 'Девочка'), ('Мальчик', 'Мальчик')), blank=True, null=True)
     age = models.CharField(max_length=200, blank=True, null=True)
     city = models.CharField(max_length=200)
     choice_shelter = models.ForeignKey(AccountShelter, on_delete=models.CASCADE, blank=True, null=True)

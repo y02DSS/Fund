@@ -45,7 +45,28 @@ def inject_form(request):  # Работает на всех страницах
 
 def index(request):
     collection = Collection.objects.all()
-    return render(request, "index.html", {"collection": collection[:8]})
+    shelterAll = AccountShelter.objects.all()
+    all_partners = Partners.objects.all()
+    citys = []
+    for city in shelterAll:
+        if city.city not in citys:
+            citys.append(city.city)
+    return render(request, "index.html", {"collection": collection[:8], "shelterAll": shelterAll, "all_partners": all_partners, "citys": len(citys)})
+
+
+def allAnimals(request):
+    collection = Collection.objects.all()
+    shelterAll = AccountShelter.objects.all()
+    citys = []
+    for city in shelterAll:
+        if city.city not in citys:
+            citys.append(city.city)
+    shelters = []
+    for shelter in shelterAll:
+        shelters.append(shelter)
+    return render(request, "allAnimals.html", {"collection": collection,
+                                                "citys": citys,
+                                                "shelters": shelters})
 
 
 def helpPage(request, helpID):
@@ -56,12 +77,7 @@ def helpPage(request, helpID):
 def support(request):
     shelterAll = AccountShelter.objects.all()
     return render(request, "support.html", {"shelterAll": shelterAll})
-
-
-def registry(request):
-    shelterAll = AccountShelter.objects.all()
-    return render(request, "registry.html", {"shelterAll": shelterAll})
-
+    
 
 def partners(request):
     all_partners = Partners.objects.all()

@@ -20,8 +20,8 @@ from Main import views
 urlpatterns = [
     path('', views.index),
     path('help/<int:helpID>', views.helpPage),
+    path('allAnimals', views.allAnimals, name='allAnimals'),
     path('support', views.support, name='support'),
-    path('registry', views.registry, name='registry'),
     path('partners', views.partners, name='partners'),
     path('shelters', views.shelters, name='shelters'),
     path('shelters/<str:name_shelter>&<str:id_shelter>', views.shelters_news, name='shelters_news'),

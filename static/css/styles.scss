@@ -6,6 +6,7 @@ $second_font_size: 18px;
 $third_font_size: 24px;
 
 
+
 .site-button{
     background-color: $main_color;
     text-align: center;
@@ -19,7 +20,7 @@ $third_font_size: 24px;
     color: black;
 }
 
-.menu_header{
+.menu-header{
     text-align: center;
     padding: 15px;
 
@@ -31,10 +32,12 @@ $third_font_size: 24px;
     } 
 
     .logo{
-        width: 9vw !important;
+        width: 6vw !important;
     }
 
     .button{
+        padding: 10px 20px;
+        border-radius: 15px;
         height: 10%;
         color: white;
         background-color: $main_color;
@@ -47,8 +50,11 @@ $third_font_size: 24px;
 
 .cards{
     padding-top: 25px;
+    margin-left: 0 !important; 
+    margin-right: 0 !important;
 
     .card{
+        border-radius: 0 0 15px 15px;
         padding: 0px !important;
         text-decoration: none;
         margin-right: 0px;
@@ -139,7 +145,84 @@ $third_font_size: 24px;
 }
 
 .main-big-text{
-    font-size: 48px;
+    font-size: 62px !important;
+    font-weight: 300;
+}
+
+.why-use-services{
+    text-align: center;
+    margin-right: 0 !important;
+    margin-bottom: 50px;
+
+    div{
+        margin-top: 30px;
+
+        img{
+            margin-bottom: 10px;
+        }
+
+        p{
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
+}
+
+.now-shelters{
+    color: white;
+    padding: 10vw;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 50px;
+
+    .row-post{
+        padding: 10px;
+        border: 3px solid white;
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+
+        .big-name{
+            font-size: 62px;
+            font-weight: 800;
+        }
+
+        .small-name{
+            font-size: 32px;
+            font-weight: 500;
+            margin-top: -25px !important;
+        }
+    }
+}
+
+.now-shelters::before{
+    background-image: url('/static/img/imgForSite/shelter.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: -100px;
+    filter: blur(10px);
+    position: absolute;
+    z-index: -1;
+    content: "";
+    margin: 0 -15px 0 -15px;
+    left: 0; right: 0; top: 0; bottom: 0;
+}
+
+.help-us{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+
+    .row{
+        margin-top: 30px;
+
+        img{
+            width: 80%;
+            margin: 0 auto;
+        }        
+    }
 }
 
 .main-button{
@@ -161,6 +244,7 @@ $third_font_size: 24px;
     margin-top: 5vw;
     background-color: rgba(247, 222, 77, 0.2);
     padding: 10vw;
+    margin-bottom: 50px;
 }
 
 .small-post-help{
@@ -179,7 +263,11 @@ $third_font_size: 24px;
                 width: 100%;
                 margin-top: 12px;
             }
-        }        
+        }   
+        
+        div:hover{
+            box-shadow: 0px 0px 10px $main_color;
+        }
     }
 }
 
@@ -190,12 +278,21 @@ $third_font_size: 24px;
     .col-4{
         img{
             background-color: $main_color;
-            border-radius: 100px;
+            border-radius: 200px;
+            width: 90%;
         }
     }
 
     .col-8{
         margin: auto 0;
+    }
+}
+
+.teke-animal-home:hover{
+    .col-4{
+        img{
+            box-shadow: 0px 0px 10px black;
+        }
     }
 }
 
@@ -320,12 +417,36 @@ $third_font_size: 24px;
     }
 }
 
+.filter-animals{
+    width: max-content;
+    margin: 0 auto;
+    background-color: rgba(247, 222, 77, 0.2);
+    height: max-content;
+    margin-bottom: 50px;
+    padding: 1%;
+    border-radius: 10px;
+
+    .d-flex{
+        text-align: center;
+
+        select{
+            width: 200px;
+        }
+    }
+
+    select{
+        padding: 5px;
+        border-radius: 10px;
+        border: 2px solid $main_color;
+        background-color: white;
+    }
+}
+
 .login{
     .login-card{
         padding: 20px;
         border-radius: 5px;
         border: 1px solid $main_color;
-        margin: 20px;
         text-align: center;
 
         h3{
@@ -360,10 +481,12 @@ $third_font_size: 24px;
         a:hover{
             color: yellow;
         }        
-        
     }
 
-
+    .main-card{
+        height: 500px;
+        overflow-x: auto;
+    }
 }
 
 .all-form{
@@ -387,12 +510,32 @@ $third_font_size: 24px;
     display: flex;
     flex-direction: column;
 
+    a{
+        text-decoration: none;
+    }
+
     .all_card{
         margin: 20px 0;
         padding: 10px;
         border: 1px solid $main_color;
         border-radius: 10px;
         box-shadow: inset 0px 0px 5px black;
+
+        .main-info{
+            p{
+                color: black;
+
+                span{
+                    font-size: $second_font_size;
+                    font-weight: 500;
+                }                
+            }
+        }
+
+        .shelter-img{
+            width: 20%;
+            margin: auto 0;
+        }
     }
 }
 
@@ -400,6 +543,55 @@ $third_font_size: 24px;
     height: 180px !important;
     white-space: pre-wrap !important;
 }
+
+.footer{
+    margin-top: 100px;
+    background-color: $main_color;
+    height: 250px;
+    padding: 3% 10%;
+    display: flex;
+    
+    .footer-links{
+        a{
+            color: white;
+            margin-right: 10px;
+        }
+
+        a:hover{
+            color: orange;
+        }
+    }
+
+    .button{
+        margin-top: 10px;
+        width: max-content;
+        border-radius: 15px;
+        height: 10%;
+        padding: 10px 20px;
+        background-color: $secondary_color;
+
+        a{
+            color: white;
+            text-decoration: none;
+        }
+    }
+
+    .footer-contacts{
+        margin-left: 50px;
+        color: white;
+
+        .contscts-title{
+            font-size: $third_font_size;
+            margin-top: -10px;
+        }
+
+        a{
+            color: white;
+        }
+    }
+}
+
+
 
 @media screen and (min-width: 540px) {
 
@@ -412,3 +604,20 @@ $third_font_size: 24px;
 @media screen and (min-width: 1320px) {
 
 }
+
+
+.element-animation {
+    margin: 2rem 0;
+    font-size: 3rem;
+    
+    /* Скроем элемент в начальном состоянии */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.element-animation.element-show {
+    opacity: 1;
+    transition: all 1.5s;
+    transform: translateY(0%);
+  }
+

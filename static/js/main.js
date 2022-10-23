@@ -103,7 +103,7 @@ $(form_new_shelter_report).on("click", function() {
     document.getElementById('NameLabel').innerHTML = form_new_shelter_report.innerHTML
 });
 
-close_all_forms = document.getElementsByClassName("close-all-forms")
+var close_all_forms = document.getElementsByClassName("close-all-forms")
 
 $(close_all_forms[0]).on("click", function() { 
     document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
@@ -115,7 +115,101 @@ $(close_all_forms[0]).on("click", function() {
     document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
 });
 
+$(close_all_forms[1]).on("click", function() { 
+    document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
+    document.getElementById('FORM_form_create_card_animal').style.display = 'none';
+    document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
+    document.getElementById('FORM_form_date_visits').style.display = 'none';
+    document.getElementById('FORM_form_hot_email').style.display = 'none';
+    document.getElementById('FORM_form_budget_month').style.display = 'none';
+    document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
+});
 
+$(window).scroll(function(){
+    if($(window).scrollTop()>300){
+    $('#elem').show()
+    }
+})
+
+
+
+// Фильтрация животных
+var cards_animal = document.getElementById('cards_animal')
+
+var select_shelter = document.getElementById('select_shelter')
+
+$(select_shelter).on("click", function() { 
+    document.getElementById("first_city").selected = true
+
+    var $this = $(this);
+    
+    if ($this.hasClass('open')) {
+        var shelter = document.getElementsByClassName('card_animal');
+        for (i=0; i<shelter.length; i++) {
+            if ($this.val() == "Все приюты"){
+                shelter[i].style.display = 'block';
+
+            } else if (shelter[i].getAttribute("name").split("+")[0] != $this.val()){
+                shelter[i].style.display = 'none'; 
+                         
+            } else {
+                shelter[i].style.display = 'block';
+            }
+        };
+        $this.removeClass('open');
+
+    }else {
+        $this.addClass('open');
+    }
+});
+
+
+var select_city = document.getElementById('select_city')
+
+$(select_city).on("click", function() { 
+    document.getElementById("first_shelter").selected = true
+
+    var $this = $(this);
+    
+    if ($this.hasClass('open')) {
+        var shelter = document.getElementsByClassName('card_animal');
+        for (i=0; i<shelter.length; i++) {
+            if ($this.val() == "Все города"){
+                shelter[i].style.display = 'block';
+
+            } else if (shelter[i].getAttribute("name").split("+")[1] != $this.val()){
+                shelter[i].style.display = 'none'; 
+                         
+            } else {
+                shelter[i].style.display = 'block';
+            }
+        };
+        $this.removeClass('open');
+
+    }else {
+        $this.addClass('open');
+    }
+});
+
+
+
+// Плавное появление элементов
+function onEntry(entry) {
+    entry.forEach(change => {
+      if (change.isIntersecting) {
+       change.target.classList.add('element-show');
+      }
+    });
+}
+  
+let options = {
+threshold: [0.5] };
+let observer = new IntersectionObserver(onEntry, options);
+let elements = document.querySelectorAll('.element-animation');
+
+for (let elm of elements) {
+observer.observe(elm);
+}
 
 
 
@@ -127,3 +221,8 @@ document.getElementById("id_date_visits").placeholder = 'Понедельник 
                                                         'Пятница - 8:30-17:00' + '\n' +
                                                         'Суббота - не работаем' + '\n' +
                                                         'Воскресенье - не работаем' + '\n' 
+
+
+
+
+

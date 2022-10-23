@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .site-button {
   background-color: #7200e0;
   text-align: center;
@@ -9,26 +10,31 @@
 .site-button:hover {
   color: black; }
 
-.menu_header {
+.menu-header {
   text-align: center;
   padding: 15px; }
-  .menu_header a {
+  .menu-header a {
     text-decoration: none;
     color: black;
     font-weight: 500;
     font-size: 18px; }
-  .menu_header .logo {
-    width: 9vw !important; }
-  .menu_header .button {
+  .menu-header .logo {
+    width: 6vw !important; }
+  .menu-header .button {
+    padding: 10px 20px;
+    border-radius: 15px;
     height: 10%;
     color: white;
     background-color: #7200e0; }
-  .menu_header .button:hover {
+  .menu-header .button:hover {
     color: yellow; }
 
 .cards {
-  padding-top: 25px; }
+  padding-top: 25px;
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
   .cards .card {
+    border-radius: 0 0 15px 15px;
     padding: 0px !important;
     text-decoration: none;
     margin-right: 0px; }
@@ -86,7 +92,67 @@
       display: block; }
 
 .main-big-text {
-  font-size: 48px; }
+  font-size: 62px !important;
+  font-weight: 300; }
+
+.why-use-services {
+  text-align: center;
+  margin-right: 0 !important;
+  margin-bottom: 50px; }
+  .why-use-services div {
+    margin-top: 30px; }
+    .why-use-services div img {
+      margin-bottom: 10px; }
+    .why-use-services div p {
+      width: 50%;
+      margin: 0 auto; }
+
+.now-shelters {
+  color: white;
+  padding: 10vw;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 50px; }
+  .now-shelters .row-post {
+    padding: 10px;
+    border: 3px solid white;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto; }
+    .now-shelters .row-post .big-name {
+      font-size: 62px;
+      font-weight: 800; }
+    .now-shelters .row-post .small-name {
+      font-size: 32px;
+      font-weight: 500;
+      margin-top: -25px !important; }
+
+.now-shelters::before {
+  background-image: url("/static/img/imgForSite/shelter.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: -100px;
+  filter: blur(10px);
+  position: absolute;
+  z-index: -1;
+  content: "";
+  margin: 0 -15px 0 -15px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0; }
+
+.help-us {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center; }
+  .help-us .row {
+    margin-top: 30px; }
+    .help-us .row img {
+      width: 80%;
+      margin: 0 auto; }
 
 .main-button {
   margin: 0 auto;
@@ -104,7 +170,8 @@
 .how-help {
   margin-top: 5vw;
   background-color: rgba(247, 222, 77, 0.2);
-  padding: 10vw; }
+  padding: 10vw;
+  margin-bottom: 50px; }
 
 .small-post-help div {
   text-align: center;
@@ -118,15 +185,21 @@
     .small-post-help div div img {
       width: 100%;
       margin-top: 12px; }
+  .small-post-help div div:hover {
+    box-shadow: 0px 0px 10px #7200e0; }
 
 .teke-animal-home {
   margin-top: 20px;
   height: 200px; }
   .teke-animal-home .col-4 img {
     background-color: #7200e0;
-    border-radius: 100px; }
+    border-radius: 200px;
+    width: 90%; }
   .teke-animal-home .col-8 {
     margin: auto 0; }
+
+.teke-animal-home:hover .col-4 img {
+  box-shadow: 0px 0px 10px black; }
 
 .main-text-take-home {
   font-size: 24px;
@@ -208,11 +281,28 @@
     font-size: 24px;
     font-weight: 600; }
 
+.filter-animals {
+  width: max-content;
+  margin: 0 auto;
+  background-color: rgba(247, 222, 77, 0.2);
+  height: max-content;
+  margin-bottom: 50px;
+  padding: 1%;
+  border-radius: 10px; }
+  .filter-animals .d-flex {
+    text-align: center; }
+    .filter-animals .d-flex select {
+      width: 200px; }
+  .filter-animals select {
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid #7200e0;
+    background-color: white; }
+
 .login .login-card {
   padding: 20px;
   border-radius: 5px;
   border: 1px solid #7200e0;
-  margin: 20px;
   text-align: center; }
   .login .login-card h3 {
     margin-top: 20px; }
@@ -236,6 +326,10 @@
   .login .login-card a:hover {
     color: yellow; }
 
+.login .main-card {
+  height: 500px;
+  overflow-x: auto; }
+
 .all-form {
   display: flex;
   flex-direction: column;
@@ -251,15 +345,67 @@
 .all_cards {
   display: flex;
   flex-direction: column; }
+  .all_cards a {
+    text-decoration: none; }
   .all_cards .all_card {
     margin: 20px 0;
     padding: 10px;
     border: 1px solid #7200e0;
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px black; }
+    .all_cards .all_card .main-info p {
+      color: black; }
+      .all_cards .all_card .main-info p span {
+        font-size: 18px;
+        font-weight: 500; }
+    .all_cards .all_card .shelter-img {
+      width: 20%;
+      margin: auto 0; }
 
 #id_date_visits {
   height: 180px !important;
   white-space: pre-wrap !important; }
+
+.footer {
+  margin-top: 100px;
+  background-color: #7200e0;
+  height: 250px;
+  padding: 3% 10%;
+  display: flex; }
+  .footer .footer-links a {
+    color: white;
+    margin-right: 10px; }
+  .footer .footer-links a:hover {
+    color: orange; }
+  .footer .button {
+    margin-top: 10px;
+    width: max-content;
+    border-radius: 15px;
+    height: 10%;
+    padding: 10px 20px;
+    background-color: blue; }
+    .footer .button a {
+      color: white;
+      text-decoration: none; }
+  .footer .footer-contacts {
+    margin-left: 50px;
+    color: white; }
+    .footer .footer-contacts .contscts-title {
+      font-size: 24px;
+      margin-top: -10px; }
+    .footer .footer-contacts a {
+      color: white; }
+
+.element-animation {
+  margin: 2rem 0;
+  font-size: 3rem;
+  /* Скроем элемент в начальном состоянии */
+  opacity: 0;
+  transform: translateY(20px); }
+
+.element-animation.element-show {
+  opacity: 1;
+  transition: all 1.5s;
+  transform: translateY(0%); }
 
 /*# sourceMappingURL=styles.css.map */

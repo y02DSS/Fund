@@ -12,16 +12,16 @@
         <title>Fund</title>
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row menu_header">
-                <a href="/" class="col-1"><img class="logo" src="/static/img/logo.png"/></a>
+        <section class="container-fluid">
+            <div class="row menu-header">
+                <a href="/" class="col-1"><img class="logo" src="/static/img/imgForSite/logo.png"/></a>
                 <div class="col-1"></div>
                 <a href="{% url 'support' %}" class="col-2 button">Стать спонсором</a>
                 <div class="col-6"></div>
-                <a href="#" class="col-2 button"  data-bs-toggle="modal" data-bs-target="#registry_form">Регистрация<br>Вход</a>
+                <a href="#" class="col-2 button"  data-bs-toggle="modal" data-bs-target="#registry_form">Регистрация/Вход<br>для приютов</a>
             </div>
-        </div>
-        <div class="container-fluid menu_links">
+        </section>
+        <section class="container-fluid menu_links">
             <ul class="nav nav-tabs">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Найти потерянное животное</a>
@@ -42,9 +42,6 @@
                     <a class="nav-link" aria-current="page" href="{% url 'support' %}">Стать спонсором</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'registry' %}">Общероссийский реестр приютов безнадзорных животных</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'partners' %}">Нас поддерживают</a>
                 </li>
                 <li class="nav-item">
@@ -57,9 +54,8 @@
                     <a class="nav-link" aria-current="page" href="#">Архив</a>
                 </li>
             </ul>
-        </div>
-        <div style="height: 20px;"></div>
-        <div class="modal fade" id="registry_form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registry_form" aria-hidden="true">
+        </section>
+        <section class="modal fade" id="registry_form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registry_form" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -95,9 +91,30 @@
 
               </div>
             </div>
-          </div>
+        </section>
         {% block content %}
         {% endblock %}
+        <section class="footer">
+            <div>
+                <div class="footer-links">
+                    <a href="#">О проекте</a>
+                    <a href="#">Архив</a>
+                    <a href="#">Разместить фото потерянного животного</a>
+                    <a href="#">Информация партнерам и волонтерам</a>
+                    <a href="#">Новости и отчеты приютов</a>
+                </div>
+                <div class="menu-footer">
+                    <div class="button"><a href="{% url 'support' %}">Стать спонсором</a></div>
+                    <div class="button"><a href="#"  data-bs-toggle="modal" data-bs-target="#registry_form">Регистрация/Вход для приютов</a></div>
+                </div>                
+            </div>
+            <div class="footer-contacts">
+                <p class="contscts-title">Контакты</p>
+                <p>Телефон: <a href="tel:899999999">8(999)-999-99-99</a></p>
+                <p>email: <a href="mailto:yandex@gmail.com">yandex@gmail.com</a></p>
+                <p>VK: <a href="https://vk.com" target="_blank">dog.vk</a></p>
+            </div>
+        </section>
         <script type="text/javascript" src={% static "js/main.js" %}></script>
     </body>
 </html>

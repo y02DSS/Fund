@@ -3,7 +3,8 @@
 {% load help_filter %}
 
 {% block content %}
-<div class="container-fluid cards row g-5">
+<p class="main-big-text text-center">Поддержать их</p>
+<section class="container-fluid cards row g-5">
     {% for card in collection %}
     <div class=" col-3 col-offset-2">
         <a href="help/{{card.id}}" class="card">
@@ -32,9 +33,9 @@
         </a>
     </div>
     {% endfor %}
-    <div class="main-button"><a href="#">Показать остальных:</a></div>
-</div>
-<div class="how-help">
+    <div class="main-button"><a href="{% url 'allAnimals' %}">Показать остальных:</a></div>
+</section>
+<section class="how-help">
     <p class="main-big-text">Как помогать животным</p>
     <div class="row">
         <div class="col-8">
@@ -70,7 +71,7 @@
                     <p>Навестить</p>
                 </div>
             </div>
-            <div class="row teke-animal-home">
+            <div class="row teke-animal-home element-animation">
                 <div class="col-4">
                     <img src="/static/img/imgForSite/take-home.svg">    
                 </div>
@@ -84,6 +85,61 @@
             <p class="line-help-main-text">Лента помощи</p>
         </div>        
     </div>
-
-</div>
+</section>
+<section>
+    <p class="main-big-text text-center">Зачем пользоваться сервисом?</p>
+    <div class="why-use-services row">
+        <div class="col">
+            <img src="/static/img/imgForSite/why-use.png">
+            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+        </div>
+        <div class="col">
+            <img src="/static/img/imgForSite/why-use.png">
+            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+        </div>
+        <div class="col">
+            <img src="/static/img/imgForSite/why-use.png">
+            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+        </div>
+        <div class="col">
+            <img src="/static/img/imgForSite/why-use.png">
+            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+        </div>
+    </div>
+</section>
+<section class="now-shelters">
+    <p class="main-big-text">Сейчас</p>
+    <div class="row mt-5 element-animation">
+        <div class="col">
+            <div class="row-post">
+                <p class="big-name">{{citys}}</p>
+                <p class="small-name">Города</p>                
+            </div>
+        </div>
+        <div class="col">
+            <div class="row-post">
+                <p class="big-name">{{shelterAll|length}}</p>
+                <p class="small-name">Приюта</p>                
+            </div>
+        </div>
+        <div class="col">
+            <div class="row-post">
+                <p class="big-name">{{collection|length}}</p>
+                <p class="small-name">Питомцев</p>                
+            </div>
+        </div>
+    </div>
+</section>
+<section class="help-us">
+    <p class="main-big-text">Нас поддерживают</p>
+    <div class="row">
+        {% for partner in all_partners %}
+            <div class="col-3 element-animation">
+                <a href="{% url 'partners' %}">
+                    <img src="{{partner.logo}}">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
