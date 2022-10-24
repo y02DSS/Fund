@@ -77,7 +77,7 @@ def helpPage(request, helpID):
 def support(request):
     shelterAll = AccountShelter.objects.all()
     return render(request, "support.html", {"shelterAll": shelterAll})
-    
+
 
 def partners(request):
     all_partners = Partners.objects.all()
@@ -91,7 +91,6 @@ def shelters(request):
 
 def shelters_news(request, name_shelter, id_shelter):
     shelter_news = AccountShelter.objects.filter(id=id_shelter)[0]
-    print(shelter_news.id, id_shelter)
     return render(request, "shelter_news.html", {"shelter_news": shelter_news})
 
 
@@ -167,7 +166,7 @@ def login(request, rights):
                         for chunk in budget_file.chunks():  
                             destination.write(chunk)   
                     send_for_email(str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
-                                    budget_money, "Отчет от "+str(AccountShelter.objects.filter(email=temp_rights[0])[0].name), 
+                                    budget_money, "Бюджет от "+str(AccountShelter.objects.filter(email=temp_rights[0])[0].name), 
                                     'static/uploads/files/budget/'+budget_file.name)
                 else:
                     send_for_email(str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
@@ -189,6 +188,7 @@ def login(request, rights):
                                 text_report, 
                                 "Отчет от "+company_report, 
                                 'static/uploads/files/reports/'+file_report.name)
+                return redirect(login, rights)
 
             form_date_visits = DateVisits(request.POST)
             if form_date_visits.is_valid():

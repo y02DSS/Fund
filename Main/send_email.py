@@ -10,10 +10,8 @@ def send_for_email(email, text, title, file=None):
     
     password = "qetGLzNTmCd49kpukyxz"
     msg['From'] = "sbz35@mail.ru"
-    msg['To'] = "za02za02@bk.ru"
+    msg['To'] = "info@elysium2022.ru"
     msg['Subject'] = title
-
-    msg.attach(MIMEText(email, text))
 
     if file is not None:
         part = MIMEBase('application', "octet-stream")
@@ -21,6 +19,10 @@ def send_for_email(email, text, title, file=None):
         encoders.encode_base64(part)
         part.add_header('Content-Disposition', 'attachment; filename="%s"'%(file))
         msg.attach(part)
+        
+    msg.attach(MIMEText(email))
+    msg.attach(MIMEText(text))
+
 
     server = smtplib.SMTP('smtp.mail.ru: 587')
     server.starttls()
