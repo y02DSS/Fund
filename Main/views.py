@@ -120,7 +120,7 @@ def login(request, rights):
                 new_shelter.contact = form_create_card_shelter.cleaned_data["contact"]
                 new_shelter.requisites = form_create_card_shelter.cleaned_data["requisites"]
                 new_shelter.social_network = form_create_card_shelter.cleaned_data["social_network"]
-                new_shelter.number_of_animals = form_create_card_shelter.cleaned_data["number_of_animals"]
+                new_shelter.number_of_animals = int(form_create_card_shelter.cleaned_data["number_of_animals"])
                 new_shelter.save()
                 return redirect(login, rights)
     
