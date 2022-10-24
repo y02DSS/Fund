@@ -34,7 +34,7 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     requisites = models.CharField(max_length=200, blank=True, null=True)
     social_network = models.CharField(max_length=200, blank=True, null=True)
     number_of_animals = models.IntegerField(blank=True, null=True)
-    news = models.ManyToManyField(ShelterNews)
+    news = models.ManyToManyField(ShelterNews, blank=True, null=True)
     # reports = models.ForeignKey(ShelterReport, on_delete = models.CASCADE, blank=True, null=True)
     # date_visits = models.DateField(blank=True, null=True)
     date_visits = models.TextField(max_length=1000, blank=True, null=True)

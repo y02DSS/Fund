@@ -17,11 +17,14 @@ def inject_form(request):  # Работает на всех страницах
     form_registry_add = AccountShelter()
     if request.method == 'POST':
 
-        form_registry = RegistryForm(request.POST)
+        form_registry = RegistryForm(request.POST, request.FILES)
         if form_registry.is_valid(): # Регистрация
             form_registry_add.name = request.POST.get("name")
             form_registry_add.email = request.POST.get("email")
             form_registry_add.password = request.POST.get("password")
+            form_registry_add.city = request.POST.get("city")
+            form_registry_add.address = request.POST.get("address")
+            form_registry_add.logo = request.FILES("logo")
             form_registry_add.save()
 
         form_login = LoginForm(request.POST)
