@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="form-new-lost-animal">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{newLostAnimal}}
+            <br>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

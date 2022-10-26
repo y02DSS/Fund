@@ -28,7 +28,7 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True, null=True)  
     about = models.TextField(max_length=1000, blank=True, null=True)
-    logo = models.FileField(upload_to='static/img/accounts')
+    logo = models.FileField(upload_to='static/img/accounts', blank=True, null=True)
     director_name = models.CharField(max_length=200, blank=True, null=True)
     contact = models.CharField(max_length=200, blank=True, null=True)
     requisites = models.CharField(max_length=200, blank=True, null=True)
@@ -76,8 +76,8 @@ class Partners(models.Model): # Раздел с партнерами
 
 
 class LostAnimals(models.Model): # Раздел с потерянными животными
-    photo = models.CharField(max_length=200)
+    photo = models.FileField(upload_to='static/img/lostAnimals')
     city = models.CharField(max_length=200)
-    breed = models.CharField(max_length=200)
-    description = models.CharField(max_length=3000)
+    breed = models.CharField(max_length=200, blank=True, null=True, default="Без породы")
+    description = models.CharField(max_length=3000, blank=True, null=True)
     

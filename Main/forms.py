@@ -3,7 +3,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals
 
 # Форма авторизации
 class LoginForm(forms.Form): 
@@ -15,14 +15,13 @@ class LoginForm(forms.Form):
 class RegistryForm(ModelForm):
       class Meta:
          model = AccountShelter
-         fields = ['name', 'email', 'password', 'city', 'address', 'logo']
+         fields = ['name', 'email', 'password', 'city', 'address']
          labels = {
             'name': 'Название приюта',
             'email': 'Введите email',
             'password': 'Придумайте пароль',
             'city': 'Введите город',
             'address': 'Введите адрес',
-            'logo': 'Загрузите лого',
          }
          widgets = {
             'password': forms.PasswordInput,
@@ -43,7 +42,8 @@ class AddRegisterForm(ModelForm):
          'contact': 'Ввидите номер телефона',
          'requisites': 'Введите свои реквизиты',
          'social_network': 'Добавьте ссылки на социальные сети',
-         'number_of_animals': 'Сколько сейчас у вас животных?'
+         'number_of_animals': 'Сколько сейчас у вас животных?',
+         'logo': 'Загрузите лого',
       }
 
 
@@ -131,4 +131,17 @@ class NewShelterReport(ModelForm):
          'name_report': 'Имя отчета',
          'text_report': 'Описание',
          'file_report': 'Добавьте файл'
+      }
+
+
+# Форма потерянного животного
+class FormLostAnimals(ModelForm):
+   class Meta:
+      model = LostAnimals
+      fields = ['photo', 'city', 'breed', 'description']
+      labels = {
+         'photo': 'Добавляем фото',
+         'city': 'Введите города',
+         'breed': 'Введите породу',
+         'description': 'Добавьте описание'
       }

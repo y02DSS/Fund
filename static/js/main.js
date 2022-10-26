@@ -58,7 +58,6 @@ $(form_create_card_shelter).on("click", function() {
     document.getElementById('NameLabel').innerHTML = form_create_card_shelter.innerHTML
 });
 
-
 $(form_create_card_animal).on("click", function() { 
     all_forms.id = form_create_card_animal.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_create_card_animal').innerHTML;
@@ -66,14 +65,12 @@ $(form_create_card_animal).on("click", function() {
     document.getElementById('NameLabel').innerHTML = form_create_card_animal.innerHTML
 });
 
-
 $(form_create_news_shelter).on("click", function() { 
     all_forms.id = form_create_news_shelter.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_create_news_shelter').innerHTML;
     document.getElementById('FORM_form_create_news_shelter').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_news_shelter.innerHTML
 });
-
 
 $(form_date_visits).on("click", function() { 
     all_forms.id = form_date_visits.getAttribute("data-bs-target").slice(1);
@@ -131,6 +128,11 @@ $(window).scroll(function(){
     }
 })
 
+
+// Регистрация
+$('#registry').on('closed.bs.alert', function () {
+    setTimeout("alert('Привет')", 1000);
+  })
 
 
 // Фильтрация животных

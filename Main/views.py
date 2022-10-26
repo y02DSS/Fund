@@ -1,8 +1,8 @@
 from gc import collect
 from django.conf import settings
 from django.shortcuts import render, redirect
-from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport
-from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport
+from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals
+from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -17,15 +17,15 @@ def inject_form(request):  # Работает на всех страницах
     form_registry_add = AccountShelter()
     if request.method == 'POST':
 
-        form_registry = RegistryForm(request.POST, request.FILES)
+        form_registry = RegistryForm(request.POST)
         if form_registry.is_valid(): # Регистрация
             form_registry_add.name = request.POST.get("name")
             form_registry_add.email = request.POST.get("email")
             form_registry_add.password = request.POST.get("password")
             form_registry_add.city = request.POST.get("city")
             form_registry_add.address = request.POST.get("address")
-            form_registry_add.logo = request.FILES["logo"]
             form_registry_add.save()
+            send_for_email(str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
 
         form_login = LoginForm(request.POST)
         if form_login.is_valid(): # Авторизация
@@ -77,6 +77,25 @@ def helpPage(request, helpID):
     return render(request, "helpPage.html", {"animal": animal})
 
 
+def lostAnimal(request):
+    lostAnimals = LostAnimals.objects.all()
+    return render(request, "lostAnimal.html", {"lostAnimals": lostAnimals})
+
+
+def newLostAnimal(request):
+    form_lostAnimals = LostAnimals()
+    newLostAnimal = FormLostAnimals(request.POST, request.FILES)
+    if newLostAnimal.is_valid(): # Регистрация
+        form_lostAnimals.photo = request.FILES["photo"]
+        form_lostAnimals.city = request.POST.get("city")
+        form_lostAnimals.breed = request.POST.get("breed")
+        form_lostAnimals.description = request.POST.get("description")
+        form_lostAnimals.save()
+
+    return render(request, "newLostAnimal.html", {"newLostAnimal": newLostAnimal})
+
+
+
 def support(request):
     shelterAll = AccountShelter.objects.all()
     return render(request, "support.html", {"shelterAll": shelterAll})
@@ -113,7 +132,7 @@ def login(request, rights):
             # if request.POST.get('delete'): # Удаление питомца
             #     print(1111111111111111)
 
-            form_create_card_shelter = AddRegisterForm(request.POST)
+            form_create_card_shelter = AddRegisterForm(request.POST, request.FILES)
             if form_create_card_shelter.is_valid():
                 new_shelter.about = form_create_card_shelter.cleaned_data["about"]
                 new_shelter.director_name = form_create_card_shelter.cleaned_data["director_name"]
@@ -121,6 +140,7 @@ def login(request, rights):
                 new_shelter.requisites = form_create_card_shelter.cleaned_data["requisites"]
                 new_shelter.social_network = form_create_card_shelter.cleaned_data["social_network"]
                 new_shelter.number_of_animals = form_create_card_shelter.cleaned_data["number_of_animals"]
+                new_shelter.logo = request.FILES["logo"]
                 new_shelter.save()
                 return redirect(login, rights)
     

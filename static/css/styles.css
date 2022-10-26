@@ -19,7 +19,7 @@
     font-weight: 500;
     font-size: 18px; }
   .menu-header .logo {
-    width: 6vw !important; }
+    width: 10vw !important; }
   .menu-header .button {
     padding: 10px 20px;
     border-radius: 15px;
@@ -88,6 +88,45 @@
       height: 100%;
       opacity: 0.5; }
     .cards .card:hover .post_text {
+      z-index: 3;
+      display: block; }
+
+.lost_cards {
+  padding-top: 25px;
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
+  .lost_cards .lost_cards_animal {
+    border-radius: 0 0 15px 15px;
+    padding: 0px !important;
+    margin-right: 0px; }
+    .lost_cards .lost_cards_animal .img {
+      position: relative;
+      z-index: 1; }
+      .lost_cards .lost_cards_animal .img .post_text {
+        position: absolute;
+        display: none;
+        top: 45%;
+        left: 25%;
+        color: white;
+        font-size: 22px;
+        font-weight: 600; }
+      .lost_cards .lost_cards_animal .img .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; }
+  .lost_cards .lost_cards_animal:hover {
+    box-shadow: 0px 0px 10px black; }
+    .lost_cards .lost_cards_animal:hover img {
+      filter: blur(3px); }
+    .lost_cards .lost_cards_animal:hover .background {
+      background-color: #7200e0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5; }
+    .lost_cards .lost_cards_animal:hover .post_text {
       z-index: 3;
       display: block; }
 
@@ -298,6 +337,21 @@
     border-radius: 10px;
     border: 2px solid #7200e0;
     background-color: white; }
+
+.form-new-lost-animal {
+  width: 25%;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #7200e0;
+  text-align: center; }
+  .form-new-lost-animal form {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto; }
+    .form-new-lost-animal form li {
+      list-style-type: none; }
 
 .login .login-card {
   padding: 20px;

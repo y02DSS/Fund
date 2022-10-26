@@ -21,6 +21,8 @@ urlpatterns = [
     path('', views.index),
     path('help/<int:helpID>', views.helpPage),
     path('allAnimals', views.allAnimals, name='allAnimals'),
+    path('lostAnimal', views.lostAnimal, name='lostAnimal'),
+    path('newLostAnimal', views.newLostAnimal, name='newLostAnimal'),
     path('support', views.support, name='support'),
     path('partners', views.partners, name='partners'),
     path('shelters', views.shelters, name='shelters'),

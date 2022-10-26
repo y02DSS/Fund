@@ -24,19 +24,13 @@
         <section class="container-fluid menu_links">
             <ul class="nav nav-tabs">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Найти потерянное животное</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Город</a></li>
-                      <li><a class="dropdown-item" href="#">Порода</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Название питомника/приюта</a></li>
-                    </ul>
+                    <a class="nav-link" aria-current="page" href="{% url 'lostAnimal' %}">Найти потерянное животное</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">О проекте</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Разместить фотографию потерянного животного</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'newLostAnimal' %}">Разместить фотографию потерянного животного</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'support' %}">Стать спонсором</a>
@@ -84,7 +78,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="login_button">Уже есть аккаунт</button>
-                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                            <button type="submit" class="btn btn-primary" id="registry" data-dismiss="alert">Зарегистрироваться</button>
                         </div>    
                     </form>
                 </div>
@@ -99,9 +93,9 @@
                 <div class="footer-links">
                     <a href="#">О проекте</a>
                     <a href="#">Архив</a>
-                    <a href="#">Разместить фото потерянного животного</a>
+                    <a href="{% url 'newLostAnimal' %}">Разместить фото потерянного животного</a>
                     <a href="#">Информация партнерам и волонтерам</a>
-                    <a href="#">Новости и отчеты приютов</a>
+                    <a href="{% url 'shelters' %}">Новости и отчеты приютов</a>
                 </div>
                 <div class="menu-footer">
                     <div class="button"><a href="{% url 'support' %}">Стать спонсором</a></div>
