@@ -30,12 +30,12 @@
                 <p class="city">{{animal.city}}</p>                  
             </div>
             <div class="pick_up_anival">
-                <a href="#" class="site-button">Забрать животное из приюта</a>
+                <a href="#" class="site-button" data-bs-target="#TakeAnimal" data-bs-toggle="modal">Забрать животное из приюта</a>
             </div>
         </div>
         <div class="row help_description">
             <div class="col">
-                <p class="mb-0">{{animal.age}}</p>
+                <p class="mb-0 age">{{animal.age}}</p>
                 <p>лет</p>
             </div>
             <div class="col">
@@ -62,6 +62,29 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="TakeAnimal" name="all_forms" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FormTakeAnimal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Забрать {{animal.name}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" enctype="multipart/form-data" method="POST" class="login-model-form">
+          <div class="modal-body all-form">
+              <div class="take-animal">
+                {% csrf_token %}
+                {{form_take_animal}}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Забрать</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
 
 
 {% endblock %}

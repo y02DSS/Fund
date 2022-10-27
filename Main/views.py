@@ -1,8 +1,8 @@
 from gc import collect
 from django.conf import settings
 from django.shortcuts import render, redirect
-from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals
-from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals
+from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals, ChatLogin, TakeAnimal
+from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -25,7 +25,7 @@ def inject_form(request):  # Работает на всех страницах
             form_registry_add.city = request.POST.get("city")
             form_registry_add.address = request.POST.get("address")
             form_registry_add.save()
-            send_for_email(str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
+            send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
 
         form_login = LoginForm(request.POST)
         if form_login.is_valid(): # Авторизация
@@ -74,7 +74,24 @@ def allAnimals(request):
 
 def helpPage(request, helpID):
     animal = Collection.objects.get(id=helpID)
-    return render(request, "helpPage.html", {"animal": animal})
+    new_take_animal = TakeAnimal()
+
+    if request.method == 'POST':
+        form_take_animal = FormTakeAnimal(request.POST)
+        if form_take_animal.is_valid():
+            new_take_animal.name = form_take_animal.cleaned_data['name']
+            new_take_animal.contact = form_take_animal.cleaned_data['contact']
+            new_take_animal.city = form_take_animal.cleaned_data['city']
+            new_take_animal.save()
+            animal.is_take = new_take_animal.id
+            animal.save()
+            shelter = animal.choice_shelter
+            send_for_email(shelter.email, f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/help/{new_take_animal.id}", '', f"Хотят забрать {new_take_animal.name}")
+            return redirect(helpPage, helpID)
+    else:
+        form_take_animal = FormTakeAnimal()
+
+    return render(request, "helpPage.html", {"animal": animal, "form_take_animal": form_take_animal})
 
 
 def lostAnimal(request):
@@ -124,6 +141,7 @@ def login(request, rights):
     new_collection = Collection()
     new_news = ShelterNews()
     new_report = ShelterReport()
+    new_messages_chat = ChatLogin()
 
     if AccountShelter.objects.filter(id=temp_registry_email_id)[0].password == AccountShelter.objects.filter(password=temp_rights[1])[0].password:
         name_account = AccountShelter.objects.filter(id=temp_registry_email_id)[0].name
@@ -177,7 +195,7 @@ def login(request, rights):
             if form_hot_email.is_valid():
                 email = request.POST.get("email_hot")
                 text = request.POST.get("text_hot")
-                send_for_email(email, text, "Срочный запрос")
+                send_for_email('',email, text, "Срочный запрос")
                 return redirect(login, rights)
 
             form_budget_month = BudgetMonth(request.POST, request.FILES)
@@ -188,11 +206,11 @@ def login(request, rights):
                     with open('static/uploads/files/budget/'+budget_file.name, 'wb+') as destination:  
                         for chunk in budget_file.chunks():  
                             destination.write(chunk)   
-                    send_for_email(str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
+                    send_for_email('',str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
                                     budget_money, "Бюджет от "+str(AccountShelter.objects.filter(email=temp_rights[0])[0].name), 
                                     'static/uploads/files/budget/'+budget_file.name)
                 else:
-                    send_for_email(str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
+                    send_for_email('',str(AccountShelter.objects.filter(email=temp_rights[0])[0].name) + ' Необходимая сумма: ' + budget_money,
                                     budget_money, "Бюджет от "+str(AccountShelter.objects.filter(email=temp_rights[0])[0].name))
                 return redirect(login, rights)
 
@@ -207,10 +225,18 @@ def login(request, rights):
                 file_report = form_new_shelter_report.cleaned_data["file_report"]
                 new_report.file_report = file_report
                 new_report.save()
-                send_for_email(name_report,
+                send_for_email('',
+                                name_report,
                                 text_report, 
                                 "Отчет от "+company_report, 
                                 'static/uploads/files/reports/'+file_report.name)
+                return redirect(login, rights)
+
+            form_chat = FormChatLogin(request.POST)
+            if form_chat.is_valid():
+                new_messages_chat.name = new_shelter.city
+                new_messages_chat.text = form_chat.cleaned_data['text']
+                new_messages_chat.save()
                 return redirect(login, rights)
 
             form_date_visits = DateVisits(request.POST)
@@ -219,15 +245,19 @@ def login(request, rights):
                 new_shelter.save()
                 return redirect(login, rights)
 
+
         else:
             form_create_card_shelter = AddRegisterForm()
             form_create_card_animal = CreateCardAnimal()
             form_create_news_shelter= CreateNewsShelter()
             form_date_visits = DateVisits()
             form_hot_email = HotEmail()
+            form_chat = FormChatLogin()
             form_budget_month = BudgetMonth()
             form_new_shelter_report = NewShelterReport()
         
+        messages_chat = ChatLogin.objects.all()
+
         collection = Collection.objects.filter(choice_shelter=AccountShelter.objects.filter(email=temp_rights[0])[0].id)
 
         return render(request, "login.html", {"rights": rights,
@@ -239,6 +269,8 @@ def login(request, rights):
                                             "form_budget_month": form_budget_month,
                                             "form_new_shelter_report": form_new_shelter_report,
                                             "form_hot_email": form_hot_email,
+                                            "form_chat": form_chat,
                                             "shelter": new_shelter,
-                                            "collection": collection
+                                            "collection": collection,
+                                            "messages_chat": messages_chat
                                             })

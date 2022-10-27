@@ -17,7 +17,7 @@ $third_font_size: 24px;
 }
 
 .site-button:hover{
-    color: black;
+    color: yellow;
 }
 
 .menu-header{
@@ -224,6 +224,11 @@ $third_font_size: 24px;
     }
 }
 
+.take-animal{
+    display: flex;
+    flex-direction: column;
+}
+
 .now-shelters{
     color: white;
     padding: 10vw;
@@ -386,6 +391,10 @@ $third_font_size: 24px;
     .help_description{
         text-align: center;
         width: 40%;
+
+        .age{
+            font-size: $third_font_size;
+        }
     }
 
     .main-info{
@@ -533,6 +542,8 @@ $third_font_size: 24px;
         }
 
         p{
+            margin-bottom: 5px;
+
             span{
                 font-size: 18px;
                 font-weight: 500;
@@ -543,6 +554,30 @@ $third_font_size: 24px;
                 font-size: 18px;
                 font-weight: 500;
                 text-decoration: none;
+            }
+
+            .want-take-animal{
+                cursor: pointer;
+                position: relative;
+
+                span{
+                    display: none;
+                    position: absolute;
+                    width: max-content;
+                    padding: 5px;
+                    background-color: white;
+                    border: 1px solid $main_color;
+                    border-radius: 5px;
+                    font-size: $first_font_size;
+                    top: -20px;
+                    left: 10px;
+                }
+            }
+
+            .want-take-animal:hover{
+                span{
+                    display: block;
+                }
             }
         }
 
@@ -563,7 +598,7 @@ $third_font_size: 24px;
     }
 
     .main-card{
-        height: 500px;
+        height: 400px;
         overflow-x: auto;
     }
 }
@@ -670,7 +705,119 @@ $third_font_size: 24px;
     }
 }
 
+.chat-form{
+    height: 400px;
+    width: 300px;
+    border: 2px solid $main_color;
+    border-radius: 10px;
+    background-color: white;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px black;
 
+    .text-chat{
+        position: absolute;
+        left: 10px;
+        top: 0px;
+        font-size: $second_font_size;
+        font-weight: 500;
+    }
+
+    a{
+        position: absolute;
+        right: 10px;
+        top: -40px;
+        text-decoration: none;
+        color: $main_color;
+        cursor: pointer;
+
+        .hidden{
+            font-size: 48px;
+            color: $main_color
+        }
+    }
+
+    .chat-text{
+        display: flex;
+        flex-direction: column-reverse;
+        border: 2px solid $main_color;
+        border-radius: 10px;
+        height: 290px;
+        margin-top: 20px;
+        overflow-y: auto;
+        padding: 5px;
+
+        p{
+            span{
+                font-weight: 500;
+            }
+        }
+    }
+
+    .chat-text::-webkit-scrollbar {
+        width: 10px;
+        background-color: #f9f9fd;
+    }
+    
+    .chat-text::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: $main_color;
+    }
+    
+    .chat-text::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background-color: #f9f9fd;
+    }
+
+
+    .chat-input{
+        padding: 2px;
+        margin-top: 10px;
+        border: 2px solid $main_color;
+        border-radius: 10px;
+        height: 60px;   
+        
+        form{
+            height: 100%;
+            display: flex;
+
+            textarea{
+                margin-right: 10px;
+                border-radius: 10px;
+                width: 100.3%;
+                height: 101%;
+                border: none;
+                resize: none;
+            }            
+        }
+
+
+    }
+}
+
+.close-chat-form{
+    bottom: 20px;
+    right: 20px;
+    position: fixed;
+    width: 150px;
+    height: 30px;
+    box-shadow: 0px 0px 10px black;
+    border: 2px solid $main_color;
+    border-radius: 10px;
+    background-color: white;
+    display: none;
+
+    a{
+        display: flex;
+        justify-content: center;
+        font-size: $second_font_size;
+        font-weight: 500;
+        cursor: pointer;
+    }
+}
 
 @media screen and (min-width: 540px) {
 

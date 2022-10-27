@@ -44,6 +44,15 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
         return self.name
 
 
+class TakeAnimal(models.Model):
+    name = models.CharField(max_length=200)
+    contact = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name + ' ' + self.contact
+
+
 class Collection(models.Model): # Карточка с животным
     name = models.CharField(max_length=200)
     comment = models.TextField(blank=True, null=True)
@@ -57,6 +66,7 @@ class Collection(models.Model): # Карточка с животным
     gender = models.CharField(max_length=10, choices=(('Девочка', 'Девочка'), ('Мальчик', 'Мальчик')), blank=True, null=True)
     age = models.CharField(max_length=200, blank=True, null=True)
     city = models.CharField(max_length=200)
+    is_take = models.CharField(max_length=200, blank=True, null=True)
     choice_shelter = models.ForeignKey(AccountShelter, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
@@ -81,3 +91,10 @@ class LostAnimals(models.Model): # Раздел с потерянными жив
     breed = models.CharField(max_length=200, blank=True, null=True, default="Без породы")
     description = models.CharField(max_length=3000, blank=True, null=True)
     
+
+class ChatLogin(models.Model): # Чат для приютов
+    name = models.CharField(max_length=200)
+    text = models.TextField(max_length=10000)
+
+    def __str__(self):
+        return self.name + ' ' + self.text[:20] + '...'

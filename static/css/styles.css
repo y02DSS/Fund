@@ -8,7 +8,7 @@
   border-radius: 5px; }
 
 .site-button:hover {
-  color: black; }
+  color: yellow; }
 
 .menu-header {
   text-align: center;
@@ -146,6 +146,10 @@
       width: 50%;
       margin: 0 auto; }
 
+.take-animal {
+  display: flex;
+  flex-direction: column; }
+
 .now-shelters {
   color: white;
   padding: 10vw;
@@ -266,6 +270,8 @@
 .all_help_description .help_description {
   text-align: center;
   width: 40%; }
+  .all_help_description .help_description .age {
+    font-size: 24px; }
 
 .all_help_description .main-info {
   display: flex;
@@ -360,14 +366,32 @@
   text-align: center; }
   .login .login-card h3 {
     margin-top: 20px; }
-  .login .login-card p span {
-    font-size: 18px;
-    font-weight: 500; }
-  .login .login-card p a {
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none; }
+  .login .login-card p {
+    margin-bottom: 5px; }
+    .login .login-card p span {
+      font-size: 18px;
+      font-weight: 500; }
+    .login .login-card p a {
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 500;
+      text-decoration: none; }
+    .login .login-card p .want-take-animal {
+      cursor: pointer;
+      position: relative; }
+      .login .login-card p .want-take-animal span {
+        display: none;
+        position: absolute;
+        width: max-content;
+        padding: 5px;
+        background-color: white;
+        border: 1px solid #7200e0;
+        border-radius: 5px;
+        font-size: 16px;
+        top: -20px;
+        left: 10px; }
+    .login .login-card p .want-take-animal:hover span {
+      display: block; }
   .login .login-card .login-button {
     white-space: nowrap;
     background-color: #7200e0;
@@ -381,7 +405,7 @@
     color: yellow; }
 
 .login .main-card {
-  height: 500px;
+  height: 400px;
   overflow-x: auto; }
 
 .all-form {
@@ -449,6 +473,89 @@
       margin-top: -10px; }
     .footer .footer-contacts a {
       color: white; }
+
+.chat-form {
+  height: 400px;
+  width: 300px;
+  border: 2px solid #7200e0;
+  border-radius: 10px;
+  background-color: white;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px black; }
+  .chat-form .text-chat {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    font-size: 18px;
+    font-weight: 500; }
+  .chat-form a {
+    position: absolute;
+    right: 10px;
+    top: -40px;
+    text-decoration: none;
+    color: #7200e0;
+    cursor: pointer; }
+    .chat-form a .hidden {
+      font-size: 48px;
+      color: #7200e0; }
+  .chat-form .chat-text {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 2px solid #7200e0;
+    border-radius: 10px;
+    height: 290px;
+    margin-top: 20px;
+    overflow-y: auto;
+    padding: 5px; }
+    .chat-form .chat-text p span {
+      font-weight: 500; }
+  .chat-form .chat-text::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f9f9fd; }
+  .chat-form .chat-text::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #7200e0; }
+  .chat-form .chat-text::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #f9f9fd; }
+  .chat-form .chat-input {
+    padding: 2px;
+    margin-top: 10px;
+    border: 2px solid #7200e0;
+    border-radius: 10px;
+    height: 60px; }
+    .chat-form .chat-input form {
+      height: 100%;
+      display: flex; }
+      .chat-form .chat-input form textarea {
+        margin-right: 10px;
+        border-radius: 10px;
+        width: 100.3%;
+        height: 101%;
+        border: none;
+        resize: none; }
+
+.close-chat-form {
+  bottom: 20px;
+  right: 20px;
+  position: fixed;
+  width: 150px;
+  height: 30px;
+  box-shadow: 0px 0px 10px black;
+  border: 2px solid #7200e0;
+  border-radius: 10px;
+  background-color: white;
+  display: none; }
+  .close-chat-form a {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer; }
 
 .element-animation {
   margin: 2rem 0;

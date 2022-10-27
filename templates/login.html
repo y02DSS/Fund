@@ -21,7 +21,11 @@
         <a class="login-button" href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal">Добавить карточку животного</a>
         <h3>Всего животных - {{shelter.number_of_animals}}</h3>
         {% for name in collection %}
-          <p><a href="/help/{{name.id}}" target="_blank">{{name}}</a> 
+          <p>
+              {% if name.is_take is not None %}
+                <span class="want-take-animal">❗<span>Хотят забрать</span></span>
+              {% endif %}
+              <a href="/help/{{name.id}}" target="_blank">{{name}}</a> 
               <!-- <form action="{% url 'login' rights %}" class="form" method="POST">
                 {% csrf_token %} -->
                 <a href="#" style="color:red" name="delete"> (Удалить)</a>
@@ -40,17 +44,17 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="login-card">
+      <div class="login-card" style="border: none;">
         <a class="login-button" href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal">Бюджет расходов в месяц</a>
       </div>
     </div>
     <div class="col-4">
-      <div class="login-card">
+      <div class="login-card" style="border: none;">
         <a class="login-button" href="#" data-bs-target="#ReportMonth" id="form_new_shelter_report" data-bs-toggle="modal">Подать отчет за месяц</a>
       </div>
     </div>
     <div class="col-4">
-      <div class="login-card">
+      <div class="login-card" style="border: none;">
         <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
       </div>
     </div>
@@ -90,6 +94,26 @@
       </div>
     </div>
 </div>
+
+<div class="chat-form">
+  <p class="text-chat">Чат приютов</p>
+  <a id="hidden_chat"><span class="hidden">🗕</span></a>
+  <div class="chat-text">
+    {% for message in messages_chat %}
+      <p><span>{{message.name}}:</span> {{message.text}}</p>
+    {% endfor %}
+  </div>
+  <div class="chat-input">
+    <form action="" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      {{form_chat}}
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </div>
+</div>
+
+<div class="close-chat-form"><a id="open_chat">Открыть чат</a></div>
+
 <div id="FORM_form_create_card_shelter" style="display: none">{{form_create_card_shelter}}</div>
 <div id="FORM_form_create_news_shelter" style="display: none">{{form_create_news_shelter}}</div>
 <div id="FORM_form_create_card_animal" style="display: none">{{form_create_card_animal}}</div>

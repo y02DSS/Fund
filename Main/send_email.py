@@ -5,12 +5,17 @@ from email import encoders
 import smtplib
  
  
-def send_for_email(email, text, title, file=None):
+def send_for_email(email,text1, text2, title, file=None):
     msg = MIMEMultipart()
     
     password = "qetGLzNTmCd49kpukyxz"
     msg['From'] = "sbz35@mail.ru"
-    msg['To'] = "info@elysium2022.ru"
+    if email is not None:
+        to = ["info@elysium2022.ru"]
+        to.append(email)
+        msg['To'] = ', '.join(to)
+    else:
+        msg['To'] = "info@elysium2022.ru"
     msg['Subject'] = title
 
     if file is not None:
@@ -20,8 +25,8 @@ def send_for_email(email, text, title, file=None):
         part.add_header('Content-Disposition', 'attachment; filename="%s"'%(file))
         msg.attach(part)
         
-    msg.attach(MIMEText(email))
-    msg.attach(MIMEText(text))
+    msg.attach(MIMEText(text1))
+    msg.attach(MIMEText(text2))
 
 
     server = smtplib.SMTP('smtp.mail.ru: 587')

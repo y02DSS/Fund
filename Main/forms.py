@@ -3,7 +3,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal
 
 # Форма авторизации
 class LoginForm(forms.Form): 
@@ -144,4 +144,23 @@ class FormLostAnimals(ModelForm):
          'city': 'Введите города',
          'breed': 'Введите породу',
          'description': 'Добавьте описание'
+      }
+
+
+class FormChatLogin(forms.Form):
+   text = forms.CharField(
+      label='', 
+      widget=forms.Textarea(
+            attrs={"placeholder": "Введите ваше сообщение",}
+      ),
+    )
+
+class FormTakeAnimal(ModelForm):
+   class Meta:
+      model = TakeAnimal
+      fields = ['name', 'contact', 'city']
+      labels = {
+         'name': 'Введите имя',
+         'contact': 'Введите контакты',
+         'city': 'Введите свой город'
       }

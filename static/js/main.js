@@ -132,8 +132,21 @@ $(window).scroll(function(){
 // Регистрация
 $('#registry').on('closed.bs.alert', function () {
     setTimeout("alert('Привет')", 1000);
-  })
+})
 
+
+// Чат в личном кабинете
+var close_chat = document.getElementById("hidden_chat")
+$(close_chat).on('click', function(){
+    document.getElementsByClassName("chat-form")[0].style.display="none"
+    document.getElementsByClassName("close-chat-form")[0].style.display="block"
+})
+
+var open_chat = document.getElementById("open_chat")
+$(open_chat).on('click', function(){
+    document.getElementsByClassName("chat-form")[0].style.display="block"
+    document.getElementsByClassName("close-chat-form")[0].style.display="none"
+})
 
 // Фильтрация животных
 var cards_animal = document.getElementById('cards_animal')
