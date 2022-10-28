@@ -116,6 +116,9 @@
         left: 0;
         right: 0;
         bottom: 0; }
+      .lost_cards .lost_cards_animal .img img {
+        height: 250px;
+        object-fit: contain; }
   .lost_cards .lost_cards_animal:hover {
     box-shadow: 0px 0px 10px black; }
     .lost_cards .lost_cards_animal:hover img {
@@ -366,20 +369,20 @@
   text-align: center; }
   .login .login-card h3 {
     margin-top: 20px; }
-  .login .login-card p {
+  .login .login-card p, .login .login-card div {
     margin-bottom: 5px; }
-    .login .login-card p span {
+    .login .login-card p span, .login .login-card div span {
       font-size: 18px;
       font-weight: 500; }
-    .login .login-card p a {
+    .login .login-card p a, .login .login-card div a {
       cursor: pointer;
       font-size: 18px;
       font-weight: 500;
       text-decoration: none; }
-    .login .login-card p .want-take-animal {
+    .login .login-card p .want-take-animal, .login .login-card div .want-take-animal {
       cursor: pointer;
       position: relative; }
-      .login .login-card p .want-take-animal span {
+      .login .login-card p .want-take-animal span, .login .login-card div .want-take-animal span {
         display: none;
         position: absolute;
         width: max-content;
@@ -390,7 +393,7 @@
         font-size: 16px;
         top: -20px;
         left: 10px; }
-    .login .login-card p .want-take-animal:hover span {
+    .login .login-card p .want-take-animal:hover span, .login .login-card div .want-take-animal:hover span {
       display: block; }
   .login .login-card .login-button {
     white-space: nowrap;

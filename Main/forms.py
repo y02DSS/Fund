@@ -35,7 +35,7 @@ class AddRegisterForm(ModelForm):
 
    class Meta:
       model = AccountShelter
-      fields = ['about', 'director_name', 'contact', 'choices_type_card', 'requisites', 'social_network', 'number_of_animals']
+      fields = ['about', 'director_name', 'contact', 'choices_type_card', 'requisites', 'social_network', 'number_of_animals', 'logo']
       labels = {
          'about': 'Опишите приют',
          'director_name': 'Имя директора приюта',
@@ -138,11 +138,12 @@ class NewShelterReport(ModelForm):
 class FormLostAnimals(ModelForm):
    class Meta:
       model = LostAnimals
-      fields = ['photo', 'city', 'breed', 'description']
+      fields = ['photo', 'city', 'breed', 'contact', 'description']
       labels = {
          'photo': 'Добавляем фото',
          'city': 'Введите города',
          'breed': 'Введите породу',
+         'contact': 'Оставьте свои контакты',
          'description': 'Добавьте описание'
       }
 

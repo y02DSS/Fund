@@ -45,6 +45,7 @@ var onesForm = document.getElementsByClassName("onesForm")[0]
 
 var form_create_card_shelter = document.getElementById("form_create_card_shelter");
 var form_create_card_animal = document.getElementById("form_create_card_animal");
+var form_change_card_shelter = document.getElementById("form_change_card_shelter");
 var form_create_news_shelter = document.getElementById("form_create_news_shelter");
 var form_date_visits = document.getElementById("form_date_visits");
 var form_hot_email = document.getElementById("form_hot_email");
@@ -63,6 +64,13 @@ $(form_create_card_animal).on("click", function() {
     onesForm.innerHTML = document.getElementById('FORM_form_create_card_animal').innerHTML;
     document.getElementById('FORM_form_create_card_animal').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_card_animal.innerHTML
+});
+
+$(form_change_card_shelter).on("click", function() { 
+    all_forms.id = form_change_card_shelter.getAttribute("data-bs-target").slice(1);
+    onesForm.innerHTML = document.getElementById('FORM_form_change_card_shelter').innerHTML;
+    document.getElementById('FORM_form_change_card_shelter').style.display = 'block';
+    document.getElementById('NameLabel').innerHTML = form_change_card_shelter.innerHTML
 });
 
 $(form_create_news_shelter).on("click", function() { 
@@ -105,6 +113,7 @@ var close_all_forms = document.getElementsByClassName("close-all-forms")
 $(close_all_forms[0]).on("click", function() { 
     document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_card_animal').style.display = 'none';
+    document.getElementById('FORM_form_change_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
     document.getElementById('FORM_form_hot_email').style.display = 'none';
@@ -115,6 +124,7 @@ $(close_all_forms[0]).on("click", function() {
 $(close_all_forms[1]).on("click", function() { 
     document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_card_animal').style.display = 'none';
+    document.getElementById('FORM_form_change_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
     document.getElementById('FORM_form_hot_email').style.display = 'none';
@@ -226,7 +236,17 @@ for (let elm of elements) {
 observer.observe(elm);
 }
 
-
+function load(id, url){
+    axios.post(url, {
+        change_card_animal: id,
+    })
+    .then(function (response) {
+    console.log(response);
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+};
 
 // Многострочная вставка в placeholder
 document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' + 

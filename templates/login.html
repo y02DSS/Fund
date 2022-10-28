@@ -3,9 +3,10 @@
 {% block content %}
 <h1>Личный кабинет приюта - {{name_account}}</h1>
 <div class="login container-fluid row g-5">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <div class="col-4">
         <div class="login-card main-card">
-          <a class="login-button" href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Карточка приюта</a>
+          <a class="login-button" href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Изменить карточку приюта</a>
           <h3>Ваша карточка приюта:</h3>
           <p><span>Имя</span> - {{shelter.name}}</p>
           <p><span>Город и адрес</span> - {{shelter.city}} {{shelter.address}}</p>
@@ -21,16 +22,13 @@
         <a class="login-button" href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal">Добавить карточку животного</a>
         <h3>Всего животных - {{shelter.number_of_animals}}</h3>
         {% for name in collection %}
-          <p>
+          <div style="display: flex; justify-content: center;">
               {% if name.is_take is not None %}
                 <span class="want-take-animal">❗<span>Хотят забрать</span></span>
               {% endif %}
-              <a href="/help/{{name.id}}" target="_blank">{{name}}</a> 
-              <!-- <form action="{% url 'login' rights %}" class="form" method="POST">
-                {% csrf_token %} -->
-                <a href="#" style="color:red" name="delete"> (Удалить)</a>
-              <!-- </form> -->
-          </p>
+              <a href="/help/{{name.id}}" target="_blank">{{name}} </a> 
+              <a onclick="load(name.id, self.form.action)" href="#" data-bs-target="#ChangeCardAnimal" id="form_change_card_shelter" data-bs-toggle="modal">Редактировать</a>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -117,6 +115,7 @@
 <div id="FORM_form_create_card_shelter" style="display: none">{{form_create_card_shelter}}</div>
 <div id="FORM_form_create_news_shelter" style="display: none">{{form_create_news_shelter}}</div>
 <div id="FORM_form_create_card_animal" style="display: none">{{form_create_card_animal}}</div>
+<div id="FORM_form_change_card_shelter" style="display: none">{{form_change_card_shelter}}</div>
 <div id="FORM_form_budget_month" style="display: none">{{form_budget_month}}</div>
 <div id="FORM_form_new_shelter_report" style="display: none">{{form_new_shelter_report}}</div>
 <div id="FORM_form_hot_email" style="display: none">{{form_hot_email}}</div>

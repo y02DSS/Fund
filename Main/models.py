@@ -89,6 +89,7 @@ class LostAnimals(models.Model): # Раздел с потерянными жив
     photo = models.FileField(upload_to='static/img/lostAnimals')
     city = models.CharField(max_length=200)
     breed = models.CharField(max_length=200, blank=True, null=True, default="Без породы")
+    contact = models.CharField(max_length=200)
     description = models.CharField(max_length=3000, blank=True, null=True)
     
 
