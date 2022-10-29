@@ -29,6 +29,9 @@
   .menu-header .button:hover {
     color: yellow; }
 
+.menu_links ul li a {
+  color: #7200e0 !important; }
+
 .cards {
   padding-top: 25px;
   margin-left: 0 !important;
@@ -37,7 +40,8 @@
     border-radius: 0 0 15px 15px;
     padding: 0px !important;
     text-decoration: none;
-    margin-right: 0px; }
+    margin-right: 0px;
+    height: 25vw; }
     .cards .card .img {
       position: relative;
       z-index: 1; }
@@ -282,6 +286,15 @@
   .all_help_description .main-info .pick_up_anival {
     margin-left: 20px; }
 
+.all_help_description .need-summ .text {
+  font-size: 18px;
+  font-weight: 500; }
+
+.all_help_description .need-summ .summ {
+  font-size: 24px;
+  font-weight: 500;
+  color: #7200e0; }
+
 .help_money {
   width: 60%;
   border: 1px solid #7200e0;
@@ -409,7 +422,11 @@
 
 .login .main-card {
   height: 400px;
-  overflow-x: auto; }
+  overflow-x: hidden;
+  overflow-y: auto; }
+
+#id_budget_money {
+  height: 160px !important; }
 
 .all-form {
   display: flex;
@@ -433,15 +450,32 @@
     padding: 10px;
     border: 1px solid #7200e0;
     border-radius: 10px;
-    box-shadow: inset 0px 0px 5px black; }
-    .all_cards .all_card .main-info p {
-      color: black; }
-      .all_cards .all_card .main-info p span {
-        font-size: 18px;
-        font-weight: 500; }
+    box-shadow: inset 0px 0px 5px black;
+    position: relative; }
+    .all_cards .all_card .main-info {
+      display: flex; }
+      .all_cards .all_card .main-info p {
+        color: black; }
+        .all_cards .all_card .main-info p span {
+          font-size: 18px;
+          font-weight: 500; }
     .all_cards .all_card .shelter-img {
       width: 20%;
       margin: auto 0; }
+    .all_cards .all_card .add-info {
+      position: absolute;
+      top: 20px;
+      right: 20px; }
+      .all_cards .all_card .add-info .button {
+        margin-top: 10px;
+        width: max-content;
+        border-radius: 15px;
+        height: 10%;
+        padding: 10px 20px;
+        background-color: #7200e0; }
+        .all_cards .all_card .add-info .button a {
+          color: white;
+          text-decoration: none; }
 
 #id_date_visits {
   height: 180px !important;
@@ -506,7 +540,7 @@
       color: #7200e0; }
   .chat-form .chat-text {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     border: 2px solid #7200e0;
     border-radius: 10px;
     height: 290px;

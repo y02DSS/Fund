@@ -3,7 +3,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport
 
 # Форма авторизации
 class LoginForm(forms.Form): 
@@ -112,14 +112,19 @@ class AddLostAnimals(ModelForm):
 
 
 # Форма отправки email
-class HotEmail(forms.Form):
-   email_hot = forms.CharField(max_length=200, label="Email")
-   text_hot = forms.CharField(widget=forms.Textarea, label="Обращение")
+class HotEmail(ModelForm):
+   class Meta:
+      model = ShelterHotReport
+      fields = ['name_hot', 'text_hot']
+      labels = {
+         'name_hot': "Название",
+         'text_hot': "Описание"
+      }
 
 
 #
 class BudgetMonth(forms.Form):
-   budget_money = forms.CharField(max_length=200, label="Необходимая сумма")
+   budget_money = forms.CharField(widget=forms.Textarea, label="Необходимая сумма", )
    budget_file = forms.FileField(required=False, label="Добавьте файл")
 
 

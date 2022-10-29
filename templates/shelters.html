@@ -6,7 +6,7 @@
     <a href="{% url 'shelters_news' shelter.name shelter.id %}">
         <div class="all_card">
             <h2>{{shelter.name}}</h2>
-            <div class="main-info d-flex">
+            <div class="main-info">
                 <div class="shelter-img">
                     <img class="w-100" src="{{shelter.logo}}">
                 </div>
@@ -16,8 +16,12 @@
                     <p><span>Директор: </span>{{shelter.director_name}}</p>                    
                     <p><span>Контакты: </span>{{shelter.contact}}</p>                    
                     <p><span>Социальные сети: </span>{{shelter.social_network}}</p>                  
-                    <p><span>Всего животных: </span>{{shelter.number_of_animals}}</p>                  
-                </div>               
+                    <p><span>Всего животных: </span>{{shelter.number_of_animals}}</p>            
+                </div>         
+            </div>
+            <div class="add-info">
+                <div class="button"><a href="{% url 'shelter_reports' shelter.name shelter.id %}">Показать отчеты приюта</a></div>
+                <div class="button"><a href="{% url 'shelter_animals' shelter.name shelter.id %}">Все животные приюта</a></div>
             </div>
         </div>        
     </a>

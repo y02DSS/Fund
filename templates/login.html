@@ -26,8 +26,12 @@
               {% if name.is_take is not None %}
                 <span class="want-take-animal">❗<span>Хотят забрать</span></span>
               {% endif %}
-              <a href="/help/{{name.id}}" target="_blank">{{name}} </a> 
-              <a onclick="load(name.id, self.form.action)" href="#" data-bs-target="#ChangeCardAnimal" id="form_change_card_shelter" data-bs-toggle="modal">Редактировать</a>
+              <a href="/help/{{name.id}}" target="_blank">{{name}} </a>
+              <form action="{% url 'login' rights %}" method="POST" id="change-card-animal">
+                {% csrf_token %}
+                <input type="hidden" name="change_card_animal" value="{{name.id}}">
+                <a style="margin-left: 5px; color: red" onclick="load(name.id, 'login/sofronov_s@ru.itstep.org&admin')" href="#" data-bs-target="#ChangeCardAnimal" id="form_change_card_shelter" data-bs-toggle="modal">Редактировать</a>
+              </form>
           </div>
         {% endfor %}
       </div>
@@ -41,28 +45,37 @@
         {% endfor %}
       </div>
     </div>
-    <div class="col-4">
-      <div class="login-card" style="border: none;">
-        <a class="login-button" href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal">Бюджет расходов в месяц</a>
-      </div>
-    </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="login-card" style="border: none;">
         <a class="login-button" href="#" data-bs-target="#ReportMonth" id="form_new_shelter_report" data-bs-toggle="modal">Подать отчет за месяц</a>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="login-card" style="border: none;">
-        <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
+        <a class="login-button" href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal">Бюджет расходов в месяц</a>
+        <p style="display: none" id="collection_budget">
+          {% for animal in collection_budget %}
+Имя: {{animal.name}}; Необходимая сумма: {{animal.summ}}; Сумма сейчас: {{animal.summ_now}}
+          {% endfor %}
+        </p>
+        <p style="display: none" id="need_summ">
+{{need_summ}} руб
+        </p>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-3">
       <div class="login-card">
         <a class="login-button" href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
         <h3>Даты посещений:</h3>
         <p>{{shelter.date_visits}}</p>
       </div>
     </div>
+    <div class="col-3">
+      <div class="login-card" style="border: none;">
+        <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
+      </div>
+    </div>
+
     <!-- <div class="col">
         <a href="#">Убыло животных</a>
     </div>
@@ -97,9 +110,11 @@
   <p class="text-chat">Чат приютов</p>
   <a id="hidden_chat"><span class="hidden">🗕</span></a>
   <div class="chat-text">
-    {% for message in messages_chat %}
-      <p><span>{{message.name}}:</span> {{message.text}}</p>
-    {% endfor %}
+    <div style="display: flex; flex-direction: column-reverse;">
+      {% for message in messages_chat %}
+        <p><span>{{message.name}}:</span> {{message.text}}</p>
+      {% endfor %}
+    </div>
   </div>
   <div class="chat-input">
     <form action="" enctype="multipart/form-data" method="POST">

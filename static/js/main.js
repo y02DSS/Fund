@@ -11,17 +11,19 @@ var form_name = document.getElementById("form_name");
 
 registry_form.style.display = "none";
 
-document.getElementById("login_button").onclick = function() {
+var login_button = document.getElementById("login_button")
+$(login_button).on("mouseover", function() { 
     form_name.innerHTML = "Вход"
     registry_form.style.display = "none"
     login_form.style.display = "block"
-};
+});
 
-document.getElementById("registry_button").onclick = function() {
+var form_create_card_shelter = document.getElementById("registry_button")
+$(form_create_card_shelter).on("mouseover", function() { 
     form_name.innerHTML = "Регистрация"
     registry_form.style.display = "block"
     login_form.style.display = "none"
-};
+});
 
 
 // Динамическое отображение нужной формы в login
@@ -52,59 +54,64 @@ var form_hot_email = document.getElementById("form_hot_email");
 var form_budget_month = document.getElementById("form_budget_month");
 var form_new_shelter_report = document.getElementById("form_new_shelter_report");
 
-$(form_create_card_shelter).on("click", function() { 
+$(form_create_card_shelter).on("mouseover", function() { 
     all_forms.id = form_create_card_shelter.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_create_card_shelter').innerHTML;
-    document.getElementById('FORM_form_create_card_shelter').style.display = 'block';
+    // document.getElementById('FORM_form_create_card_shelter').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_card_shelter.innerHTML
 });
 
-$(form_create_card_animal).on("click", function() { 
+$(form_create_card_animal).on("mouseover", function() { 
     all_forms.id = form_create_card_animal.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_create_card_animal').innerHTML;
-    document.getElementById('FORM_form_create_card_animal').style.display = 'block';
+    // document.getElementById('FORM_form_create_card_animal').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_card_animal.innerHTML
 });
 
-$(form_change_card_shelter).on("click", function() { 
+$(form_change_card_shelter).on("mouseover", function() { 
     all_forms.id = form_change_card_shelter.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_change_card_shelter').innerHTML;
-    document.getElementById('FORM_form_change_card_shelter').style.display = 'block';
+    // document.getElementById('FORM_form_change_card_shelter').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_change_card_shelter.innerHTML
 });
 
-$(form_create_news_shelter).on("click", function() { 
+$(form_create_news_shelter).on("mouseover", function() { 
     all_forms.id = form_create_news_shelter.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_create_news_shelter').innerHTML;
-    document.getElementById('FORM_form_create_news_shelter').style.display = 'block';
+    // document.getElementById('FORM_form_create_news_shelter').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_news_shelter.innerHTML
 });
 
-$(form_date_visits).on("click", function() { 
+$(form_date_visits).on("mouseover", function() { 
     all_forms.id = form_date_visits.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_date_visits').innerHTML;
-    document.getElementById('FORM_form_date_visits').style.display = 'block';
+    // document.getElementById('FORM_form_date_visits').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_date_visits.innerHTML
 });
 
-$(form_hot_email).on("click", function() { 
+$(form_hot_email).on("mouseover", function() { 
     all_forms.id = form_hot_email.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_hot_email').innerHTML;
-    document.getElementById('FORM_form_hot_email').style.display = 'block';
+    // document.getElementById('FORM_form_hot_email').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_hot_email.innerHTML
 });
 
-$(form_budget_month).on("click", function() { 
+$(form_budget_month).on("mouseover", function() { 
     all_forms.id = form_budget_month.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_budget_month').innerHTML;
-    document.getElementById('FORM_form_budget_month').style.display = 'block';
-    document.getElementById('NameLabel').innerHTML = form_budget_month.innerHTML
+    // document.getElementById('FORM_form_budget_month').style.display = 'block';
+    document.getElementById('NameLabel').innerHTML = form_budget_month.innerHTML;
+    var collection_budget = document.getElementById('collection_budget').innerHTML.split('          ');
+    for (let i=1; i<collection_budget.length-1; i += 1) {
+        document.getElementById('id_budget_money').innerHTML += collection_budget[i].slice(1)
+    }
+    document.getElementById('id_budget_money').innerHTML += 'Необходимая сумма: ' + document.getElementById('need_summ').innerHTML.slice(1,-9) + ' + (Впишете свое значение)'
 });
 
-$(form_new_shelter_report).on("click", function() { 
+$(form_new_shelter_report).on("mouseover", function() { 
     all_forms.id = form_new_shelter_report.getAttribute("data-bs-target").slice(1);
     onesForm.innerHTML = document.getElementById('FORM_form_new_shelter_report').innerHTML;
-    document.getElementById('FORM_form_new_shelter_report').style.display = 'block';
+    // document.getElementById('FORM_form_new_shelter_report').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_new_shelter_report.innerHTML
 });
 

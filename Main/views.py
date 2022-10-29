@@ -2,7 +2,7 @@ from gc import collect
 from django.conf import settings
 from django.shortcuts import render, redirect
 from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals, ChatLogin, TakeAnimal
-from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal
+from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -74,7 +74,10 @@ def allAnimals(request):
 
 def helpPage(request, helpID):
     animal = Collection.objects.get(id=helpID)
+
     new_take_animal = TakeAnimal()
+
+    shelter = AccountShelter.objects.get(id=animal.choice_shelter.id)
 
     if request.method == 'POST':
         form_take_animal = FormTakeAnimal(request.POST)
@@ -91,7 +94,7 @@ def helpPage(request, helpID):
     else:
         form_take_animal = FormTakeAnimal()
 
-    return render(request, "helpPage.html", {"animal": animal, "form_take_animal": form_take_animal})
+    return render(request, "helpPage.html", {"animal": animal, "form_take_animal": form_take_animal, "shelter": shelter})
 
 
 def lostAnimal(request):
@@ -111,7 +114,6 @@ def newLostAnimal(request):
         form_lostAnimals.save()
 
     return render(request, "newLostAnimal.html", {"newLostAnimal": newLostAnimal})
-
 
 
 def support(request):
@@ -134,6 +136,16 @@ def shelters_news(request, name_shelter, id_shelter):
     return render(request, "shelter_news.html", {"shelter_news": shelter_news})
 
 
+def shelter_reports(request, name_shelter, id_shelter):
+    shelter_reports = ShelterReport.objects.filter(company_report=name_shelter)
+    return render(request, "shelterReports.html", {"shelter_reports": shelter_reports, "name_shelter": name_shelter})
+
+
+def shelter_animals(request, name_shelter, id_shelter):
+    shelter_collection = Collection.objects.filter(choice_shelter=id_shelter)
+    return render(request, "shelterAnimals.html", {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
+
+
 def login(request, rights):
     temp_rights = rights.split('&')
     temp_registry_email_id = AccountShelter.objects.filter(email=temp_rights[0])[0].id
@@ -143,6 +155,13 @@ def login(request, rights):
     new_news = ShelterNews()
     new_report = ShelterReport()
     new_messages_chat = ChatLogin()
+    new_hot_report = ShelterHotReport()
+
+    collection_budget = Collection.objects.filter(choice_shelter=new_shelter)
+    need_summ = 0
+    for animal_budget in collection_budget:
+        need_summ += animal_budget.summ
+
 
     if AccountShelter.objects.filter(id=temp_registry_email_id)[0].password == AccountShelter.objects.filter(password=temp_rights[1])[0].password:
         name_account = AccountShelter.objects.filter(id=temp_registry_email_id)[0].name
@@ -208,9 +227,13 @@ def login(request, rights):
             
             form_hot_email = HotEmail(request.POST)
             if form_hot_email.is_valid():
-                email = request.POST.get("email_hot")
-                text = request.POST.get("text_hot")
-                send_for_email('', email, text, "Срочный запрос")
+                name = form_hot_email.cleaned_data["name_hot"]
+                new_hot_report.name_hot = name
+                text = form_hot_email.cleaned_data["text_hot"]
+                new_hot_report.text_hot = text
+                new_hot_report.save()
+                new_shelter.hotReport.add(new_hot_report)
+                #send_for_email('', name, text, "Срочный запрос")
                 return redirect(login, rights)
 
             form_budget_month = BudgetMonth(request.POST, request.FILES)
@@ -254,7 +277,7 @@ def login(request, rights):
                 new_messages_chat.save()
                 return redirect(login, rights)
 
-            form_date_visits = DateVisits(request.POST)
+            form_date_visits = DateVisits(request.POST, instance=new_shelter)
             if form_date_visits.is_valid():
                 new_shelter.date_visits = form_date_visits.cleaned_data['date_visits']
                 new_shelter.save()
@@ -266,7 +289,7 @@ def login(request, rights):
             form_change_card_shelter = CreateCardAnimal()
             form_create_card_animal = CreateCardAnimal()
             form_create_news_shelter= CreateNewsShelter()
-            form_date_visits = DateVisits()
+            form_date_visits = DateVisits(instance=new_shelter)
             form_hot_email = HotEmail()
             form_chat = FormChatLogin()
             form_budget_month = BudgetMonth()
@@ -289,5 +312,7 @@ def login(request, rights):
                                             "form_chat": form_chat,
                                             "shelter": new_shelter,
                                             "collection": collection,
+                                            "collection_budget": collection_budget,
+                                            "need_summ": need_summ,
                                             "messages_chat": messages_chat
                                             })

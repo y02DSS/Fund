@@ -5,7 +5,7 @@ from email import encoders
 import smtplib
  
  
-def send_for_email(email,text1, text2, title, file=None):
+def send_for_email(email, text1, text2, title, file=None):
     msg = MIMEMultipart()
     
     password = "qetGLzNTmCd49kpukyxz"

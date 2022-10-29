@@ -1,65 +1,69 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="row mt-5" style="margin-right: 0">
-    <div id="carouselExampleControls" class="container carousel slide help_carousel col-5" data-bs-ride="carousel">
-        <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="/{{animal.photo}}" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="/static/img/header.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="/static/img/header.jpg" class="d-block w-100" alt="...">
-        </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Предыдущий</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Следующий</span>
-        </button>
+<section class="container-fluid" style="margin-right: 0">
+    <div>
+        {{shelter.name}}
+        {{shelter.hotReport}}
     </div>
-    <div class="col-5 all_help_description">
-        <div class="main-info">
+    <div class="row">
+        <div id="carouselExampleControls" class="container carousel slide help_carousel col-5" data-bs-ride="carousel">
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/{{animal.photo}}" class="d-block w-100" style="height: 500px;" alt="...">
+            </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+            </button>
+        </div>
+        <div class="col-5 all_help_description">
+            <div class="main-info">
+                <div>
+                    <p class="name">{{animal.name}}</p>
+                    <p class="city" style="margin-bottom: 0;">{{animal.choice_shelter}}</p>
+                    <p class="city">{{animal.city}}</p>                  
+                </div>
+                <div class="pick_up_anival">
+                    <a href="#" class="site-button" data-bs-target="#TakeAnimal" data-bs-toggle="modal">Забрать питомца</a>
+                </div>
+            </div>
+            <div class="row help_description">
+                <div class="col">
+                    <p class="mb-0 age">{{animal.age}}</p>
+                    <p>лет</p>
+                </div>
+                <div class="col">
+                    {% if animal.gender == 'Девочка' %}
+                        <img class="w-50" src="/static/img/gender/woman.svg">
+                        <p>девочка</p>
+                    {% endif %}
+                    {% if animal.gender == 'Мальчик' %}
+                        <img class="w-50" src="/static/img/gender/man.svg">
+                        <p>мальчик</p>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <img class="w-50" src="/static/img/gender/breed.png">
+                    <p>{{ animal.breed }}</p>
+                </div>
+            </div>
             <div>
-                <p class="name">{{animal.name}}</p>
-                <p class="city">{{animal.city}}</p>                  
+                <p class="need-summ"><span class="text">Сумма: </span><span class="summ">{{animal.summ_now}} руб</span><span class="text"> из: </span><span class="summ">{{animal.summ}} руб</span></p>
             </div>
-            <div class="pick_up_anival">
-                <a href="#" class="site-button" data-bs-target="#TakeAnimal" data-bs-toggle="modal">Забрать животное из приюта</a>
+            <div class="help_money">
+                <p class="main">Быстрое пополнение копилки «Срочная помощь»</p>
+                <p class="description">Питомцы с отметкой «Срочная помощь» нуждаются в твоей поддержке. Выбери сумму, чтобы пополнить копилку для их нужд.</p>
+                <p>Введите сумму: <input class="input_money" type="text"></p>
+                <a href="#" class="site-button">Пожертвовать</a>
+                <p class="what_is_send_money">На что пойдут деньги <a href="#">узнать</a></p>
             </div>
-        </div>
-        <div class="row help_description">
-            <div class="col">
-                <p class="mb-0 age">{{animal.age}}</p>
-                <p>лет</p>
-            </div>
-            <div class="col">
-                {% if animal.gender == 'Девочка' %}
-                    <img class="w-50" src="/static/img/gender/woman.svg">
-                    <p>девочка</p>
-                {% endif %}
-                {% if animal.gender == 'Мальчик' %}
-                    <img class="w-50" src="/static/img/gender/man.svg">
-                    <p>мальчик</p>
-                {% endif %}
-            </div>
-            <div class="col">
-                <img class="w-50" src="/static/img/gender/breed.png">
-                <p>{{ animal.breed }}</p>
-            </div>
-        </div>
-        <div class="help_money">
-            <p class="main">Быстрое пополнение копилки «Срочная помощь»</p>
-            <p class="description">Питомцы с отметкой «Срочная помощь» нуждаются в твоей поддержке. Выбери сумму, чтобы пополнить копилку для их нужд.</p>
-            <p>Введите сумму: <input class="input_money" type="text"></p>
-            <a href="#" class="site-button">Пожертвовать</a>
-            <p class="what_is_send_money">На что пойдут деньги <a href="#">узнать</a></p>
-        </div>
+        </div>        
     </div>
 </section>
 

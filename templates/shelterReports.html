@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="container-fluid all_cards">
+    <h2>Отчеты {{name_shelter}}</h2>
+    <div class="row g-x-5">
+        {% for report in shelter_reports %}
+        <div class="col-3 col-offset-2">
+            <div class="all_card">
+                <h4>{{report.name_report}}</h4>
+                <p>{{report.text_report}}</p>   
+                <a href="/{{report.file_report}}" download>Скачать отчет</a>     
+            </div>
+        </div>
+        {% endfor %}        
+    </div>
+</section>
+{% endblock %}

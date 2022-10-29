@@ -48,6 +48,16 @@ $third_font_size: 24px;
     }
 }
 
+.menu_links{
+    ul{
+        li{
+            a{
+                color: $main_color !important;                
+            }
+        }
+    }
+}
+
 .cards{
     padding-top: 25px;
     margin-left: 0 !important; 
@@ -58,6 +68,7 @@ $third_font_size: 24px;
         padding: 0px !important;
         text-decoration: none;
         margin-right: 0px;
+        height: 25vw;
 
         .img{
             position: relative;
@@ -410,6 +421,19 @@ $third_font_size: 24px;
             margin-left: 20px;
         }
     }
+
+    .need-summ{
+        .text{
+            font-size: $second_font_size;
+            font-weight: 500;
+        }
+
+        .summ{
+            font-size: $third_font_size;
+            font-weight: 500;
+            color: $main_color;
+        }
+    }
 }
 
 .help_money{
@@ -604,8 +628,15 @@ $third_font_size: 24px;
 
     .main-card{
         height: 400px;
-        overflow-x: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
+
+
+}
+
+#id_budget_money{
+    height: 160px !important;
 }
 
 .all-form{
@@ -639,8 +670,11 @@ $third_font_size: 24px;
         border: 1px solid $main_color;
         border-radius: 10px;
         box-shadow: inset 0px 0px 5px black;
+        position: relative;
 
         .main-info{
+            display: flex;
+
             p{
                 color: black;
 
@@ -654,6 +688,26 @@ $third_font_size: 24px;
         .shelter-img{
             width: 20%;
             margin: auto 0;
+        }
+
+        .add-info{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+
+            .button{
+                margin-top: 10px;
+                width: max-content;
+                border-radius: 15px;
+                height: 10%;
+                padding: 10px 20px;
+                background-color: $main_color;
+        
+                a{
+                    color: white;
+                    text-decoration: none;
+                }   
+            }
         }
     }
 }
@@ -746,7 +800,7 @@ $third_font_size: 24px;
 
     .chat-text{
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         border: 2px solid $main_color;
         border-radius: 10px;
         height: 290px;
