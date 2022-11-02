@@ -40,7 +40,6 @@ class AddRegisterForm(ModelForm):
          'about': 'Опишите приют',
          'director_name': 'Имя директора приюта',
          'contact': 'Ввидите номер телефона',
-         'requisites': 'Введите свои реквизиты',
          'social_network': 'Добавьте ссылки на социальные сети',
          'number_of_animals': 'Сколько сейчас у вас животных?',
          'logo': 'Загрузите лого',
@@ -87,6 +86,22 @@ class CreateCardAnimal(ModelForm):
             'age': 'Возраст'
          }
 
+
+class ChangeCardAnimal(ModelForm):
+      class Meta:
+         model = Collection
+         fields = ['name', 'comment', 'summ', 'photo', 'video', 'status', 'breed', 'gender', 'age']
+         labels = {
+            'name': 'Имя питомца',
+            'comment': 'Коментарий',
+            'summ': 'Необходимая сумма',
+            'photo': 'Загрузите фотографию',
+            'video': 'Загрузите видео',
+            'status': 'Где сейчас находится питомец',
+            'breed': 'Порода',
+            'gender': 'Пол',
+            'age': 'Возраст',
+         }
 
 # Форма удаления карточки животного
 class DeleteCardAnimal(forms.Form):

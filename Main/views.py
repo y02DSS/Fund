@@ -1,10 +1,13 @@
+import json
 from gc import collect
 from django.conf import settings
 from django.shortcuts import render, redirect
 from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals, ChatLogin, TakeAnimal
-from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport
-from django.http import HttpResponseRedirect
+from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
+    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimal
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
+from django.core import serializers
 
 from django.contrib import messages
 
@@ -148,6 +151,21 @@ def shelter_animals(request, name_shelter, id_shelter):
 
 def login(request, rights):
     temp_rights = rights.split('&')
+
+    card_id = None
+
+    try:
+        card_id = temp_rights[2]
+        if card_id is not None:
+            data = {}
+            data['card_id'] = card_id
+            with open('./Main/card_id.json', 'w') as f:
+               json.dump(data, f, indent=2)
+        # change_card_animal_id = int(card_id)
+        # change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
+    except IndexError:
+        pass
+
     temp_registry_email_id = AccountShelter.objects.filter(email=temp_rights[0])[0].id
 
     new_shelter = AccountShelter.objects.filter(email=temp_rights[0])[0]
@@ -179,43 +197,41 @@ def login(request, rights):
                 new_shelter.save()
                 return redirect(login, rights)
 
-            if request.POST.get('change_card_animal'):
-                change_card_animal_id = request.POST.get('change_card_animal')
-                change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
-                form_change_card_shelter = CreateCardAnimal(request.POST, request.FILES, instance=change_card_animal)
-                form_change_card_shelter.name = change_card_animal.name
-                form_change_card_shelter.comment = change_card_animal.comment
-                form_change_card_shelter.summ = change_card_animal.summ
-                form_change_card_shelter.summ_now = change_card_animal.summ_now
-                form_change_card_shelter.photo = change_card_animal.photo
-                form_change_card_shelter.video = change_card_animal.video
-                form_change_card_shelter.status = change_card_animal.status
-                form_change_card_shelter.breed = change_card_animal.breed
-                form_change_card_shelter.gender = change_card_animal.gender
-                form_change_card_shelter.age = change_card_animal.age
-                form_change_card_shelter.age = change_card_animal.age
-                form_change_card_shelter.city = change_card_animal.city
-                form_change_card_shelter.choice_shelter = change_card_animal.choice_shelter
-            else:
-                form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
-                if form_create_card_animal.is_valid():
-                    new_collection = form_create_card_animal.save(commit=False)
-                    new_collection.name = form_create_card_animal.cleaned_data["name"]
-                    new_collection.comment = form_create_card_animal.cleaned_data["comment"]
-                    new_collection.summ = form_create_card_animal.cleaned_data["summ"]
-                    new_collection.summ_now = 0
-                    new_collection.photo = form_create_card_animal.cleaned_data["photo"]
-                    new_collection.video = form_create_card_animal.cleaned_data["video"]
-                    new_collection.status = form_create_card_animal.cleaned_data["status"]
-                    new_collection.breed = form_create_card_animal.cleaned_data["breed"]
-                    new_collection.gender = form_create_card_animal.cleaned_data["gender"]
-                    new_collection.age = form_create_card_animal.cleaned_data["age"]
-                    new_collection.city = AccountShelter.objects.filter(id=temp_registry_email_id)[0].city
-                    new_collection.choice_shelter = AccountShelter.objects.get(id=temp_registry_email_id)
-                    new_collection.save()
-                    new_shelter.number_of_animals += 1
-                    new_shelter.save()
-                    return redirect(login, rights)
+            form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
+            if form_create_card_animal.is_valid():
+                new_collection = form_create_card_animal.save(commit=False)
+                new_collection.name = form_create_card_animal.cleaned_data["name"]
+                new_collection.comment = form_create_card_animal.cleaned_data["comment"]
+                new_collection.summ = form_create_card_animal.cleaned_data["summ"]
+                new_collection.summ_now = 0
+                new_collection.photo = form_create_card_animal.cleaned_data["photo"]
+                new_collection.video = form_create_card_animal.cleaned_data["video"]
+                new_collection.status = form_create_card_animal.cleaned_data["status"]
+                new_collection.breed = form_create_card_animal.cleaned_data["breed"]
+                new_collection.gender = form_create_card_animal.cleaned_data["gender"]
+                new_collection.age = form_create_card_animal.cleaned_data["age"]
+                new_collection.city = AccountShelter.objects.filter(id=temp_registry_email_id)[0].city
+                new_collection.choice_shelter = AccountShelter.objects.get(id=temp_registry_email_id)
+                new_collection.save()
+                AccountShelter.objects.filter(email=temp_rights[0]).update(number_of_animals = new_shelter.number_of_animals + 1)
+                return redirect(login, rights)
+
+            if card_id:
+                form_change_card_animal = ChangeCardAnimal(request.POST, request.FILES, instance=change_card_animal)
+                if form_change_card_animal.is_valid():
+                    change_card_animal = form_create_card_animal.save(commit=False)
+                    change_card_animal.name = change_card_animal.name
+                    change_card_animal.comment = change_card_animal.comment
+                    change_card_animal.summ = change_card_animal.summ
+                    change_card_animal.summ_now = change_card_animal.summ_now
+                    change_card_animal.photo = change_card_animal.photo
+                    change_card_animal.video = change_card_animal.video
+                    change_card_animal.status = change_card_animal.status
+                    change_card_animal.breed = change_card_animal.breed
+                    change_card_animal.gender = change_card_animal.gender
+                    change_card_animal.age = change_card_animal.age
+                    change_card_animal.city = change_card_animal.city
+                    change_card_animal.choice_shelter = change_card_animal.choice_shelter
 
             form_create_news_shelter = CreateNewsShelter(request.POST)
             if form_create_news_shelter.is_valid():
@@ -286,33 +302,38 @@ def login(request, rights):
 
         else:
             form_create_card_shelter = AddRegisterForm(instance=new_shelter)
-            form_change_card_shelter = CreateCardAnimal()
             form_create_card_animal = CreateCardAnimal()
+            with open('./Main/card_id.json', 'r') as j:
+                json_data = json.load(j)
+                form_change_card_animal = ChangeCardAnimal()
+                # form_change_card_animal = ChangeCardAnimal(instance=Collection.objects.filter(id=int(json_data['card_id']))[0])
+                print(json_data['card_id'])
+
             form_create_news_shelter= CreateNewsShelter()
             form_date_visits = DateVisits(instance=new_shelter)
             form_hot_email = HotEmail()
             form_chat = FormChatLogin()
             form_budget_month = BudgetMonth()
             form_new_shelter_report = NewShelterReport()
-        
+
         messages_chat = ChatLogin.objects.all()
 
         collection = Collection.objects.filter(choice_shelter=AccountShelter.objects.filter(email=temp_rights[0])[0].id)
 
         return render(request, "login.html", {"rights": rights,
-                                            "name_account": name_account,
-                                            "form_create_card_shelter": form_create_card_shelter,
-                                            "form_create_card_animal": form_create_card_animal,
-                                            "form_change_card_shelter": form_change_card_shelter,
-                                            "form_create_news_shelter": form_create_news_shelter,
-                                            "form_date_visits": form_date_visits,
-                                            "form_budget_month": form_budget_month,
-                                            "form_new_shelter_report": form_new_shelter_report,
-                                            "form_hot_email": form_hot_email,
-                                            "form_chat": form_chat,
-                                            "shelter": new_shelter,
-                                            "collection": collection,
-                                            "collection_budget": collection_budget,
-                                            "need_summ": need_summ,
-                                            "messages_chat": messages_chat
-                                            })
+                                              "name_account": name_account,
+                                              "form_create_card_shelter": form_create_card_shelter,
+                                              "form_create_card_animal": form_create_card_animal,
+                                              "form_change_card_animal": form_change_card_animal,
+                                              "form_create_news_shelter": form_create_news_shelter,
+                                              "form_date_visits": form_date_visits,
+                                              "form_budget_month": form_budget_month,
+                                              "form_new_shelter_report": form_new_shelter_report,
+                                              "form_hot_email": form_hot_email,
+                                              "form_chat": form_chat,
+                                              "shelter": new_shelter,
+                                              "collection": collection,
+                                              "collection_budget": collection_budget,
+                                              "need_summ": need_summ,
+                                              "messages_chat": messages_chat
+                                              })

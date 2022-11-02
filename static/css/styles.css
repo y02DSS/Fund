@@ -425,6 +425,9 @@
   overflow-x: hidden;
   overflow-y: auto; }
 
+#id_choices_type_card li {
+  list-style-type: none; }
+
 #id_budget_money {
   height: 160px !important; }
 

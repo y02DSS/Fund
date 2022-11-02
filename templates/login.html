@@ -27,11 +27,7 @@
                 <span class="want-take-animal">❗<span>Хотят забрать</span></span>
               {% endif %}
               <a href="/help/{{name.id}}" target="_blank">{{name}} </a>
-              <form action="{% url 'login' rights %}" method="POST" id="change-card-animal">
-                {% csrf_token %}
-                <input type="hidden" name="change_card_animal" value="{{name.id}}">
-                <a style="margin-left: 5px; color: red" onclick="load(name.id, 'login/sofronov_s@ru.itstep.org&admin')" href="#" data-bs-target="#ChangeCardAnimal" id="form_change_card_shelter" data-bs-toggle="modal">Редактировать</a>
-              </form>
+              <a style="margin-left: 5px; color: red" onclick="load({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" href="#" data-bs-target="#ChangeCardAnimal" id="form_change_card_animal" data-bs-toggle="modal">Редактировать</a>
           </div>
         {% endfor %}
       </div>
@@ -99,7 +95,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary close-all-forms" data-bs-dismiss="modal">Закрыть</button>
-            <button type="submit" class="btn btn-primary">Создать</button>
+            <button type="submit" class="btn btn-primary" id="submit_result">Сохранить</button>
           </div>
         </form>
       </div>
@@ -130,6 +126,7 @@
 <div id="FORM_form_create_card_shelter" style="display: none">{{form_create_card_shelter}}</div>
 <div id="FORM_form_create_news_shelter" style="display: none">{{form_create_news_shelter}}</div>
 <div id="FORM_form_create_card_animal" style="display: none">{{form_create_card_animal}}</div>
+<!-- <div id="FORM_form_change_card_animal" style="display: none">{{form_change_card_animal}}</div> -->
 <div id="FORM_form_change_card_shelter" style="display: none">{{form_change_card_shelter}}</div>
 <div id="FORM_form_budget_month" style="display: none">{{form_budget_month}}</div>
 <div id="FORM_form_new_shelter_report" style="display: none">{{form_new_shelter_report}}</div>

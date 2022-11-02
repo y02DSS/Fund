@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load sass_tags %}
+{% load Main_tags %}
 {% load static %}
 <html>
     <head>
@@ -109,6 +110,7 @@
                 <p>VK: <a href="https://vk.com" target="_blank">dog.vk</a></p>
             </div>
         </section>
-        <script type="text/javascript" src={% static "js/main.js" %}></script>
+
+        <script type="text/javascript" src={% static "js/main.js" %}?{% cache_bust %}></script>
     </body>
 </html>

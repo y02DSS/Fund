@@ -59,7 +59,72 @@ $(form_create_card_shelter).on("mouseover", function() {
     onesForm.innerHTML = document.getElementById('FORM_form_create_card_shelter').innerHTML;
     // document.getElementById('FORM_form_create_card_shelter').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_card_shelter.innerHTML
+
+    // Смена реквизитов
+    var id_requisites = $('#id_requisites')
+    var main_block = document.createElement('div');
+    var result = document.getElementById("id_requisites")
+
+    $("#id_choices_type_card_0").on("click", function() { 
+        result.value = ""
+        $("label[for=id_requisites").text('Введите номер карты:')
+        main_block.style.display = 'none'
+        main_block.innerHTML = ''
+        result.style.display = "block"
+    });
+
+    $("#id_choices_type_card_1").on("click", function() { 
+        result.value = ""
+        $("label[for=id_requisites").text('Введите реквизиты:')
+        result.style.display = "none"
+        main_block.style.display = 'flex'
+        main_block.classList = 'row'
+
+        var first_label = document.createElement('label')
+        first_label.innerText = 'Первое поле'
+        var first_input = document.createElement('input')
+        first_input.setAttribute("type","text")
+
+        var second_label = document.createElement('label')
+        second_label.innerText = 'Второе поле'
+        var second_input = document.createElement('input')
+
+        var third_label = document.createElement('label')
+        third_label.innerText = 'Третье поле'
+        var third_input = document.createElement('input')
+
+        var fourth_label = document.createElement('label')
+        fourth_label.innerText = 'Четвертое поле'
+        var fourth_input = document.createElement('input')
+        
+        id_requisites.after(main_block)
+        
+        var second_block = document.createElement('div')
+        second_block.classList = 'col-6'
+        main_block.appendChild(second_block)
+        second_block.appendChild(first_label).appendChild(first_input)
+
+        var second_block = document.createElement('div')
+        second_block.classList = 'col-6'
+        main_block.appendChild(second_block)
+        second_block.appendChild(second_label).appendChild(second_input)
+
+        var second_block = document.createElement('div')
+        second_block.classList = 'col-6'
+        main_block.appendChild(second_block)
+        second_block.appendChild(third_label).appendChild(third_input)
+
+        var second_block = document.createElement('div')
+        second_block.classList = 'col-6'
+        main_block.appendChild(second_block)
+        second_block.appendChild(fourth_label).appendChild(fourth_input)
+
+        $("#submit_result").on("click", function(){
+            result.value = String(first_input.value) + " " + String(second_input.value) + " " + String(third_input.value) + " " + String(fourth_input.value);
+        });
+    });
 });
+
 
 $(form_create_card_animal).on("mouseover", function() { 
     all_forms.id = form_create_card_animal.getAttribute("data-bs-target").slice(1);
@@ -67,6 +132,7 @@ $(form_create_card_animal).on("mouseover", function() {
     // document.getElementById('FORM_form_create_card_animal').style.display = 'block';
     document.getElementById('NameLabel').innerHTML = form_create_card_animal.innerHTML
 });
+
 
 $(form_change_card_shelter).on("mouseover", function() { 
     all_forms.id = form_change_card_shelter.getAttribute("data-bs-target").slice(1);
@@ -120,6 +186,7 @@ var close_all_forms = document.getElementsByClassName("close-all-forms")
 $(close_all_forms[0]).on("click", function() { 
     document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_card_animal').style.display = 'none';
+    document.getElementById('FORM_form_change_card_animal').style.display = 'none';
     document.getElementById('FORM_form_change_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
@@ -131,13 +198,16 @@ $(close_all_forms[0]).on("click", function() {
 $(close_all_forms[1]).on("click", function() { 
     document.getElementById('FORM_form_create_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_card_animal').style.display = 'none';
+    document.getElementById('FORM_form_change_card_animal').style.display = 'none';
     document.getElementById('FORM_form_change_card_shelter').style.display = 'none';
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
     document.getElementById('FORM_form_hot_email').style.display = 'none';
     document.getElementById('FORM_form_budget_month').style.display = 'none';
     document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
+    
 });
+
 
 $(window).scroll(function(){
     if($(window).scrollTop()>300){
@@ -244,15 +314,23 @@ observer.observe(elm);
 }
 
 function load(id, url){
-    axios.post(url, {
-        change_card_animal: id,
-    })
+
+    axios.get(url + '&' + String(id))
     .then(function (response) {
-    console.log(response);
+        var form_change_card_animal = document.getElementById("form_change_card_animal");
+        $(form_change_card_animal).on("mouseover", function() {
+            all_forms.id = form_change_card_animal.getAttribute("data-bs-target").slice(1);
+            onesForm.innerHTML = document.getElementById('FORM_form_change_card_animal').innerHTML;
+            // document.getElementById('FORM_form_change_card_animal').style.display = 'block';
+            document.getElementById('NameLabel').innerHTML = form_change_card_animal.innerHTML
+        });
+        
+
     })
     .catch(function (error) {
-    console.log(error);
+        console.log(error);
     });
+
 };
 
 // Многострочная вставка в placeholder
