@@ -266,6 +266,13 @@
     text-align: center;
     font-size: 24px; }
 
+.hotReports .hotReport {
+  padding: 15px;
+  width: 100%;
+  background-color: rgba(247, 222, 77, 0.2);
+  border-radius: 15px;
+  margin-top: 10px; }
+
 .all_help_description .name {
   font-size: 24px;
   margin-bottom: 0px; }

@@ -295,8 +295,7 @@ def login(request, rights):
 
             form_date_visits = DateVisits(request.POST, instance=new_shelter)
             if form_date_visits.is_valid():
-                new_shelter.date_visits = form_date_visits.cleaned_data['date_visits']
-                new_shelter.save()
+                AccountShelter.objects.filter(email=temp_rights[0]).update(date_visits = form_date_visits.cleaned_data['date_visits'])
                 return redirect(login, rights)
 
 

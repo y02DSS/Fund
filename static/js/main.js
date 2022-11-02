@@ -75,52 +75,35 @@ $(form_create_card_shelter).on("mouseover", function() {
 
     $("#id_choices_type_card_1").on("click", function() { 
         result.value = ""
+        main_block.innerHTML = ''
+
         $("label[for=id_requisites").text('Введите реквизиты:')
         result.style.display = "none"
         main_block.style.display = 'flex'
         main_block.classList = 'row'
+        main_block.id = 'result'
 
-        var first_label = document.createElement('label')
-        first_label.innerText = 'Первое поле'
-        var first_input = document.createElement('input')
-        first_input.setAttribute("type","text")
+        var dict = ["Название организации", "Юридический адрес", "ИНН", "КПП", "ОГРН", "Расчетный счет", "Банк", "ИНН банка", "БИК банка", "Корреспондентский счет", "Юридический адрес банка"]
 
-        var second_label = document.createElement('label')
-        second_label.innerText = 'Второе поле'
-        var second_input = document.createElement('input')
+        for (var i = 0; i < dict.length; i += 1) {
+            var label = document.createElement('label')
+            label.innerText = dict[i]
 
-        var third_label = document.createElement('label')
-        third_label.innerText = 'Третье поле'
-        var third_input = document.createElement('input')
+            var second_block = document.createElement('div')
+            second_block.classList = 'col-6'
+            main_block.appendChild(second_block)
+            second_block.appendChild(label).appendChild(document.createElement('input'))
+        }
 
-        var fourth_label = document.createElement('label')
-        fourth_label.innerText = 'Четвертое поле'
-        var fourth_input = document.createElement('input')
-        
         id_requisites.after(main_block)
-        
-        var second_block = document.createElement('div')
-        second_block.classList = 'col-6'
-        main_block.appendChild(second_block)
-        second_block.appendChild(first_label).appendChild(first_input)
 
-        var second_block = document.createElement('div')
-        second_block.classList = 'col-6'
-        main_block.appendChild(second_block)
-        second_block.appendChild(second_label).appendChild(second_input)
-
-        var second_block = document.createElement('div')
-        second_block.classList = 'col-6'
-        main_block.appendChild(second_block)
-        second_block.appendChild(third_label).appendChild(third_input)
-
-        var second_block = document.createElement('div')
-        second_block.classList = 'col-6'
-        main_block.appendChild(second_block)
-        second_block.appendChild(fourth_label).appendChild(fourth_input)
-
+        var result_field = document.getElementById("result").getElementsByTagName("div")        
+ 
         $("#submit_result").on("click", function(){
-            result.value = String(first_input.value) + " " + String(second_input.value) + " " + String(third_input.value) + " " + String(fourth_input.value);
+            result.value = ''
+            for (var i = 0; i < result_field.length; i += 1) {
+                result.value += String((result_field[i].getElementsByTagName("label")[0].getElementsByTagName("input")[0]).value) + " ";
+            }
         });
     });
 });

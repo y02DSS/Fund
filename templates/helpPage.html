@@ -2,9 +2,13 @@
 
 {% block content %}
 <section class="container-fluid" style="margin-right: 0">
-    <div>
-        {{shelter.name}}
-        {{shelter.hotReport}}
+    <div class="hotReports">
+        {% for hotReport in shelter.hotReport.all %}
+            <div class="hotReport">
+                <h4>{{hotReport.name_hot}}</h4>
+                <p>{{hotReport.text_hot}}</p>
+            </div>
+        {% endfor %}
     </div>
     <div class="row">
         <div id="carouselExampleControls" class="container carousel slide help_carousel col-5" data-bs-ride="carousel">
