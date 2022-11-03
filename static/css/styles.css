@@ -49,7 +49,9 @@
         position: absolute;
         display: none;
         top: 45%;
-        left: 25%;
+        left: 0;
+        right: 0;
+        text-align: center;
         color: white;
         font-size: 22px;
         font-weight: 600; }
@@ -110,7 +112,9 @@
         position: absolute;
         display: none;
         top: 45%;
-        left: 25%;
+        left: 0;
+        right: 0;
+        text-align: center;
         color: white;
         font-size: 22px;
         font-weight: 600; }

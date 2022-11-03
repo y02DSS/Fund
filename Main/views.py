@@ -16,6 +16,7 @@ from .send_email import send_for_email
 def inject_form(request):  # Работает на всех страницах
     data = {}
     data["form_login"] = LoginForm()
+    data["info_check"] = None
     data["form_registry"] = RegistryForm()
     form_registry_add = AccountShelter()
     if request.method == 'POST':
@@ -28,7 +29,9 @@ def inject_form(request):  # Работает на всех страницах
             form_registry_add.city = request.POST.get("city")
             form_registry_add.address = request.POST.get("address")
             form_registry_add.save()
-            send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
+            # send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
+            data["info_check"] = 1
+            return data
 
         form_login = LoginForm(request.POST)
         if form_login.is_valid(): # Авторизация
@@ -38,6 +41,7 @@ def inject_form(request):  # Работает на всех страницах
                     # return {'data': data, 'redirect': redirect("login", rights = f'{request.POST.get("login_email")}&{request.POST.get("login_password")}')} # Где-то ошибка
                     redirectc = redirect("login", rights = f'{request.POST.get("login_email")}&{request.POST.get("login_password")}')
                     data['redirect'] = redirectc
+                    return data
                 else:
                     print('Вас ещё не подтвердили')
             else:
@@ -123,11 +127,23 @@ def support(request):
     shelterAll = AccountShelter.objects.all()
     return render(request, "support.html", {"shelterAll": shelterAll})
 
-
 def partners(request):
     all_partners = Partners.objects.all()
     return render(request, "partners.html", {"all_partners": all_partners})
 
+def archive(request):
+    collection_taken = Collection.objects.filter(status='Забрали')
+    collection_archive = Collection.objects.filter(status='Архив')
+    collection_died = Collection.objects.filter(status='Умер')
+    return render(request, "archive.html", {"collection_taken": collection_taken, "collection_archive": collection_archive, "collection_died": collection_died})
+
+def about(request):
+    all_partners = Partners.objects.all()
+    return render(request, "about.html", {"all_partners": all_partners})
+
+def volunteers(request):
+    all_partners = Partners.objects.all()
+    return render(request, "volunteers.html", {"all_partners": all_partners})
 
 def shelters(request):
     shelterAll = AccountShelter.objects.all()
@@ -249,7 +265,7 @@ def login(request, rights):
                 new_hot_report.text_hot = text
                 new_hot_report.save()
                 new_shelter.hotReport.add(new_hot_report)
-                #send_for_email('', name, text, "Срочный запрос")
+                send_for_email('', str(name), text, "Срочный запрос "+str(new_shelter.name))
                 return redirect(login, rights)
 
             form_budget_month = BudgetMonth(request.POST, request.FILES)
@@ -306,7 +322,6 @@ def login(request, rights):
                 json_data = json.load(j)
                 form_change_card_animal = ChangeCardAnimal()
                 # form_change_card_animal = ChangeCardAnimal(instance=Collection.objects.filter(id=int(json_data['card_id']))[0])
-                print(json_data['card_id'])
 
             form_create_news_shelter= CreateNewsShelter()
             form_date_visits = DateVisits(instance=new_shelter)

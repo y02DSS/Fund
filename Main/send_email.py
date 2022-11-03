@@ -8,8 +8,8 @@ import smtplib
 def send_for_email(email, text1, text2, title, file=None):
     msg = MIMEMultipart()
     
-    password = "qetGLzNTmCd49kpukyxz"
-    msg['From'] = "sbz35@mail.ru"
+    password = "qAUxc2S4cyUFydzrQHgT"
+    msg['From'] = "elysium.2022@mail.ru"
     if email is not None:
         to = ["info@elysium2022.ru"]
         to.append(email)

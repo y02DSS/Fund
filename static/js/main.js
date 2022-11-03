@@ -12,14 +12,14 @@ var form_name = document.getElementById("form_name");
 registry_form.style.display = "none";
 
 var login_button = document.getElementById("login_button")
-$(login_button).on("mouseover", function() { 
+$(login_button).on("click", function() { 
     form_name.innerHTML = "Вход"
     registry_form.style.display = "none"
     login_form.style.display = "block"
 });
 
 var form_create_card_shelter = document.getElementById("registry_button")
-$(form_create_card_shelter).on("mouseover", function() { 
+$(form_create_card_shelter).on("click", function() { 
     form_name.innerHTML = "Регистрация"
     registry_form.style.display = "block"
     login_form.style.display = "none"

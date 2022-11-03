@@ -13,6 +13,9 @@
         <title>Fund</title>
     </head>
     <body>
+        {% if info_check == 1 %}
+            <script type="text/javascript">alert("Успешно! Ожидайте подтверждения");</script>
+        {% endif %}
         <section class="container-fluid">
             <div class="row menu-header">
                 <a href="/" class="col-1"><img class="logo" src="/static/img/imgForSite/logo.png"/></a>
@@ -31,7 +34,7 @@
                     <a class="nav-link" aria-current="page" href="{% url 'lostAnimal' %}">Найти потерянное животное</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">О проекте</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'about' %}">О проекте</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'support' %}">Стать спонсором</a>
@@ -40,13 +43,13 @@
                     <a class="nav-link" aria-current="page" href="{% url 'partners' %}">Нас поддерживают</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Информация партнерам и волонтерам</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'volunteers' %}">Информация партнерам и волонтерам</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'shelters' %}">Приюты и их ности</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Архив</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'archive' %}">Архив</a>
                 </li>
             </ul>
         </section>
@@ -92,10 +95,10 @@
         <section class="footer">
             <div>
                 <div class="footer-links">
-                    <a href="#">О проекте</a>
-                    <a href="#">Архив</a>
+                    <a href="{% url 'about' %}">О проекте</a>
+                    <a href="{% url 'archive' %}">Архив</a>
                     <a href="{% url 'newLostAnimal' %}">Разместить фото потерянного животного</a>
-                    <a href="#">Информация партнерам и волонтерам</a>
+                    <a href="{% url 'volunteers' %}">Информация партнерам и волонтерам</a>
                     <a href="{% url 'shelters' %}">Новости и отчеты приютов</a>
                 </div>
                 <div class="menu-footer">
