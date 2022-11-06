@@ -28,6 +28,16 @@ class ShelterHotReport(models.Model):
         return self.name_hot
 
 
+class AnimalReport(models.Model):
+    name_animal = models.CharField(max_length=200)
+    text_animal = models.TextField(max_length=3000)
+    file_animal = models.FileField(upload_to='static/uploads/files/reports')
+
+    def __str__(self):
+        return self.name_animal
+
+
+
 class AccountShelter(models.Model): # Личные кабинеты приютов
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -76,6 +86,7 @@ class Collection(models.Model): # Карточка с животным
     age = models.CharField(max_length=200, blank=True, null=True)
     city = models.CharField(max_length=200)
     is_take = models.CharField(max_length=200, blank=True, null=True)
+    animalReport = models.ManyToManyField(AnimalReport, blank=True, null=True)
     choice_shelter = models.ForeignKey(AccountShelter, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):

@@ -73,6 +73,12 @@ $third_font_size: 24px;
         .img{
             position: relative;
             z-index: 1;
+            height: 50%;
+
+            img{
+                height: 100%;
+                object-fit: cover;
+            }
 
             .post_text{
                 position: absolute;
@@ -397,14 +403,52 @@ $third_font_size: 24px;
     }
 }
 
-.hotReports{
-    .hotReport{
-        padding: 15px;
-        width: 100%;
-        background-color: rgba(247, 222, 77, 0.2);
-        border-radius: 15px;
-        margin-top: 10px;
+// .hotReports{
+//     .hotReport{
+//         padding: 15px;
+//         width: 100%;
+//         background-color: rgba(247, 222, 77, 0.2);
+//         border-radius: 15px;
+//         margin-top: 10px;
+//     }
+// }
+
+.hotReports, .Report_animals{
+    margin-top: 10px;
+
+    .hotReport-text, .Report_animals-text {
+        position: relative;
+        margin-right: 10px;
+        cursor: pointer;
+        padding: 10px;
+        border: 2px solid $main_color;
+        border-radius: 5px 5px 0 0;
     }
+
+    .hotReport-text-active::before, .Report_animals-text-active::before{
+        content: "";
+        position: absolute;
+        top: 97%;
+        right: -0.2px;
+        left: -2px;
+        height: 5px;
+        border-left: 2px solid $main_color;
+        background: #fff;
+    }
+
+    .hotReport-line, .Report_animals-line{
+        padding: 15px;
+        border: 2px solid $main_color;
+        border-radius: 0 5px 5px 5px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+.helpPage-video:hover{
+    z-index: 10;
 }
 
 .all_help_description{
@@ -420,7 +464,12 @@ $third_font_size: 24px;
 
     .help_description{
         text-align: center;
-        width: 40%;
+        width: 50%;
+
+        .img-icon-help{
+            height: 40px;
+            object-fit: contain;
+        }
 
         .age{
             font-size: $third_font_size;
@@ -662,8 +711,15 @@ $third_font_size: 24px;
     flex-direction: column;
     text-align: center;
 
-    input, select, textarea{
+    input, select{
         height: 30px;
+        border: 2px solid $main_color;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    textarea{
+        height: 100px;
         border: 2px solid $main_color;
         border-radius: 5px;
         margin-bottom: 10px;

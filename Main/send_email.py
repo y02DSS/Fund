@@ -11,7 +11,7 @@ def send_for_email(email, text1, text2, title, file=None):
     password = "qAUxc2S4cyUFydzrQHgT"
     msg['From'] = "elysium.2022@mail.ru"
     if email is not None:
-        to = ["info@elysium2022.ru"]
+        to = ["info@elysium2022.ru", "y02sofronov@yandex.ru"]
         to.append(email)
         msg['To'] = ', '.join(to)
     else:

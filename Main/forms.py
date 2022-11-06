@@ -3,7 +3,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport, AnimalReport
 
 # Форма авторизации
 class LoginForm(forms.Form): 
@@ -31,8 +31,7 @@ class RegistryForm(ModelForm):
 class AddRegisterForm(ModelForm):
    CHOICES_CARD=[('credit-card','Добавить счет для физ. лица'),
          ('bank-card','Добавить счет для юр. лица')]
-   choices_type_card = forms.ChoiceField(choices=CHOICES_CARD, widget=forms.RadioSelect, label='Выберите тип счета')   
-
+   choices_type_card = forms.ChoiceField(choices=CHOICES_CARD, widget=forms.RadioSelect, label='Выберите тип счета', required=False)   
    class Meta:
       model = AccountShelter
       fields = ['about', 'director_name', 'contact', 'choices_type_card', 'requisites', 'social_network', 'number_of_animals', 'logo']
@@ -47,21 +46,6 @@ class AddRegisterForm(ModelForm):
 
 
 # Даты посещения 
-# class XYZ_DateInput(forms.DateInput):
-#     input_type = "date"
-#     def __init__(self, **kwargs):
-#         kwargs["format"] = "%Y-%m-%d"
-#         super().__init__(**kwargs)
-
-# class DateVisits(ModelForm):
-#    class Meta:
-#       model = AccountShelter
-#       fields = ['date_visits']
-#       labels = {'date_visits': 'Дата посещения'}
-#       widgets = {
-#          'date_visits': XYZ_DateInput(format=["%Y-%m-%d"], ),
-#       }
-
 class DateVisits(ModelForm):
    class Meta:
       model = AccountShelter
@@ -87,6 +71,19 @@ class CreateCardAnimal(ModelForm):
          }
 
 
+# Форма отправки отчета животного
+class CreateAnimalReport(ModelForm):
+   class Meta:
+      model = AnimalReport
+      fields = ['name_animal', 'text_animal', 'file_animal']
+      labels = {
+         'name_animal': 'Имя отчета',
+         'text_animal': 'Добаьте текст отчета',
+         'file_animal': 'Добавьте фото'
+      }
+      
+
+# Изменить карточку животного
 class ChangeCardAnimal(ModelForm):
       class Meta:
          model = Collection
@@ -102,10 +99,6 @@ class ChangeCardAnimal(ModelForm):
             'gender': 'Пол',
             'age': 'Возраст',
          }
-
-# Форма удаления карточки животного
-class DeleteCardAnimal(forms.Form):
-   pass
 
 
 # Форма создания новости приюта
@@ -137,12 +130,13 @@ class HotEmail(ModelForm):
       }
 
 
-#
+# Форма бюджета в месяц
 class BudgetMonth(forms.Form):
    budget_money = forms.CharField(widget=forms.Textarea, label="Необходимая сумма", )
    budget_file = forms.FileField(required=False, label="Добавьте файл")
 
 
+# Форма новостей приюта
 class NewShelterReport(ModelForm):
    class Meta:
       model = ShelterReport
@@ -168,6 +162,7 @@ class FormLostAnimals(ModelForm):
       }
 
 
+# Форма чата
 class FormChatLogin(forms.Form):
    text = forms.CharField(
       label='', 
@@ -176,6 +171,8 @@ class FormChatLogin(forms.Form):
       ),
     )
 
+
+# Форма забрать животного
 class FormTakeAnimal(ModelForm):
    class Meta:
       model = TakeAnimal

@@ -44,7 +44,11 @@
     height: 25vw; }
     .cards .card .img {
       position: relative;
-      z-index: 1; }
+      z-index: 1;
+      height: 50%; }
+      .cards .card .img img {
+        height: 100%;
+        object-fit: cover; }
       .cards .card .img .post_text {
         position: absolute;
         display: none;
@@ -270,12 +274,33 @@
     text-align: center;
     font-size: 24px; }
 
-.hotReports .hotReport {
-  padding: 15px;
-  width: 100%;
-  background-color: rgba(247, 222, 77, 0.2);
-  border-radius: 15px;
+.hotReports, .Report_animals {
   margin-top: 10px; }
+  .hotReports .hotReport-text, .hotReports .Report_animals-text, .Report_animals .hotReport-text, .Report_animals .Report_animals-text {
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid #7200e0;
+    border-radius: 5px 5px 0 0; }
+  .hotReports .hotReport-text-active::before, .hotReports .Report_animals-text-active::before, .Report_animals .hotReport-text-active::before, .Report_animals .Report_animals-text-active::before {
+    content: "";
+    position: absolute;
+    top: 97%;
+    right: -0.2px;
+    left: -2px;
+    height: 5px;
+    border-left: 2px solid #7200e0;
+    background: #fff; }
+  .hotReports .hotReport-line, .hotReports .Report_animals-line, .Report_animals .hotReport-line, .Report_animals .Report_animals-line {
+    padding: 15px;
+    border: 2px solid #7200e0;
+    border-radius: 0 5px 5px 5px;
+    width: 100%;
+    margin-bottom: 10px; }
+
+.helpPage-video:hover {
+  z-index: 10; }
 
 .all_help_description .name {
   font-size: 24px;
@@ -287,7 +312,10 @@
 
 .all_help_description .help_description {
   text-align: center;
-  width: 40%; }
+  width: 50%; }
+  .all_help_description .help_description .img-icon-help {
+    height: 40px;
+    object-fit: contain; }
   .all_help_description .help_description .age {
     font-size: 24px; }
 
@@ -446,8 +474,13 @@
   display: flex;
   flex-direction: column;
   text-align: center; }
-  .all-form input, .all-form select, .all-form textarea {
+  .all-form input, .all-form select {
     height: 30px;
+    border: 2px solid #7200e0;
+    border-radius: 5px;
+    margin-bottom: 10px; }
+  .all-form textarea {
+    height: 100px;
     border: 2px solid #7200e0;
     border-radius: 5px;
     margin-bottom: 10px; }

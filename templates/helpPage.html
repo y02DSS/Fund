@@ -1,21 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="container-fluid" style="margin-right: 0">
+<div class="container">
     <div class="hotReports">
-        {% for hotReport in shelter.hotReport.all %}
-            <div class="hotReport">
-                <h4>{{hotReport.name_hot}}</h4>
+        <div class="d-flex" id="hotReport_text">
+            {% for hotReport in shelter.hotReport.all %}
+                <div class="hotReport-text">
+                    {{hotReport.name_hot}}
+                </div>
+            {% endfor %}            
+        </div>
+        <div style="display: none">
+            {% for hotReport in shelter.hotReport.all %}
+            <div class="hotReport-text-render">
                 <p>{{hotReport.text_hot}}</p>
             </div>
-        {% endfor %}
+            {% endfor %} 
+        </div>
+        <div class="hotReport-line" id="hotReport_line"></div>
     </div>
+</div>
+<section class="container-fluid" style="margin-right: 0">
     <div class="row">
         <div id="carouselExampleControls" class="container carousel slide help_carousel col-5" data-bs-ride="carousel">
             <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/{{animal.photo}}" class="d-block w-100" style="height: 500px;" alt="...">
-            </div>
+                <div class="carousel-item active">
+                    <img src="/{{animal.photo}}" class="d-block w-100" style="height: 500px; object-fit:cover;" alt="...">
+                </div>
+                <div class="carousel-item helpPage-video">
+                    <video class="d-block w-100" style="height: 500px; object-fit:cover;" controls> <source src="/{{animal.video}}" type="video/mp4"></video>
+                </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,22 +52,22 @@
                 </div>
             </div>
             <div class="row help_description">
-                <div class="col">
-                    <p class="mb-0 age">{{animal.age}}</p>
+                <div class="col-3">
+                    <p class="mb-0 age img-icon-help">{{animal.age}}</p>
                     <p>лет</p>
                 </div>
-                <div class="col">
+                <div class="col-3">
                     {% if animal.gender == 'Девочка' %}
-                        <img class="w-50" src="/static/img/gender/woman.svg">
+                        <img class="w-50 img-icon-help" src="/static/img/gender/woman.svg">
                         <p>девочка</p>
                     {% endif %}
                     {% if animal.gender == 'Мальчик' %}
-                        <img class="w-50" src="/static/img/gender/man.svg">
+                        <img class="w-50 img-icon-help" src="/static/img/gender/man.svg">
                         <p>мальчик</p>
                     {% endif %}
                 </div>
-                <div class="col">
-                    <img class="w-50" src="/static/img/gender/breed.png">
+                <div class="col-6">
+                    <img class="w-50 img-icon-help" src="/static/img/gender/breed.png">
                     <p>{{ animal.breed }}</p>
                 </div>
             </div>
@@ -68,6 +82,27 @@
                 <p class="what_is_send_money">На что пойдут деньги <a href="#">узнать</a></p>
             </div>
         </div>        
+    </div>
+</section>
+<section class="container">
+    <div class="Report_animals">
+        <div class="d-flex" id="Report_animals">
+            <div class="Report_animals-text">
+                О питомце
+            </div>
+            <div class="Report_animals-text">
+                Отчеты
+            </div>
+        </div>
+        <div style="display: none">
+            <div class="Report_animals-text-render">
+                <p>{{animal.comment}}</p>
+            </div>
+            <div class="Report_animals-text-render">
+                <p>Отчеты</p>
+            </div>
+        </div>
+        <div class="Report_animals-line" id="Report_animals_line"></div>
     </div>
 </section>
 
