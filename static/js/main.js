@@ -331,7 +331,6 @@ document.getElementById("Report_animals").addEventListener('click', (event) => {
     target.className = "Report_animals-text Report_animals-text-active";
     Report_animals_line.innerHTML = ''
     return Report_animals_line.appendChild(Report_animals_text_render[val].firstElementChild);
-
 });
 
 

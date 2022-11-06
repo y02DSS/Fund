@@ -183,8 +183,8 @@ def login(request, rights):
             data['card_id'] = card_id
             with open('./Main/card_id.json', 'w') as f:
                json.dump(data, f, indent=2)
-        # change_card_animal_id = int(card_id)
-        # change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
+        change_card_animal_id = int(card_id)
+        change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
     except IndexError:
         pass
 
@@ -323,10 +323,10 @@ def login(request, rights):
         else:
             form_create_card_shelter = AddRegisterForm(instance=new_shelter)
             form_create_card_animal = CreateCardAnimal()
-            # with open('./Main/card_id.json', 'r') as j:
-            #     json_data = json.load(j)
-                # form_change_card_animal = ChangeCardAnimal(instance=Collection.objects.filter(id=int(json_data['card_id']))[0])
-            form_change_card_animal = ChangeCardAnimal()
+            with open('./Main/card_id.json', 'r') as j:
+                json_data = json.load(j)
+                form_change_card_animal = ChangeCardAnimal(instance=Collection.objects.filter(id=int(json_data['card_id']))[0])
+            # form_change_card_animal = ChangeCardAnimal()
 
             form_create_news_shelter= CreateNewsShelter()
             form_date_visits = DateVisits(instance=new_shelter)
