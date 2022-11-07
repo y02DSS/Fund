@@ -353,19 +353,25 @@ for (let elm of elements) {
 observer.observe(elm);
 }
 
+var domParser = new DOMParser()
+
 function load(id, url){
 
-    axios.get(url + '&' + String(id))
+    axios.get(`${url}&${String(id)}`)
     .then(function (response) {
-        var form_change_card_animal = document.getElementById("form_change_card_animal");
-        $(form_change_card_animal).on("mouseover", function() {
-            all_forms.id = form_change_card_animal.getAttribute("data-bs-target").slice(1);
-            onesForm.innerHTML = document.getElementById('FORM_form_change_card_animal').innerHTML;
-            // document.getElementById('FORM_form_change_card_animal').style.display = 'block';
-            document.getElementById('NameLabel').innerHTML = form_change_card_animal.innerHTML
-        });
-        
+        var updated_document = document.createElement("html");
 
+        updated_document.innerHTML = response.data;
+
+        form_change_card_animal = document.getElementById(`animal_card_${String(id)}`);
+        form_element = updated_document.querySelector("#FORM_form_change_card_animal");
+        onesForm.innerHTML = form_element.innerHTML;
+        document.getElementById('NameLabel').innerHTML = "Редактировать";
+
+        onesForm.innerHTML += `<input type="text" value="${String(id)}" name="id" maxlength="200" style="display: none" id="id_id">`;
+
+        all_forms.id = "ChangeCardAnimal";
+        $("#ChangeCardAnimal").modal("show");
     })
     .catch(function (error) {
         console.log(error);
