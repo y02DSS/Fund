@@ -176,12 +176,16 @@ def login(request, rights):
 
     card_id = None
     form_change_card_animal = None
+    new_animal_report_id = None
 
     try:
         card_id = temp_rights[2]
-
-        change_card_animal_id = int(card_id)
-        change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
+        temp_card_id = card_id.split("_")
+        if temp_card_id[0] == "animalCard":
+            change_card_animal_id = int(temp_card_id[1])
+            change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
+        elif temp_card_id[0] == "animalReport":
+            new_animal_report_id = int(temp_card_id[1])
     except IndexError:
         pass
 
@@ -193,6 +197,8 @@ def login(request, rights):
     new_report = ShelterReport()
     new_messages_chat = ChatLogin()
     new_hot_report = ShelterHotReport()
+    new_animal_report = AnimalReport()
+
 
     collection_budget = Collection.objects.filter(choice_shelter=new_shelter)
     need_summ = 0
@@ -226,6 +232,17 @@ def login(request, rights):
                     AccountShelter.objects.filter(email=temp_rights[0]).update(
                         number_of_animals=new_shelter.number_of_animals + 1)
                     return redirect(login, rights)
+                    
+            if request.POST.get("new_animal_report_id", "False"):
+                form_create_animal_report = CreateAnimalReport(request.POST, request.FILES)
+                if form_create_animal_report.is_valid():
+                        new_animal_report.name_animal = form_create_animal_report.cleaned_data["name_animal"]
+                        new_animal_report.text_animal = form_create_animal_report.cleaned_data["text_animal"]
+                        new_animal_report.file_animal = form_create_animal_report.cleaned_data["file_animal"]
+                        new_animal_report.save()
+                        this_collection = Collection.objects.get(id=request.POST["new_animal_report_id"]) # передать тот же самый ID
+                        this_collection.animalReport.add(new_animal_report)
+
 
             form_hot_email = HotEmail(request.POST)
             if form_hot_email.is_valid():
@@ -311,9 +328,11 @@ def login(request, rights):
             form_create_card_animal = CreateCardAnimal()
 
             if card_id:
-                form_change_card_animal = ChangeCardAnimal(instance=change_card_animal)
+                if card_id.split("_")[0] == "animalCard":
+                    form_change_card_animal = ChangeCardAnimal(instance=change_card_animal)
             # form_change_card_animal = ChangeCardAnimal()
 
+            form_create_animal_report = CreateAnimalReport()
             form_create_news_shelter= CreateNewsShelter()
             form_date_visits = DateVisits(instance=new_shelter)
             form_hot_email = HotEmail()
@@ -335,6 +354,7 @@ def login(request, rights):
                                               "form_budget_month": form_budget_month,
                                               "form_new_shelter_report": form_new_shelter_report,
                                               "form_hot_email": form_hot_email,
+                                              "form_create_animal_report": form_create_animal_report,
                                               "form_chat": form_chat,
                                               "shelter": new_shelter,
                                               "collection": collection,

@@ -31,26 +31,13 @@ var all_forms = document.getElementsByName("all_forms")[0];
 
 var onesForm = document.getElementsByClassName("onesForm")[0]
 
-// const forms = ["form_create_card_shelter", "form_create_card_animal"];
-
-// for (let i = 0; i < forms.length; i += 1) {
-//     const index = document.getElementById(forms[i]);
-//     $(index).on("click", function() { 
-//         all_forms.id = index.getAttribute("data-bs-target").slice(1);
-//         onesForm.innerHTML = document.getElementById('FORM_${forms[i]}').innerHTML;
-//         document.getElementById('FORM_${forms[i]}').style.display = 'block';
-//         document.getElementById('NameLabel').innerHTML = index.innerHTML
-//     });
-// }
-
-
-
 var form_create_card_shelter = document.getElementById("form_create_card_shelter");
 var form_create_card_animal = document.getElementById("form_create_card_animal");
 var form_change_card_shelter = document.getElementById("form_change_card_shelter");
 var form_create_news_shelter = document.getElementById("form_create_news_shelter");
 var form_date_visits = document.getElementById("form_date_visits");
 var form_hot_email = document.getElementById("form_hot_email");
+var form_create_animal_report = document.getElementById("form_create_animal_report");
 var form_budget_month = document.getElementById("form_budget_month");
 var form_new_shelter_report = document.getElementById("form_new_shelter_report");
 
@@ -174,6 +161,7 @@ $(close_all_forms[0]).on("click", function() {
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
     document.getElementById('FORM_form_hot_email').style.display = 'none';
+    document.getElementById('FORM_form_create_animal_report').style.display = 'none';
     document.getElementById('FORM_form_budget_month').style.display = 'none';
     document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
 });
@@ -186,6 +174,7 @@ $(close_all_forms[1]).on("click", function() {
     document.getElementById('FORM_form_create_news_shelter').style.display = 'none';
     document.getElementById('FORM_form_date_visits').style.display = 'none';
     document.getElementById('FORM_form_hot_email').style.display = 'none';
+    document.getElementById('FORM_form_create_animal_report').style.display = 'none';
     document.getElementById('FORM_form_budget_month').style.display = 'none';
     document.getElementById('FORM_form_new_shelter_report').style.display = 'none';
     
@@ -219,7 +208,6 @@ $(open_chat).on('click', function(){
 })
 
 
-// Автоматическое расширение textarea
 
 // Фильтрация животных
 var cards_animal = document.getElementById('cards_animal')
@@ -286,7 +274,7 @@ var hotReport_line = document.getElementById("hotReport_line")
 var hotReport_text_render = document.getElementsByClassName("hotReport-text-render")
 hotReport_text[0].className = "hotReport-text hotReport-text-active";
 
-hotReport_line.appendChild(hotReport_text_render[0].firstElementChild)
+hotReport_line.appendChild(hotReport_text_render[0].firstElementChild.cloneNode(true))
 
 var arr_hotReport_text = [];
 for(i=0; i<hotReport_text.length; ++i) {
@@ -303,7 +291,7 @@ document.getElementById("hotReport_text").addEventListener('click', (event) => {
 
     target.className = "hotReport-text hotReport-text-active";
     hotReport_line.innerHTML = ''
-    return hotReport_line.appendChild(hotReport_text_render[val].firstElementChild);
+    return hotReport_line.appendChild(hotReport_text_render[val].firstElementChild.cloneNode(true));
 
 });
 
@@ -313,7 +301,7 @@ var Report_animals_line = document.getElementById("Report_animals_line")
 var Report_animals_text_render = document.getElementsByClassName("Report_animals-text-render")
 Report_animals_text[0].className = "Report_animals-text Report_animals-text-active";
 
-Report_animals_line.appendChild(Report_animals_text_render[0].firstElementChild)
+Report_animals_line.appendChild(Report_animals_text_render[0].firstElementChild.cloneNode(true))
 
 var arr_Report_animals_text = [];
 for(i=0; i<Report_animals_text.length; ++i) {
@@ -330,7 +318,7 @@ document.getElementById("Report_animals").addEventListener('click', (event) => {
 
     target.className = "Report_animals-text Report_animals-text-active";
     Report_animals_line.innerHTML = ''
-    return Report_animals_line.appendChild(Report_animals_text_render[val].firstElementChild);
+    return Report_animals_line.appendChild(Report_animals_text_render[val].firstElementChild.cloneNode(true));
 });
 
 
@@ -353,11 +341,13 @@ for (let elm of elements) {
 observer.observe(elm);
 }
 
+
+// отображение форм редактировать и отчет
 var domParser = new DOMParser()
 
-function load(id, url){
+function load_change(id, url){
 
-    axios.get(`${url}&${String(id)}`)
+    axios.get(`${url}&animalCard_${String(id)}`)
     .then(function (response) {
         var updated_document = document.createElement("html");
 
@@ -372,6 +362,30 @@ function load(id, url){
 
         all_forms.id = "ChangeCardAnimal";
         $("#ChangeCardAnimal").modal("show");
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+};
+
+function load_report(id, url){
+
+    axios.get(`${url}&animalReport_${String(id)}`)
+    .then(function (response) {
+        var updated_document = document.createElement("html");
+
+        updated_document.innerHTML = response.data;
+
+        form_change_card_animal = document.getElementById(`report_animal_card_${String(id)}`);
+        form_element = updated_document.querySelector("#FORM_form_create_animal_report");
+        onesForm.innerHTML = form_element.innerHTML;
+        document.getElementById('NameLabel').innerHTML = "Отчет";
+
+        onesForm.innerHTML += `<input type="text" value="${String(id)}" name="new_animal_report_id" maxlength="200" style="display: none" id="id_id">`;
+
+        all_forms.id = "CreateAnimalReport";
+        $("#CreateAnimalReport").modal("show");
     })
     .catch(function (error) {
         console.log(error);

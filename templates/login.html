@@ -27,7 +27,8 @@
                 <span class="want-take-animal">❗<span>Хотят забрать</span></span>
               {% endif %}
               <a href="/help/{{name.id}}" target="_blank">{{name}} </a>
-              <a style="margin-left: 5px; color: red" onclick="load({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
+              <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
+              <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
           </div>
         {% endfor %}
       </div>
@@ -71,13 +72,6 @@
         <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
       </div>
     </div>
-
-    <!-- <div class="col">
-        <a href="#">Убыло животных</a>
-    </div>
-    <div class="col">
-        <a href="#">Прибыло животных</a>
-    </div> -->
 </div>
 <div class="modal fade" id="CreateCardAnimal" name="all_forms" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CreateCardAnimalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -131,5 +125,6 @@
 <div id="FORM_form_budget_month" style="display: none">{{form_budget_month}}</div>
 <div id="FORM_form_new_shelter_report" style="display: none">{{form_new_shelter_report}}</div>
 <div id="FORM_form_hot_email" style="display: none">{{form_hot_email}}</div>
+<div id="FORM_form_create_animal_report" style="display: none">{{form_create_animal_report}}</div>
 <div id="FORM_form_date_visits" style="display: none">{{form_date_visits}}</div>
 {% endblock %}
