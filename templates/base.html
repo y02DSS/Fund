@@ -16,6 +16,12 @@
         {% if info_check == 1 %}
             <script type="text/javascript">alert("Успешно! Ожидайте подтверждения");</script>
         {% endif %}
+        {% if info_check == 2 %}
+            <script type="text/javascript">alert("Вас ещё не подтвердили");</script>
+        {% endif %}
+        {% if info_check == 3 %}
+            <script type="text/javascript">alert("Вы ввели не верный логин или пароль");</script>
+        {% endif %}
         <section class="container-fluid">
             <div class="row menu-header">
                 <a href="/" class="col-1"><img class="logo" src="/static/img/imgForSite/logo.png"/></a>
@@ -62,7 +68,7 @@
                 </div>
 
                 <div id="login">
-                    <form action="{{redirect.url}}" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <div class="modal-body all-form">
                             {% csrf_token %}
                             {{form_login}}
@@ -72,6 +78,10 @@
                             <button type="submit" class="btn btn-primary">Войти</button>
                         </div>
                     </form>
+                    {% if redirect.url %}
+                        <a href="{{redirect.url}}" id="open_login" style="display:none"></a>
+                        <script>document.getElementById("open_login").click();</script>
+                    {% endif %}
                 </div>
 
                 <div id="registry">

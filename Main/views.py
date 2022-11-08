@@ -23,13 +23,13 @@ def inject_form(request):  # Работает на всех страницах
 
         form_registry = RegistryForm(request.POST)
         if form_registry.is_valid(): # Регистрация
-            form_registry_add.name = request.POST.get("name")
-            form_registry_add.email = request.POST.get("email")
-            form_registry_add.password = request.POST.get("password")
-            form_registry_add.city = request.POST.get("city")
-            form_registry_add.address = request.POST.get("address")
+            form_registry_add.name = form_registry.cleaned_data['name']
+            form_registry_add.email = form_registry.cleaned_data['email']
+            form_registry_add.password = form_registry.cleaned_data['password']
+            form_registry_add.city = form_registry.cleaned_data['city']
+            form_registry_add.address = form_registry.cleaned_data['address']
             form_registry_add.save()
-            # send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
+            send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
             data["info_check"] = 1
             return data
 
@@ -44,9 +44,11 @@ def inject_form(request):  # Работает на всех страницах
                         data['redirect'] = redirectc
                         return data
                     else:
-                        print('Вас ещё не подтвердили')
+                        data["info_check"] = 2
+                        return data
                 else:
-                    print('Вы ввели не верный логин или пароль')
+                    data["info_check"] = 3
+                    return data
             except:
                 pass
 
