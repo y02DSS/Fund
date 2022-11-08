@@ -9,6 +9,10 @@ class ShelterNews(models.Model): # Все новости приютов
     def __str__(self):
         return self.name_news
 
+    class Meta:
+        verbose_name = 'Новости приюта'
+        verbose_name_plural = 'Новости приютов'
+
 
 class ShelterReport(models.Model):
     company_report = models.CharField(max_length=200)
@@ -19,6 +23,10 @@ class ShelterReport(models.Model):
     def __str__(self):
         return self.name_report
 
+    class Meta:
+        verbose_name = 'Отчеты приюта'
+        verbose_name_plural = 'Отчеты приютов'
+
 
 class ShelterHotReport(models.Model):
     name_hot = models.CharField(max_length=200)
@@ -27,14 +35,24 @@ class ShelterHotReport(models.Model):
     def __str__(self):
         return self.name_hot
 
+    class Meta:
+        verbose_name = 'Срочное сообщение'
+        verbose_name_plural = 'Срочные сообщения'
+
 
 class AnimalReport(models.Model):
     name_animal = models.CharField(max_length=200)
+    report_animal = models.CharField(max_length=200)
     text_animal = models.TextField(max_length=3000)
+    date_animal = models.DateField(auto_now_add=True)
     file_animal = models.FileField(upload_to='static/uploads/files/reports')
 
     def __str__(self):
         return self.name_animal
+
+    class Meta:
+        verbose_name = 'Отчет питомца'
+        verbose_name_plural = 'Отчеты питомцев'
 
 
 
@@ -62,6 +80,10 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Личный кабинет приюта'
+        verbose_name_plural = 'Личные кабинеты приютов'
+
 
 class TakeAnimal(models.Model):
     name = models.CharField(max_length=200)
@@ -70,6 +92,10 @@ class TakeAnimal(models.Model):
 
     def __str__(self):
         return self.name + ' ' + self.contact
+
+    class Meta:
+        verbose_name = 'Забрать питомца'
+        verbose_name_plural = 'Забрать питомцев'
 
 
 class Collection(models.Model): # Карточка с животным
@@ -92,6 +118,9 @@ class Collection(models.Model): # Карточка с животным
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Питомец'
+        verbose_name_plural = 'Питомцы'
 
 class Partners(models.Model): # Раздел с партнерами
     name = models.CharField(max_length=200)
@@ -103,6 +132,10 @@ class Partners(models.Model): # Раздел с партнерами
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Партнер'
+        verbose_name_plural = 'Партнеры'
 
 
 class LostAnimals(models.Model): # Раздел с потерянными животными
@@ -111,6 +144,10 @@ class LostAnimals(models.Model): # Раздел с потерянными жив
     breed = models.CharField(max_length=200, blank=True, null=True, default="Без породы")
     contact = models.CharField(max_length=200)
     description = models.CharField(max_length=3000, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Потерянное животное'
+        verbose_name_plural = 'Потерянные животные'
     
 
 class ChatLogin(models.Model): # Чат для приютов
@@ -119,3 +156,7 @@ class ChatLogin(models.Model): # Чат для приютов
 
     def __str__(self):
         return self.name + ' ' + self.text[:20] + '...'
+
+    class Meta:
+        verbose_name = 'Чат'
+        verbose_name_plural = 'Чат'

@@ -99,7 +99,15 @@
                 <p>{{animal.comment}}</p>
             </div>
             <div class="Report_animals-text-render">
-                <p>Отчеты</p>
+                <div>
+                    {% for animal_report in animal.animalReport.all %}
+                    <h3>{{animal_report.report_animal}}</h3>
+                    <p>{{animal_report.text_animal}}</p>
+                    <img src="/{{animal_report.file_animal}}">
+                    <p>{{animal_report.date_animal}}</p>
+                    <hr>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="Report_animals-line" id="Report_animals_line"></div>

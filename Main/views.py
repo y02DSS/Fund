@@ -89,6 +89,8 @@ def helpPage(request, helpID):
 
     shelter = AccountShelter.objects.get(id=animal.choice_shelter.id)
 
+    animalReports = animal.animalReport
+
     if request.method == 'POST':
         form_take_animal = FormTakeAnimal(request.POST)
         if form_take_animal.is_valid():
@@ -107,7 +109,7 @@ def helpPage(request, helpID):
     else:
         form_take_animal = FormTakeAnimal()
 
-    return render(request, "helpPage.html", {"animal": animal, "form_take_animal": form_take_animal, "shelter": shelter})
+    return render(request, "helpPage.html", {"animal": animal, "form_take_animal": form_take_animal, "shelter": shelter, "animalReports": animalReports})
 
 
 def lostAnimal(request):
@@ -236,11 +238,12 @@ def login(request, rights):
             if request.POST.get("new_animal_report_id", "False"):
                 form_create_animal_report = CreateAnimalReport(request.POST, request.FILES)
                 if form_create_animal_report.is_valid():
-                        new_animal_report.name_animal = form_create_animal_report.cleaned_data["name_animal"]
+                        this_collection = Collection.objects.get(id=request.POST["new_animal_report_id"]) # передать тот же самый ID
+                        new_animal_report.name_animal = this_collection.name
+                        new_animal_report.report_animal = form_create_animal_report.cleaned_data["report_animal"]
                         new_animal_report.text_animal = form_create_animal_report.cleaned_data["text_animal"]
                         new_animal_report.file_animal = form_create_animal_report.cleaned_data["file_animal"]
                         new_animal_report.save()
-                        this_collection = Collection.objects.get(id=request.POST["new_animal_report_id"]) # передать тот же самый ID
                         this_collection.animalReport.add(new_animal_report)
 
 

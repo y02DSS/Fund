@@ -75,9 +75,9 @@ class CreateCardAnimal(ModelForm):
 class CreateAnimalReport(ModelForm):
    class Meta:
       model = AnimalReport
-      fields = ['name_animal', 'text_animal', 'file_animal']
+      fields = ['report_animal', 'text_animal', 'file_animal']
       labels = {
-         'name_animal': 'Имя отчета',
+         'report_animal': 'Имя отчета',
          'text_animal': 'Добаьте текст отчета',
          'file_animal': 'Добавьте фото'
       }
