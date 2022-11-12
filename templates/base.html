@@ -24,40 +24,37 @@
         {% endif %}
         <section class="container-fluid">
             <div class="row menu-header">
-                <a href="/" class="col-1"><img class="logo" src="/static/img/imgForSite/logo.png"/></a>
-                <div class="col-1"></div>
-                <a href="{% url 'support' %}" class="col-2 button">Стать спонсором</a>
-                <div class="col-6"></div>
-                <a href="#" class="col-2 button"  data-bs-toggle="modal" data-bs-target="#registry_form">Регистрация<br>вход для приютов</a>
+                <div class="col-2">
+                    <div class="logo">
+                        <a href="/"><img class="w-100" src="/static/img/imgForSite/logo.svg"/></a>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="menu_links row g-3">
+                        <div class="col-3"><div class="top"><a href="{% url 'newLostAnimal' %}">Разместить объявление</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'lostAnimal' %}">Поиск животных</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'about' %}">О проекте</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'partners' %}">Нас поддерживают</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'volunteers' %}">Информация волонтерам</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'shelters' %}">Приюты и их новости</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'archive' %}">Архив</a></div></div>
+                    </div>                
+                </div>
+                <div class="col-3">
+                    <div class="button-card button-card-header">
+                        <a href="{% url 'support' %}" class="button">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Стать спонсором</div>
+                        </a>
+                    </div>
+                    <div class="button-card button-card-header">
+                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Регистрация/Вход</div>
+                        </a>
+                    </div>            
+                </div>
             </div>
-        </section>
-        <section class="container-fluid menu_links">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'newLostAnimal' %}" style="color: red !important">Разместить потерянное животное</a>
-                </li>                
-                <li class="nav-item dropdown">
-                    <a class="nav-link" aria-current="page" href="{% url 'lostAnimal' %}">Найти потерянное животное</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'about' %}">О проекте</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'support' %}">Стать спонсором</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'partners' %}">Нас поддерживают</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'volunteers' %}">Информация партнерам и волонтерам</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'shelters' %}">Приюты и их новости</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'archive' %}">Архив</a>
-                </li>
-            </ul>
         </section>
         <section class="modal fade" id="registry_form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registry_form" aria-hidden="true">
             <div class="modal-dialog">
@@ -102,28 +99,55 @@
         </section>
         {% block content %}
         {% endblock %}
-        <section class="footer">
-            <div>
-                <div class="footer-links">
-                    <a href="{% url 'about' %}">О проекте</a>
-                    <a href="{% url 'archive' %}">Архив</a>
-                    <a href="{% url 'newLostAnimal' %}">Разместить фото потерянного животного</a>
-                    <a href="{% url 'volunteers' %}">Информация партнерам и волонтерам</a>
-                    <a href="{% url 'shelters' %}">Новости и отчеты приютов</a>
+        <section class="container-fluid">
+            <div class="row menu-header">
+                <div class="col-2">
+                    <div class="button-card button-card-footer">
+                        <a href="{% url 'support' %}" class="button">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Стать спонсором</div>
+                        </a>
+                    </div>
+                    <div class="button-card button-card-footer">
+                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Регистрация/Вход</div>
+                        </a>
+                    </div>        
                 </div>
-                <div class="menu-footer">
-                    <div class="button"><a href="{% url 'support' %}">Стать спонсором</a></div>
-                    <div class="button"><a href="#"  data-bs-toggle="modal" data-bs-target="#registry_form">Регистрация/Вход для приютов</a></div>
-                </div>                
-            </div>
-            <div class="footer-contacts">
-                <p class="contscts-title">Контакты</p>
-                <p>Телефон: <a href="tel:899999999">8(999)-999-99-99</a></p>
-                <p>email: <a href="mailto:yandex@gmail.com">yandex@gmail.com</a></p>
-                <p>VK: <a href="https://vk.com" target="_blank">dog.vk</a></p>
+                <div class="col-7">
+                    <div class="menu_links row g-3">
+                        <div class="col-3"><div class="top"><a href="{% url 'newLostAnimal' %}">Разместить объявление</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'lostAnimal' %}">Поиск животных</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'about' %}">О проекте</a></div></div>
+                        <div class="col-3"><div class="top"><a href="{% url 'partners' %}">Нас поддерживают</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'volunteers' %}">Информация волонтерам</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'shelters' %}">Приюты и их новости</a></div></div>
+                        <div class="col-3"><div class="bottom"><a href="{% url 'archive' %}">Архив</a></div></div>
+                    </div>                
+                </div>
+                <div class="col-3">
+                    <div class="button-card button-card-header">
+                        <a href="tel:899999999" class="button">
+                            <div class="img"><img src="/static/img/imgForSite/tel_button.svg"></div>
+                            <div class="text">+7(999)999-99-99</div>
+                        </a>
+                    </div>
+                    <div class="button-card button-card-header">
+                        <a href="mailto:yandex@gmail.com" class="button">
+                            <div class="img"><img src="/static/img/imgForSite/email_button.svg"></div>
+                            <div class="text">yandex@gmail.com</div>
+                        </a>
+                    </div>
+                    <div class="button-card button-card-header">
+                        <a href="https://vk.com" class="button">
+                            <div class="img"><img src="/static/img/imgForSite/vk_button.svg"></div>
+                            <div class="text">vk.com</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
-
         <script type="text/javascript" src={% static "js/main.js" %}?{% cache_bust %}></script>
     </body>
 </html>

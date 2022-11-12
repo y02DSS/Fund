@@ -3,126 +3,124 @@
 {% load help_filter %}
 
 {% block content %}
-<p class="main-big-text text-center">Поддержать их</p>
-<section class="container-fluid cards row g-5">
+<section class="container-fluid cards row g-5 background-images" style="margin-top: 50px">
+    <p class="login-title" style="padding: 0">По<span style="letter-spacing: 4px">дд</span>ержать их</p>
     {% for card in collection %}
-    <div class=" col-3 col-offset-2">
-        <a href="help/{{card.id}}" class="card">
+    <div class="col-4 col-offset-2">
+        <a href="help/{{card.id}}" class="ones_card">
             <div class="img">
-                <img class="w-100" src="/{{card.photo}}">
-                <div class="background"></div>
-                <p class="post_text">Поддержать проект</p>
-            </div>
-            <div class="p-3">
-                <p class="name">{{card.name}}</p>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: {% persent card.summ_now card.summ %}%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">{% persent card.summ_now card.summ %}%</div>
+                <div class="photo">
+                    <img src="/{{card.photo}}">
                 </div>
-                <div class="info">
-                    <div class="left">
-                        <p class="persent">{% persent card.summ_now card.summ %} %</p>
-                        <p class="info_text">Идет сбор {{card.summ}}</p>
+                <div class="progress-bar-arc">
+                    <div class="bar-arc">
+                        <canvas id="canvas_{{card.id}}" onload="drawArc('canvas_{{card.id}}', {% persent card.summ_now card.summ %});"></canvas>
+                        <img src="/static/img/imgForSite/progress_arc.png">
+                        <p>{% persent card.summ_now card.summ %}%</p>
                     </div>
-                    <div class="right">
-                        <p class="summ">{{card.summ_now}} ₽</p>
-                        <p class="info_text">Собрано</p>
+                    <div class="progress">
+                        <p>{{card.summ}}<br><span>Идет сбор</span></p>
+                        <p> {{card.summ_now}}<br><span>Собрано</span></p>
                     </div>
-                </div> 
+                </div>
+            </div>
+            <div class="text">
+                <p class="name">{{card.name}}</p>
+                <p class="comment">{{card.comment}}</p>
             </div>
         </a>
     </div>
     {% endfor %}
-    <div class="main-button"><a href="{% url 'allAnimals' %}">Показать остальных:</a></div>
-</section>
-<section class="how-help">
-    <p class="main-big-text">Как помогать животным</p>
-    <div class="row">
-        <div class="col-8">
-            <div class="row small-post-help">
-                <div class="col">
-                    <div>
-                        <img src="/static/img/imgForSite/helping_animals_with_food.svg">
-                    </div>
-                    <p>Кормить</p>
-                </div>
-                <div class="col">
-                    <div>
-                        <img src="/static/img/imgForSite/helping_animals_with_food.svg">
-                    </div>
-                    <p>Ухаживать</p>
-                </div>
-                <div class="col">
-                    <div>
-                        <img src="/static/img/imgForSite/helping_animals_with_food.svg">
-                    </div>
-                    <p>Лечить</p>
-                </div>
-                <div class="col">
-                    <div>
-                        <img src="/static/img/imgForSite/helping_animals_with_food.svg">
-                    </div>
-                    <p>Побаловать</p>
-                </div>
-                <div class="col">
-                    <div>
-                        <img src="/static/img/imgForSite/helping_animals_with_food.svg">
-                    </div>
-                    <p>Навестить</p>
-                </div>
-            </div>
-            <div class="row teke-animal-home element-animation">
-                <div class="col-4">
-                    <img src="/static/img/imgForSite/take-home.svg">    
-                </div>
-                <div class="col-8">
-                    <p class="main-text-take-home">Забрать домой</p>
-                    <p class="text-take-home">Вы можете бесконечно кормить, дарить приятные вещи и лечить питомца, но только забрав домой вы сможете по-настоящему помочь ему.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 last-help-list">
-            <p class="line-help-main-text">Лента помощи</p>
-        </div>        
+    <div class="button-card" style="width: max-content">
+        <a href="{% url 'allAnimals' %}" class="button">
+            <div class="img" style="margin-left: -20px;"><img src="/static/img/imgForSite/logo_button.svg"></div>
+            <div class="text">Показать остальных:</div>
+        </a>
     </div>
 </section>
-<section>
-    <p class="main-big-text text-center">Зачем пользоваться сервисом?</p>
-    <div class="why-use-services row">
-        <div class="col">
-            <img src="/static/img/imgForSite/why-use.png">
-            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+<section class="background-images">
+    <p class="login-title" style="padding: 0">Как помогать животным</p>
+    <div class="how-help block-margin">
+        <div class="row methods-help element-animation">
+            <div class="col">
+                <img src="/static/img/imgForSite/how_help_1.svg">
+                <p>Кормить</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/how_help_2.svg">
+                <p>Ухаживать</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/how_help_3.svg">
+                <p>Лечить</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/how_help_4.svg">
+                <p>Побаловать</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/how_help_5.svg">
+                <p>Навестить</p>
+            </div>
         </div>
-        <div class="col">
-            <img src="/static/img/imgForSite/why-use.png">
-            <p>Хочешь питомца, но обстоятельства не позволяют</p>
-        </div>
-        <div class="col">
-            <img src="/static/img/imgForSite/why-use.png">
-            <p>Хочешь питомца, но обстоятельства не позволяют</p>
-        </div>
-        <div class="col">
-            <img src="/static/img/imgForSite/why-use.png">
-            <p>Хочешь питомца, но обстоятельства не позволяют</p>
+        <div class="take-home">
+            <img style="margin-right: 15px" src="/static/img/imgForSite/how_help_01.svg">
+            <img style="margin-left: 15px" src="/static/img/imgForSite/how_help_02.svg">
+            <p class="first-text">Забрать домой</p>
+            <p class="second-text">Вы можете бесконечно кормить, 
+                дарить приятные вещи и лечить 
+                питомца, но только забрав 
+                домой вы сможете 
+                по-настоящему помочь ему.</p>
+        </div>    
+    </div>
+</section>
+<section style="margin: 50px 0;">
+    <img class="w-100" src="/static/img/imgForSite/cat_and_dog.svg">
+</section>
+<section class="background-images">
+    <p class="login-title" style="padding: 0">Зачем пользоваться сервисом?</p>
+    <div class="block-margin">
+        <div class="why-use-services row element-animation">
+            <div class="col">
+                <img src="/static/img/imgForSite/why_use-services_1.svg">
+                <p>Хочешь питомца, но обстоятельства не позволяют</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/why_use-services_2.svg">
+                <p>Всегда хотелось иметь пушистого друга, но боишься ответственности</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/why_use-services_3.svg">
+                <p>Очень серьезно подходишь к выбору питомца</p>
+            </div>
+            <div class="col">
+                <img src="/static/img/imgForSite/why_use-services_4.svg">
+                <p>Просто безумно любишь животных</p>
+            </div>
         </div>
     </div>
 </section>
 <section class="now-shelters">
-    <p class="main-big-text">Сейчас</p>
+    <p class="login-title" style="margin-top: -130px; color: white">Сейчас</p>
     <div class="row mt-5 element-animation">
         <div class="col">
             <div class="row-post">
+                <img src="/static/img/imgForSite/main_arc.svg">
                 <p class="big-name">{{citys}}</p>
                 <p class="small-name">Города</p>                
             </div>
         </div>
         <div class="col">
             <div class="row-post">
+                <img src="/static/img/imgForSite/main_arc.svg">
                 <p class="big-name">{{shelterAll|length}}</p>
                 <p class="small-name">Приюта</p>                
             </div>
         </div>
         <div class="col">
             <div class="row-post">
+                <img src="/static/img/imgForSite/main_arc.svg">
                 <p class="big-name">{{collection|length}}</p>
                 <p class="small-name">Питомцев</p>                
             </div>
@@ -130,7 +128,8 @@
     </div>
 </section>
 <section class="help-us">
-    <p class="main-big-text">Нас поддерживают</p>
+    <p class="login-title" style="padding-top: 0px;">Нас поддерживают</p>
+    <p class="main-big-text"></p>
     <div class="row">
         {% for partner in all_partners %}
             <div class="col-3 element-animation">

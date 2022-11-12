@@ -104,7 +104,7 @@ class Collection(models.Model): # Карточка с животным
     summ = models.FloatField(max_length=200)
     summ_now = models.FloatField(max_length=200, blank=True, null=True)
     summ_persent = models.CharField(max_length=200, blank=True, null=True)
-    photo = models.ImageField(upload_to='static/img/cardsAnimal', blank=True, null=True)
+    photo = models.FileField(upload_to='static/img/cardsAnimal', blank=True, null=True)
     video = models.FileField(upload_to='static/video/cardsAnimal', blank=True, null=True)
     status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Умер", "Умер"), ("Архив", "Архив")))
     breed = models.CharField(max_length=200, blank=True, null=True)

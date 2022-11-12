@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="mt-5">
-    <p class="main-big-text text-center">Наши партнеры</p>
+<section class="mt-5 background-images">
+    <p class="login-title" style="padding: 0">Наши партнеры</p>
     {% for company in all_partners %}
         <div class="partners">
             <p class="name">{{company.name}}</p>

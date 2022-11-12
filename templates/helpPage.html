@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load Main_tags %}
+{% load static %}
+
 {% block content %}
 <div class="container">
     <div class="hotReports">
@@ -48,7 +51,12 @@
                     <p class="city">{{animal.city}}</p>                  
                 </div>
                 <div class="pick_up_anival">
-                    <a href="#" class="site-button" data-bs-target="#TakeAnimal" data-bs-toggle="modal">Забрать питомца</a>
+                    <div class="button-card">
+                        <a href="#" class="button" data-bs-target="#TakeAnimal" data-bs-toggle="modal">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Забрать питомца</div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="row help_description">
@@ -75,10 +83,15 @@
                 <p class="need-summ"><span class="text">Сумма: </span><span class="summ">{{animal.summ_now}} руб</span><span class="text"> из: </span><span class="summ">{{animal.summ}} руб</span></p>
             </div>
             <div class="help_money">
-                <p class="main">Быстрое пополнение копилки «Срочная помощь»</p>
+                <p class="main">Быстрое пополнение копилки<br>«Срочная помощь»</p>
                 <p class="description">Питомцы с отметкой «Срочная помощь» нуждаются в твоей поддержке. Выбери сумму, чтобы пополнить копилку для их нужд.</p>
                 <p>Введите сумму: <input class="input_money" type="text"></p>
-                <a href="#" class="site-button">Пожертвовать</a>
+                <div class="button-card">
+                    <a href="#" class="button">
+                        <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                        <div class="text">Пожертвовать</div>
+                    </a>
+                </div>
                 <p class="what_is_send_money">На что пойдут деньги <a href="#">узнать</a></p>
             </div>
         </div>        
@@ -135,6 +148,8 @@
         </form>
       </div>
     </div>
+<script type="text/javascript" src={% static "js/helpPage.js" %}?{% cache_bust %}></script>
+
 </div>
 
 

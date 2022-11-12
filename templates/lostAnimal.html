@@ -3,30 +3,31 @@
 {% load help_filter %}
 
 {% block content %}
-<p class="main-big-text text-center">Потерянные животные</p>
-<div class="filter-animals">
-    <div class="d-flex">
-        <div>
-            <select name="shelters" id="select_shelter">
-                <option value="Все приюты" id="first_shelter">Все породы</option> 
-                {% for breed in lostAnimals %}
-                    <option selected value="{{breed.breed}}">{{breed.breed}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <p style="margin: 0 20px">или</p>
-        <div>
-            <select name="shelters" id="select_city">
-                <option value="Все города" id="first_city">Выбрать город</option> 
-                {% for city in lostAnimals %}
-                    <option value="{{city.city}}">{{city.city}}</option>
-                {% endfor %}
-            </select>
-        </div>        
-    </div>
-</div>
 
-<section class="container-fluid lost_cards row g-5" id="cards_animal">
+
+<section class="container-fluid lost_cards background-images row g-5" id="cards_animal">
+    <p class="login-title">Потерянные животные</p>
+    <div class="filter-animals">
+        <div class="d-flex">
+            <div>
+                <select name="shelters" id="select_shelter">
+                    <option value="Все приюты" id="first_shelter">Все породы</option> 
+                    {% for breed in lostAnimals %}
+                        <option selected value="{{breed.breed}}">{{breed.breed}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <p style="margin: 0 20px">или</p>
+            <div>
+                <select name="shelters" id="select_city">
+                    <option value="Все города" id="first_city">Выбрать город</option> 
+                    {% for city in lostAnimals %}
+                        <option value="{{city.city}}">{{city.city}}</option>
+                    {% endfor %}
+                </select>
+            </div>        
+        </div>
+    </div>
     {% for card in lostAnimals %}
     <div class="col-3 col-offset-2 lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
         <div class="img">

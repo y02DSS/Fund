@@ -1,78 +1,122 @@
 {% extends 'base.html' %}
 
+{% load Main_tags %}
+{% load static %}
+
 {% block content %}
-<h1>Личный кабинет приюта - {{name_account}}</h1>
-<div class="login container-fluid row g-5">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <div class="col-4">
-        <div class="login-card main-card">
-          <a class="login-button" href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal">Изменить карточку приюта</a>
-          <h3>Ваша карточка приюта:</h3>
-          <p><span>Имя</span> - {{shelter.name}}</p>
-          <p><span>Город и адрес</span> - {{shelter.city}} {{shelter.address}}</p>
-          <p><span>Описание</span> - {{shelter.about}}</p>
-          <p><span>Имя директора</span> - {{shelter.director_name}}</p>
-          <p><span>Контакты</span> - {{shelter.contact}}</p>
-          <p><span>Реквизиты</span> - {{shelter.requisites}}</p>
-          <p><span>Социальные сети</span> - {{shelter.social_network}}</p>          
-        </div>
-    </div>
-    <div class="col-4">
-      <div class="login-card main-card">
-        <a class="login-button" href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal">Добавить карточку животного</a>
-        <h3>Всего животных - {{shelter.number_of_animals}}</h3>
-        {% for name in collection %}
-          <div style="display: flex; justify-content: center;">
-              {% if name.is_take is not None %}
-                <span class="want-take-animal">❗<span>Хотят забрать</span></span>
-              {% endif %}
-              <a href="/help/{{name.id}}" target="_blank">{{name}} </a>
-              <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
-              <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
+<div class="background-images">
+  <p class="login-title">Личный кабинет приюта - {{name_account}}</p>
+  <div class="login container-fluid row g-5">
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <div class="col-4">
+          <div class="login-card">
+            <div class="button-card login-button">
+              <a href="#" data-bs-target="#CreateCardShelter" id="form_create_card_shelter" data-bs-toggle="modal" class="button">
+                  <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                  <div class="text">Изменить карточку приюта</div>
+              </a>
+            </div>
+            <div class="main-card">
+              <p><span>Имя</span> - {{shelter.name}}</p>
+              <p><span>Город и адрес</span> - {{shelter.city}} {{shelter.address}}</p>
+              <p><span>Описание</span> - {{shelter.about}}</p>
+              <p><span>Имя директора</span> - {{shelter.director_name}}</p>
+              <p><span>Контакты</span> - {{shelter.contact}}</p>
+              <p><span>Социальные сети</span> - {{shelter.social_network}}</p>
+              <p><span>Даты посещений</span> - {{shelter.date_visits}}</p>
+              <p><span>Реквизиты</span> - {{shelter.requisites}}</p>
+            </div>
           </div>
-        {% endfor %}
       </div>
-    </div>
-    <div class="col-4">
-      <div class="login-card main-card">
-        <a class="login-button" href="#" data-bs-target="#CreateNews" id="form_create_news_shelter" data-bs-toggle="modal">Разместить новость</a>
-        <h3>Ваши новоти</h3>
-        {% for news in shelter.news.all %}
-          {{news.name_news}}<br>
-        {% endfor %}
+      <div class="col-4">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#CreateCardAnimal" id="form_create_card_animal" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Добавить карточку животного</div>
+            </a>
+          </div>
+          <div class="main-card">
+            <h3>Всего животных - {{shelter.number_of_animals}}</h3>
+            {% for name in collection %}
+              <div>
+                  {% if name.is_take is not None %}
+                    <span class="want-take-animal">❗<span>Хотят забрать</span></span>
+                  {% endif %}
+                  <a class="link" href="/help/{{name.id}}" target="_blank">{{name}} </a>
+                  <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
+                  <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
+              </div>
+            {% endfor %}          
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-3">
-      <div class="login-card" style="border: none;">
-        <a class="login-button" href="#" data-bs-target="#ReportMonth" id="form_new_shelter_report" data-bs-toggle="modal">Подать отчет за месяц</a>
+      <div class="col-4">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#CreateNews" id="form_create_news_shelter" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Разместить новость</div>
+            </a>
+          </div>
+          <div class="main-card">
+            {% for news in shelter.news.all %}
+              {{news.name_news}}<br>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-3">
-      <div class="login-card" style="border: none;">
-        <a class="login-button" href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal">Бюджет расходов в месяц</a>
-        <p style="display: none" id="collection_budget">
-          {% for animal in collection_budget %}
-Имя: {{animal.name}}; Необходимая сумма: {{animal.summ}}; Сумма сейчас: {{animal.summ_now}}
-          {% endfor %}
-        </p>
-        <p style="display: none" id="need_summ">
-{{need_summ}} руб
-        </p>
+      <div class="col-3">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#ReportMonth" id="form_new_shelter_report" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Подать отчет за месяц</div>
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-3">
-      <div class="login-card">
-        <a class="login-button" href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal">Расписание посещений</a>
-        <h3>Даты посещений:</h3>
-        <p>{{shelter.date_visits}}</p>
+      <div class="col-3">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#BudgetMonth" id="form_budget_month" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Бюджет расходов в месяц</div>
+            </a>
+          </div>
+          <p style="display: none" id="collection_budget">
+            {% for animal in collection_budget %}
+  Имя: {{animal.name}}; Необходимая сумма: {{animal.summ}}; Сумма сейчас: {{animal.summ_now}}
+            {% endfor %}
+          </p>
+          <p style="display: none" id="need_summ">
+  {{need_summ}} руб
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="col-3">
-      <div class="login-card" style="border: none;">
-        <a class="login-button" href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal">Срочные запросы</a>
+      <div class="col-3">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#CreateNewDate" id="form_date_visits" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Расписание посещений</div>
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+      <div class="col-3">
+        <div class="login-card">
+          <div class="button-card login-button">
+            <a href="#" data-bs-target="#HotEmail" id="form_hot_email" data-bs-toggle="modal" class="button">
+                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                <div class="text">Срочные запросы</div>
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>
+
 <div class="modal fade" id="CreateCardAnimal" name="all_forms" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CreateCardAnimalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -89,7 +133,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary close-all-forms" data-bs-dismiss="modal">Закрыть</button>
-            <button type="submit" class="btn btn-primary" id="submit_result">Сохранить</button>
+            <button type="submit" class="btn submit_result" id="submit_result">Сохранить</button>
           </div>
         </form>
       </div>
@@ -98,9 +142,9 @@
 
 <div class="chat-form">
   <p class="text-chat">Чат приютов</p>
-  <a id="hidden_chat"><span class="hidden">🗕</span></a>
+  <a id="hidden_chat"><span class="hidden"><img src="../static/img/imgForSite/exit.svg"></span></a>
   <div class="chat-text">
-    <div style="display: flex; flex-direction: column-reverse;">
+    <div style="display: flex; flex-direction: column-reverse;" id="chat">
       {% for message in messages_chat %}
         <p><span>{{message.name}}:</span> {{message.text}}</p>
       {% endfor %}
@@ -114,8 +158,11 @@
     </form>
   </div>
 </div>
-
 <div class="close-chat-form"><a id="open_chat">Открыть чат</a></div>
+
+<script type="text/javascript" src={% static "js/chat.js" %}?{% cache_bust %}></script>
+
+<p style="display: none" id="rights">{{rights}}</p>
 
 <div id="FORM_form_create_card_shelter" style="display: none">{{form_create_card_shelter}}</div>
 <div id="FORM_form_create_news_shelter" style="display: none">{{form_create_news_shelter}}</div>

@@ -59,18 +59,18 @@ def inject_form(request):  # Работает на всех страницах
     
 
 def index(request):
-    collection = Collection.objects.all()
+    collection = Collection.objects.filter(status="В приюте")
     shelterAll = AccountShelter.objects.all()
     all_partners = Partners.objects.all()
     citys = []
     for city in shelterAll:
         if city.city not in citys:
             citys.append(city.city)
-    return render(request, "index.html", {"collection": collection[:8], "shelterAll": shelterAll, "all_partners": all_partners, "citys": len(citys)})
+    return render(request, "index.html", {"collection": collection[:3], "shelterAll": shelterAll, "all_partners": all_partners, "citys": len(citys)})
 
 
 def allAnimals(request):
-    collection = Collection.objects.all()
+    collection = Collection.objects.filter(status="В приюте")
     shelterAll = AccountShelter.objects.all()
     citys = []
     for city in shelterAll:
@@ -203,7 +203,6 @@ def login(request, rights):
     new_hot_report = ShelterHotReport()
     new_animal_report = AnimalReport()
 
-
     collection_budget = Collection.objects.filter(choice_shelter=new_shelter)
     need_summ = 0
     for animal_budget in collection_budget:
@@ -216,7 +215,15 @@ def login(request, rights):
             if request.POST.get("id", "False"):
                 form_change_card_animal = ChangeCardAnimal(request.POST, request.FILES)
                 if form_change_card_animal.is_valid():
-                    Collection.objects.filter(id=request.POST["id"]).update(**form_change_card_animal.cleaned_data)
+                    temp_request_id = request.POST["id"]
+                    Collection.objects.filter(id=temp_request_id).update(**form_change_card_animal.cleaned_data)
+                    # if 'photo' in form_change_card_animal.changed_data: 
+                    #     with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}', 'wb+') as destination:
+                    #         for chunk in form_change_card_animal.cleaned_data["photo"].chunks():
+                    #             destination.write(chunk)
+                    #     Collection.objects.filter(id=temp_request_id).update(photo=f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}')
+                    # if 'video' in form_change_card_animal.changed_data:
+                    #     Collection.objects.filter(id=temp_request_id).update(video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
             else:
                 form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
                 if form_create_card_animal.is_valid():
@@ -346,8 +353,14 @@ def login(request, rights):
             form_new_shelter_report = NewShelterReport()
 
         messages_chat = ChatLogin.objects.all()
-
         collection = Collection.objects.filter(choice_shelter=AccountShelter.objects.filter(email=temp_rights[0])[0].id)
+
+        if request.is_ajax():
+            temp_chat = ''
+            messages_chat = ChatLogin.objects.all()
+            for message in messages_chat:
+                temp_chat += message.name + '$' + message.text + '$'
+            return HttpResponse(temp_chat)
 
         return render(request, "login.html", {"rights": rights,
                                               "name_account": name_account,
