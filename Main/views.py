@@ -212,18 +212,18 @@ def login(request, rights):
     if AccountShelter.objects.filter(id=temp_registry_email_id)[0].password == AccountShelter.objects.filter(password=temp_rights[1])[0].password:
         name_account = AccountShelter.objects.filter(id=temp_registry_email_id)[0].name
         if request.method == 'POST':
-            if request.POST.get("id", "False"):
+            if request.POST.get("id") != None:
                 form_change_card_animal = ChangeCardAnimal(request.POST, request.FILES)
                 if form_change_card_animal.is_valid():
                     temp_request_id = request.POST["id"]
                     Collection.objects.filter(id=temp_request_id).update(**form_change_card_animal.cleaned_data)
-                    # if 'photo' in form_change_card_animal.changed_data: 
-                    #     with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}', 'wb+') as destination:
-                    #         for chunk in form_change_card_animal.cleaned_data["photo"].chunks():
-                    #             destination.write(chunk)
-                    #     Collection.objects.filter(id=temp_request_id).update(photo=f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}')
-                    # if 'video' in form_change_card_animal.changed_data:
-                    #     Collection.objects.filter(id=temp_request_id).update(video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
+                    if 'photo' in form_change_card_animal.changed_data: 
+                        with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}', 'wb+') as destination:
+                            for chunk in form_change_card_animal.cleaned_data["photo"].chunks():
+                                destination.write(chunk)
+                        Collection.objects.filter(id=temp_request_id).update(photo=f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}')
+                    if 'video' in form_change_card_animal.changed_data:
+                        Collection.objects.filter(id=temp_request_id).update(video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
             else:
                 form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
                 if form_create_card_animal.is_valid():
