@@ -1,18 +1,27 @@
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, post_init
 from django.dispatch import receiver
-from .models import Collection
+from .models import AccountUser, AccountShelter
 from django.template.defaultfilters import slugify
 
-# @receiver(pre_save, sender=User)
-# def pre_smy_callbackave(sender, instance, *args, **kwargs):
-#     instance.comment = slugify(instance.name)
-#     instance.save(phone=instance.name)
-#     super(User, instance).pre_save(sender, instance, *args, **kwargs)
-#     # instance.Model.save(instance)
-#     print("Request finished!")
+from .send_email import send_for_email
 
 
-@receiver(post_save, sender=Collection)
+@receiver(post_init, sender=AccountUser)
+def my_not_save(sender, instance, *args, **kwargs):
+    instance.pre_register_user = instance.register_user
+
+@receiver(post_save, sender=AccountUser)
 def my_save(sender, instance, *args, **kwargs):
-    pass
-    # models.Model.save(instance)
+    if instance.register_user == 'Принять' and instance.pre_register_user == 'Отклонить':
+        send_for_email(str(instance.email_user), 'Ваши данные для входа:', f"Ваш email: {instance.email_user}\nВаш пароль: {instance.password_user}", "Успешная регистрация!")
+
+
+
+@receiver(post_init, sender=AccountShelter)
+def my_not_save(sender, instance, *args, **kwargs):
+    instance.pre_register = instance.register
+
+@receiver(post_save, sender=AccountShelter)
+def my_save(sender, instance, *args, **kwargs):
+    if instance.register == 'Принять' and instance.pre_register == 'Отклонить':
+        send_for_email(str(instance.email), 'Ваши данные для входа:', f"Ваш email: {instance.email}\nВаш пароль: {instance.password}", "Успешная регистрация!")

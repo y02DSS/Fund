@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="background-images">
+    <div class="container-fluid">
+        <p class="login-title">Личный кабинет - {{account_user}}</p>
+        <p class="">Персональный ключ - {{account_user.key}} (На сегодня осталось <span style="color: red">{{account_user.key_used}}</span>)</p>
+        {% if account_user.helped_animals %}
+            <div class="help-later">
+                {% for animal in account_user.helped_animals.all %}
+                    <p>{{animal}}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

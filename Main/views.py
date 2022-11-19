@@ -1,10 +1,9 @@
-import json
 from gc import collect
 from django.conf import settings
 from django.shortcuts import render, redirect
-from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals, ChatLogin, TakeAnimal, AnimalReport
+from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterReport, LostAnimals, ChatLogin, TakeAnimal, AnimalReport, AccountUser
 from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
-    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimal, CreateAnimalReport
+    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimal, CreateAnimalReport, LoginFormUser, RegistryFormUser
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.core import serializers
@@ -13,28 +12,39 @@ from django.contrib import messages
 
 from .send_email import send_for_email
 
+
 def inject_form(request):  # Работает на всех страницах
     data = {}
-    data["form_login"] = LoginForm()
     data["info_check"] = None
+   
+    data["form_login"] = LoginForm()
     data["form_registry"] = RegistryForm()
-    form_registry_add = AccountShelter()
-    if request.method == 'POST':
 
-        form_registry = RegistryForm(request.POST)
-        if form_registry.is_valid(): # Регистрация
-            form_registry_add.name = form_registry.cleaned_data['name']
-            form_registry_add.email = form_registry.cleaned_data['email']
-            form_registry_add.password = form_registry.cleaned_data['password']
-            form_registry_add.city = form_registry.cleaned_data['city']
-            form_registry_add.address = form_registry.cleaned_data['address']
-            form_registry_add.save()
-            send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация")
-            data["info_check"] = 1
-            return data
+    data["form_login_user"] = LoginFormUser()
+    data["form_rigistry_user"] = RegistryFormUser()
+
+    form_registry_add = AccountShelter()
+    form_registry_user_add = AccountUser()
+
+    if request.method == 'POST':
+        # Авторизация
+
+        # form_login_user = LoginFormUser(request.POST)
+        try:
+            temp_registry_user_email_id = AccountUser.objects.get(email_user=request.POST.get('email_user')).id
+            if AccountUser.objects.get(id=temp_registry_user_email_id).password_user == request.POST.get('password_user'):
+                if AccountUser.objects.get(id=temp_registry_user_email_id).register_user == "Принять":
+                    redirectc = redirect("login_user", rights = f'{request.POST.get("email_user")}&{request.POST.get("password_user")}')
+                    data['redirect'] = redirectc
+                else:
+                    data["info_check"] = 2
+            else:
+                data["info_check"] = 3
+        except:
+            pass
 
         form_login = LoginForm(request.POST)
-        if form_login.is_valid(): # Авторизация
+        if form_login.is_valid(): 
             try:
                 temp_registry_email_id = AccountShelter.objects.filter(email=request.POST.get("login_email"))[0].id
                 if AccountShelter.objects.filter(id=temp_registry_email_id)[0].password == AccountShelter.objects.filter(password=request.POST.get("login_password"))[0].password:
@@ -42,17 +52,44 @@ def inject_form(request):  # Работает на всех страницах
                         redirectc = redirect("login", rights = f'{request.POST.get("login_email")}&{request.POST.get("login_password")}')
                         # data = {}
                         data['redirect'] = redirectc
-                        return data
                     else:
                         data["info_check"] = 2
-                        return data
                 else:
                     data["info_check"] = 3
-                    return data
             except:
                 pass
 
+        # Регистрация
+        form_registry = RegistryForm(request.POST)
+        if form_registry.is_valid(): 
+            form_registry_add.name = form_registry.cleaned_data['name']
+            form_registry_add.email = form_registry.cleaned_data['email']
+            form_registry_add.password = form_registry.cleaned_data['password']
+            form_registry_add.city = form_registry.cleaned_data['city']
+            form_registry_add.address = form_registry.cleaned_data['address']
+            form_registry_add.save()
+            send_for_email('',str(request.POST.get("name")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/", "Новая регистрация приюта")
+            data["info_check"] = 1
+            return data
+        # else:
+        #     data["info_check"] = 4
+
+        form_registry_user = RegistryFormUser(request.POST)
+        if form_registry_user.is_valid():
+            form_registry_user_add.name_user = form_registry_user.cleaned_data['name_user']
+            form_registry_user_add.email_user = form_registry_user.cleaned_data['email_user']
+            form_registry_user_add.password_user = form_registry_user.cleaned_data['password_user']
+            form_registry_user_add.save()
+            send_for_email('',str(request.POST.get("name_user")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountuser/{form_registry_add.id}/change/", "Новая регистрация пользователя")
+            data["info_check"] = 1
+        # else:
+        #     data["info_check"] = 4
+
+
+
     else:
+        form_registry_user = RegistryFormUser()
+        form_login_user = LoginFormUser()
         form_login = LoginForm()
         form_registry = RegistryForm()
     return data
@@ -116,30 +153,55 @@ def helpPage(request, helpID):
 
 def lostAnimal(request):
     lostAnimals = LostAnimals.objects.all()
-    return render(request, "lostAnimal.html", {"lostAnimals": lostAnimals})
+    breedAnimals = []
+    cityAnimals = []
+    for animal in lostAnimals:
+        if animal.breed not in breedAnimals:
+            breedAnimals.append(animal.breed)
+        if animal.city not in cityAnimals:
+            cityAnimals.append(animal.city)
+        
+    return render(request, "lostAnimal.html", {"lostAnimals": lostAnimals, "breedAnimals": breedAnimals, "cityAnimals": cityAnimals})
 
 
 def newLostAnimal(request):
+    info_check_animal = 0
     form_lostAnimals = LostAnimals()
     newLostAnimal = FormLostAnimals(request.POST, request.FILES)
     if newLostAnimal.is_valid(): # Регистрация
-        form_lostAnimals.photo = request.FILES["photo"]
-        form_lostAnimals.city = request.POST.get("city")
-        form_lostAnimals.breed = request.POST.get("breed")
-        form_lostAnimals.contact = request.POST.get("contact")
-        form_lostAnimals.description = request.POST.get("description")
-        form_lostAnimals.save()
+        key = request.POST.get('key')
+        try:
+            check_key = AccountUser.objects.get(key=key).key_used
+            if check_key > 0:
+                AccountUser.objects.update(key_used=check_key-1)
+                form_lostAnimals.photo = request.FILES["photo"]
+                form_lostAnimals.city = request.POST.get("city")
+                form_lostAnimals.breed = request.POST.get("breed")
+                form_lostAnimals.contact = request.POST.get("contact")
+                form_lostAnimals.description = request.POST.get("description")
+                form_lostAnimals.save()
+            else:
+                info_check_animal = 1
+        except:
+            info_check_animal = 2
 
-    return render(request, "newLostAnimal.html", {"newLostAnimal": newLostAnimal})
+    return render(request, "newLostAnimal.html", {"newLostAnimal": newLostAnimal, "info_check_animal": info_check_animal})
+
+
+def fullLostAnimal(request, lostID):
+    lostAnimal = LostAnimals.objects.get(id=lostID)
+    return render(request, "fullLostAnimal.html", {"lostAnimal": lostAnimal})
 
 
 def support(request):
     shelterAll = AccountShelter.objects.all()
     return render(request, "support.html", {"shelterAll": shelterAll})
 
+
 def partners(request):
     all_partners = Partners.objects.all()
     return render(request, "partners.html", {"all_partners": all_partners})
+
 
 def archive(request):
     collection_taken = Collection.objects.filter(status='Забрали')
@@ -147,13 +209,16 @@ def archive(request):
     collection_died = Collection.objects.filter(status='Умер')
     return render(request, "archive.html", {"collection_taken": collection_taken, "collection_archive": collection_archive, "collection_died": collection_died})
 
+
 def about(request):
     all_partners = Partners.objects.all()
     return render(request, "about.html", {"all_partners": all_partners})
 
+
 def volunteers(request):
     all_partners = Partners.objects.all()
     return render(request, "volunteers.html", {"all_partners": all_partners})
+
 
 def shelters(request):
     shelterAll = AccountShelter.objects.all()
@@ -173,6 +238,13 @@ def shelter_reports(request, name_shelter, id_shelter):
 def shelter_animals(request, name_shelter, id_shelter):
     shelter_collection = Collection.objects.filter(choice_shelter=id_shelter)
     return render(request, "shelterAnimals.html", {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
+
+
+def login_user(request, rights):
+    temp_user_rights = rights.split('&')
+    account_user = AccountUser.objects.filter(email_user=temp_user_rights[0])[0]
+
+    return render(request, "loginUser.html", {"rights": rights, "account_user": account_user})
 
 
 def login(request, rights):
@@ -329,9 +401,11 @@ def login(request, rights):
                 new_messages_chat.save()
                 return redirect(login, rights)
 
-            form_date_visits = DateVisits(request.POST, instance=new_shelter)
+            form_date_visits = DateVisits(request.POST)
             if form_date_visits.is_valid():
-                AccountShelter.objects.filter(email=temp_rights[0]).update(date_visits = form_date_visits.cleaned_data['date_visits'])
+                temp_dates = form_date_visits.cleaned_data['date_visits']
+                if temp_dates != "":
+                    AccountShelter.objects.filter(id=temp_registry_email_id).update(date_visits = form_date_visits.cleaned_data['date_visits'])
                 return redirect(login, rights)
 
 

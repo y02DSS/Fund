@@ -7,23 +7,57 @@ $('#money_summ').keyup(function() {
 // Форма со входом и регистрацией
 var login_form = document.getElementById("login");
 var registry_form = document.getElementById("registry");
+
+var login_user_form = document.getElementById("login_user");
+var registry_user_form = document.getElementById("rigistry_user");
+
 var form_name = document.getElementById("form_name");
 
 registry_form.style.display = "none";
+login_user_form.style.display = "none"
+registry_user_form.style.display = "none"
 
-var login_button = document.getElementById("login_button")
-$(login_button).on("click", function() { 
-    form_name.innerHTML = "Вход"
+$("#login_button").on("click", function() { 
+    form_name.innerHTML = "Вход для приютов"
     registry_form.style.display = "none"
     login_form.style.display = "block"
 });
 
-var form_create_card_shelter_registry = document.getElementById("registry_button")
-$(form_create_card_shelter_registry).on("click", function() { 
-    form_name.innerHTML = "Регистрация"
+$("#registry_button").on("click", function() { 
+    form_name.innerHTML = "Регистрация для приютов"
     registry_form.style.display = "block"
     login_form.style.display = "none"
 });
+
+
+$(".switch_user_form").on("click", function() { 
+    form_name.innerHTML = "Вход для пользователей"
+    login_user_form.style.display = "block"
+    registry_form.style.display = "none"
+    login_form.style.display = "none"
+});
+
+$(".switch_shelter_form").on("click", function() { 
+    form_name.innerHTML = "Вход для приютов"
+    login_form.style.display = "block"
+    login_user_form.style.display = "none"
+    registry_user_form.style.display = "none"
+});
+
+
+$("#login_user_button").on("click", function() { 
+    form_name.innerHTML = "Вход для пользователей"
+    registry_user_form.style.display = "none"
+    login_user_form.style.display = "block"
+});
+
+$("#registry_user_button").on("click", function() { 
+    form_name.innerHTML = "Регистрация для пользователей"
+    registry_user_form.style.display = "block"
+    login_user_form.style.display = "none"
+});
+
+
 
 
 // Динамическое отображение нужной формы в login

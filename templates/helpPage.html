@@ -4,26 +4,28 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="hotReports">
-        <div class="d-flex" id="hotReport_text">
-            {% for hotReport in shelter.hotReport.all %}
-                <div class="hotReport-text">
-                    {{hotReport.name_hot}}
-                </div>
-            {% endfor %}            
-        </div>
-        <div style="display: none">
-            {% for hotReport in shelter.hotReport.all %}
-            <div class="hotReport-text-render">
-                <p>{{hotReport.text_hot}}</p>
+{% if shelter.hotReport.all %}
+    <div class="container">
+        <div class="hotReports">
+            <div class="d-flex" id="hotReport_text">
+                {% for hotReport in shelter.hotReport.all %}
+                    <div class="hotReport-text">
+                        {{hotReport.name_hot}}
+                    </div>
+                {% endfor %}            
             </div>
-            {% endfor %} 
+            <div style="display: none">
+                {% for hotReport in shelter.hotReport.all %}
+                <div class="hotReport-text-render">
+                    <p>{{hotReport.text_hot}}</p>
+                </div>
+                {% endfor %} 
+            </div>
+            <div class="hotReport-line" id="hotReport_line"></div>
         </div>
-        <div class="hotReport-line" id="hotReport_line"></div>
     </div>
-</div>
-<section class="container-fluid" style="margin-right: 0">
+{% endif %}
+<section class="container-fluid" style="margin-right: 0; margin-top: 20px">
     <div class="row">
         <div id="carouselExampleControls" class="container carousel slide help_carousel col-5" data-bs-ride="carousel">
             <div class="carousel-inner">

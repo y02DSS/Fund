@@ -23,6 +23,7 @@ urlpatterns = [
     path('allAnimals', views.allAnimals, name='allAnimals'),
     path('lostAnimal', views.lostAnimal, name='lostAnimal'),
     path('newLostAnimal', views.newLostAnimal, name='newLostAnimal'),
+    path('fullLostAnimal/<int:lostID>', views.fullLostAnimal, name='fullLostAnimal'),
     path('support', views.support, name='support'),
     path('partners', views.partners, name='partners'),
     path('archive', views.archive, name='archive'),
@@ -33,5 +34,6 @@ urlpatterns = [
     path('shelter_animals/<str:name_shelter>&<str:id_shelter>', views.shelter_animals, name='shelter_animals'),
     path('shelters/<str:name_shelter>&<str:id_shelter>', views.shelters_news, name='shelters_news'),
     path('login/<str:rights>', views.login, name='login'),
+    path('login_user/<str:rights>', views.login_user, name='login_user'),
     path('admin/', admin.site.urls),
 ]

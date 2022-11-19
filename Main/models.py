@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 
 class ShelterNews(models.Model): # Все новости приютов
     name_news = models.CharField(max_length=200)
@@ -59,7 +59,7 @@ class AnimalReport(models.Model):
 class AccountShelter(models.Model): # Личные кабинеты приютов
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200)
+    email = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True, null=True)  
@@ -160,3 +160,21 @@ class ChatLogin(models.Model): # Чат для приютов
     class Meta:
         verbose_name = 'Чат'
         verbose_name_plural = 'Чат'
+
+
+class AccountUser(models.Model):
+    id = models.AutoField(primary_key=True)
+    name_user = models.CharField(max_length=200)
+    email_user = models.EmailField(max_length=200, unique=True)
+    password_user = models.CharField(max_length=200)
+    key = models.CharField(max_length=50, default=uuid.uuid4)
+    helped_animals = models.ManyToManyField(Collection, blank=True, null=True)
+    key_used = models.IntegerField(max_length=2, default=2)
+    register_user = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
+
+    def __str__(self):
+        return self.name_user
+
+    class Meta:
+        verbose_name = 'Личный кабинет пользователей'
+        verbose_name_plural = 'Личный кабинет пользователя'

@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid mt-5">
+
+{% if info_check_animal == 1 %}
+<script type="text/javascript">alert("Сегодня вы не сможете выложить новое животное. Приходите завтра");</script>
+{% endif %}
+{% if info_check_animal == 2 %}
+<script type="text/javascript">alert("Не верный уникальный ключ");</script>
+{% endif %}
+
+<div class="container-fluid mt-5 background-images">
     <div class="form-new-lost-animal">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <label for="key">Введите персональный ключ<br>(Получаем в личном кабине)</label>
+            <input type="text" name="key" id="key">
             {{newLostAnimal}}
             <br>
-            <button type="submit" class="btn btn-primary">Отправить</button>
+            <button type="submit" class="btn">Отправить</button>
         </form>
     </div>
 </div>

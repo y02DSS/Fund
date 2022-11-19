@@ -1,47 +1,55 @@
 {% extends 'base.html' %}
 
 {% load help_filter %}
+{% load Main_tags %}
+{% load static %}
 
 {% block content %}
 
 
-<section class="container-fluid lost_cards background-images row g-5" id="cards_animal">
+<section class="container-fluid lost_cards background-images">
     <p class="login-title">Потерянные животные</p>
     <div class="filter-animals">
-        <div class="d-flex">
+        <div class="d-flex" id="all_filters">
             <div>
-                <select name="shelters" id="select_shelter">
-                    <option value="Все приюты" id="first_shelter">Все породы</option> 
-                    {% for breed in lostAnimals %}
-                        <option selected value="{{breed.breed}}">{{breed.breed}}</option>
+                <select name="shelters" id="lost_cards_shelters">
+                    <option value="Все приюты" id="first_lost_shelter">Все породы</option> 
+                    {% for breed in breedAnimals %}
+                        <option selected value="{{breed}}">{{breed}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <p style="margin: 0 20px">или</p>
+            <p style="margin: 0 20px">и</p>
             <div>
-                <select name="shelters" id="select_city">
-                    <option value="Все города" id="first_city">Выбрать город</option> 
-                    {% for city in lostAnimals %}
-                        <option value="{{city.city}}">{{city.city}}</option>
+                <select name="shelters" id="lost_cards_city">
+                    <option value="Все города" id="first_lost_city">Выбрать город</option> 
+                    {% for city in cityAnimals %}
+                        <option value="{{city}}">{{city}}</option>
                     {% endfor %}
                 </select>
             </div>        
         </div>
     </div>
-    {% for card in lostAnimals %}
-    <div class="col-3 col-offset-2 lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
-        <div class="img">
-            <img class="w-100" src="/{{card.photo}}">
-            <div class="background"></div>
-            <p class="post_text">Забрать животное</p>
+    <div class="container-fluid row g-5" style="margin-top: 25px">
+        {% for card in lostAnimals %}
+        <div class="col-3 card_animal" name="{{card.breed}}+{{card.city}}">
+            <a href="{% url 'fullLostAnimal' card.id %}" class="ones_card">
+                <div class="lost_cards_animal">
+                    <div class="img">
+                        <img class="w-100" src="/{{card.photo}}">
+                        <div class="background"></div>
+                        <p class="post_text">Забрать животное</p>
+                    </div>
+                    <div class="text p-3">
+                        <p class="name">Город: {{card.city}}</p>
+                        <p class="text">Порода: {{card.breed}}</p>
+                        <p class="text">Описание: {{card.description}}</p>
+                    </div>
+                </div>
+            </a>
         </div>
-        <div class="p-3">
-            <p class="name">Город: {{card.city}}</p>
-            <p class="text">Порода: {{card.breed}}</p>
-            <p class="text">Описание: {{card.description}}</p>
-        </div>
+        {% endfor %}        
     </div>
-    {% endfor %}
 </section>
-
+<script type="text/javascript" src={% static "js/lostAnimal.js" %}?{% cache_bust %}></script>
 {% endblock %}

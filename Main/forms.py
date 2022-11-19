@@ -3,15 +3,15 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport, AnimalReport
+from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport, AnimalReport, AccountUser
 
-# Форма авторизации
+# Форма авторизации приюта
 class LoginForm(forms.Form): 
     login_email = forms.EmailField(label='Email', max_length=100)
     login_password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
 
 
-# Форма регистрации
+# Форма регистрации приюта 
 class RegistryForm(ModelForm):
       class Meta:
          model = AccountShelter
@@ -26,6 +26,34 @@ class RegistryForm(ModelForm):
          widgets = {
             'password': forms.PasswordInput,
          }
+
+
+class LoginFormUser(ModelForm):
+   class Meta:
+      model = AccountUser
+      fields = ['email_user', 'password_user']
+      labels = {
+         'email_user': 'Введите email',
+         'password_user': 'Введите пароль'
+      }
+      widgets = {
+         'password_user': forms.PasswordInput,
+      }
+      
+
+class RegistryFormUser(ModelForm):
+   class Meta:
+      model = AccountUser
+      fields = ['name_user', 'email_user', 'password_user']
+      labels = {
+         'name_user': 'Ваше имя',
+         'email_user': 'Введите email',
+         'password_user': 'Придумайте пароль'
+      }
+      widgets = {
+         'password_user': forms.PasswordInput,
+      }
+
 
 # Создать карточку питомника
 class AddRegisterForm(ModelForm):

@@ -16,8 +16,9 @@
                     <p><span>Директор: </span>{{shelter.director_name}}</p>                    
                     <p><span>Контакты: </span>{{shelter.contact}}</p>                    
                     <p><span>Социальные сети: </span>{{shelter.social_network}}</p>                  
-                    <p><span>Всего животных: </span>{{shelter.number_of_animals}}</p>            
-                </div>         
+                    <p><span>Всего животных: </span>{{shelter.number_of_animals}}</p> 
+                    <p><span>Расписание посещений: </span><br>{{shelter.date_visits}}</p> 
+                </div>                   
             </div>
             <div class="add-info">
                 <div class="button"><a href="{% url 'shelter_reports' shelter.name shelter.id %}">Показать отчеты приюта</a></div>

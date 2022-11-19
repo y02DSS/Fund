@@ -22,6 +22,9 @@
         {% if info_check == 3 %}
             <script type="text/javascript">alert("Вы ввели не верный логин или пароль");</script>
         {% endif %}
+        {% if info_check == 4 %}
+            <script type="text/javascript">alert("Ошибка! Такая почта уже используется");</script>
+        {% endif %}
         <section class="container-fluid">
             <div class="row menu-header">
                 <div class="col-2">
@@ -60,7 +63,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                        <h5 class="modal-title" id="form_name">Вход</h5>
+                        <h5 class="modal-title" id="form_name">Вход для приютов</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
 
@@ -71,6 +74,7 @@
                             {{form_login}}
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-light switch_user_form">Для пользователей</button>
                             <button type="button" class="btn btn-secondary" id="registry_button">Ещё нет аккаунта</button>
                             <button type="submit" class="btn btn-primary">Войти</button>
                         </div>
@@ -88,7 +92,40 @@
                             {{form_registry}}
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-light switch_user_form">Для пользователей</button>
                             <button type="button" class="btn btn-secondary" id="login_button">Уже есть аккаунт</button>
+                            <button type="submit" class="btn btn-primary" data-dismiss="alert">Зарегистрироваться</button>
+                        </div>    
+                    </form>
+                </div>
+
+                <div id="login_user">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-body all-form">
+                            {% csrf_token %}
+                            {{form_login_user}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light switch_shelter_form">Для приютов</button>
+                            <button type="button" class="btn btn-secondary" id="registry_user_button">Ещё нет аккаунта</button>
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </div>    
+                    </form>
+                    {% if redirect.url %}
+                    <a href="{{redirect.url}}" id="open_user_login" style="display:none"></a>
+                        <script>document.getElementById("open_user_login").click();</script>
+                    {% endif %}
+                </div>
+
+                <div id="rigistry_user">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-body all-form">
+                            {% csrf_token %}
+                            {{form_rigistry_user}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light switch_shelter_form">Для приютов</button>
+                            <button type="button" class="btn btn-secondary" id="login_user_button">Уже есть аккаунт</button>
                             <button type="submit" class="btn btn-primary" data-dismiss="alert">Зарегистрироваться</button>
                         </div>    
                     </form>

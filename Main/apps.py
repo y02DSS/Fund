@@ -7,3 +7,4 @@ class MainConfig(AppConfig):
 
     def ready(self):
         import Main.signals
+        import Main.update_key
