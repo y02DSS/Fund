@@ -411,6 +411,13 @@ a, p, h1, h2, h3, h4, h5, h6, span{
                 left: 0;
                 right: 0;
                 bottom: 0;
+
+                img{
+                    top: 0;
+                    right: 0;
+                    object-fit: contain;
+                    opacity: 0.8;
+                }
             }
 
             img{
@@ -420,7 +427,7 @@ a, p, h1, h2, h3, h4, h5, h6, span{
         }
 
         .text{
-            max-height: 144px;
+            max-height: 184px;
             overflow: hidden;
         }
     }
@@ -524,6 +531,12 @@ a, p, h1, h2, h3, h4, h5, h6, span{
         .pick_up_anival{
             margin-left: 20px;
             display: block;
+
+            .archive{
+                padding: 20px;
+                font-size: $fourth_font_size;
+                font-weight: 600;
+            }
         }
     }
 
@@ -810,10 +823,14 @@ a, p, h1, h2, h3, h4, h5, h6, span{
     
         .modal-footer{
             border-top: 0 !important;
+
+            .switch_user_form, .switch_shelter_form{
+                font-weight: 600;
+            }
             
             button{
                 border-radius: 30px;
-                padding: 5px 20px;
+                padding: 5px 15px;
                 font-size: $second_font_size;
             }
     

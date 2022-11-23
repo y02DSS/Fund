@@ -6,38 +6,50 @@
         <p class="login-title" style="padding: 0">Забрали</p>
         <div class="row g-5 lost_cards">
             {% for card in collection_taken %}
-                <div class="col-3 col-offset-2 lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
-                    <div class="img">
-                        <img class="w-100" src="/{{card.photo}}">
-                        <div class="background"></div>
-                        <p class="post_text">{{card.status}}</p>
-                    </div>
-                    <div class="p-3">
-                        <p class="name">Приют: {{card.choice_shelter}}</p>
-                        <p class="name">Город: {{card.city}}</p>
-                        <p class="text">Порода: {{card.breed}}</p>
-                        <p class="text">Описание: {{card.comment}}</p>
-                    </div>
+                <div class="col-3 col-offset-2">
+                    <a href="{% url 'archive_animal' card.id %}">
+                        <div class=" lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
+                            <div class="img">
+                                <img class="w-100" src="/{{card.photo}}">
+                                <div class="background">
+                                    <img class="w-100" src="/static/img/imgForSite/take_animal.svg">
+                                </div>
+                                <p class="post_text">{{card.status}}</p>
+                            </div>
+                            <div class="p-3">
+                                <p class="name">Приют: {{card.choice_shelter}}</p>
+                                <p class="name">Город: {{card.city}}</p>
+                                <p class="text">Порода: {{card.breed}}</p>
+                                <p class="text">Описание: {{card.comment}}</p>
+                            </div>                        
+                        </div>   
+                    </a>
                 </div>
             {% endfor %}        
         </div>
     {% endif %}
     {% if collection_archive %}
-        <p class="login-title" style="padding: 0">В архиве</p>
+        <p class="login-title" style="padding: 0">Другая причина</p>
         <div class="row g-5 lost_cards">
             {% for card in collection_archive %}
-                <div class="col-3 col-offset-2 lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
-                    <div class="img">
-                        <img class="w-100" src="/{{card.photo}}">
-                        <div class="background"></div>
-                        <p class="post_text">{{card.status}}</p>
-                    </div>
-                    <div class="p-3">
-                        <p class="name">Приют: {{card.choice_shelter}}</p>
-                        <p class="name">Город: {{card.city}}</p>
-                        <p class="text">Порода: {{card.breed}}</p>
-                        <p class="text">Описание: {{card.comment}}</p>
-                    </div>
+                <div class="col-3 col-offset-2">
+                    <a href="{% url 'archive_animal' card.id %}">
+                        <div class="lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
+                            <div class="img">
+                                <img class="w-100" src="/{{card.photo}}">
+                                <div class="background">
+                                    <img class="w-100" src="/static/img/imgForSite/archive_animal.svg">
+                                </div>
+                                <p class="post_text">{{card.status}}</p>
+                            </div>
+                            <div class="p-3">
+                                <p class="name">Приют: {{card.choice_shelter}}</p>
+                                <p class="name">Город: {{card.city}}</p>
+                                <p class="text">Порода: {{card.breed}}</p>
+                                <p class="text">Описание: {{card.comment}}</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             {% endfor %}        
         </div>
@@ -46,18 +58,24 @@
         <p class="login-title" style="padding: 0">Умерли</p>
         <div class="row g-5 lost_cards">
             {% for card in collection_died %}
-                <div class="col-3 col-offset-2 lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
-                    <div class="img">
-                        <img class="w-100" src="/{{card.photo}}">
-                        <div class="background"></div>
-                        <p class="post_text">{{card.status}}</p>
-                    </div>
-                    <div class="p-3">
-                        <p class="name">Приют: {{card.choice_shelter}}</p>
-                        <p class="name">Город: {{card.city}}</p>
-                        <p class="text">Порода: {{card.breed}}</p>
-                        <p class="text">Описание: {{card.comment}}</p>
-                    </div>
+                <div class="col-3 col-offset-2">
+                    <a href="{% url 'archive_animal' card.id %}">
+                        <div class="lost_cards_animal card_animal" name="{{card.breed}}+{{card.city}}">
+                            <div class="img">
+                                <img class="w-100" src="/{{card.photo}}">
+                                <div class="background">
+                                    <img class="w-100" style="object-fit: cover !important" src="/static/img/imgForSite/died_animal.svg">
+                                </div>
+                                <p class="post_text">{{card.status}}</p>
+                            </div>
+                            <div class="p-3">
+                                <p class="name">Приют: {{card.choice_shelter}}</p>
+                                <p class="name">Город: {{card.city}}</p>
+                                <p class="text">Порода: {{card.breed}}</p>
+                                <p class="text">Описание: {{card.comment}}</p>
+                            </div>                        
+                        </div>
+                    </a>
                 </div>
             {% endfor %}        
         </div>

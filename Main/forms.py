@@ -33,8 +33,8 @@ class LoginFormUser(ModelForm):
       model = AccountUser
       fields = ['email_user', 'password_user']
       labels = {
-         'email_user': 'Введите email',
-         'password_user': 'Введите пароль'
+         'email_user': 'Email',
+         'password_user': 'Пароль'
       }
       widgets = {
          'password_user': forms.PasswordInput,
@@ -46,7 +46,7 @@ class RegistryFormUser(ModelForm):
       model = AccountUser
       fields = ['name_user', 'email_user', 'password_user']
       labels = {
-         'name_user': 'Ваше имя',
+         'name_user': 'Введите имя',
          'email_user': 'Введите email',
          'password_user': 'Придумайте пароль'
       }

@@ -152,7 +152,7 @@ def helpPage(request, helpID):
 
 
 def lostAnimal(request):
-    lostAnimals = LostAnimals.objects.all()
+    lostAnimals = LostAnimals.objects.all()[::-1]
     breedAnimals = []
     cityAnimals = []
     for animal in lostAnimals:
@@ -176,7 +176,10 @@ def newLostAnimal(request):
                 AccountUser.objects.update(key_used=check_key-1)
                 form_lostAnimals.photo = request.FILES["photo"]
                 form_lostAnimals.city = request.POST.get("city")
-                form_lostAnimals.breed = request.POST.get("breed")
+                if request.POST.get("breed") != "":
+                    form_lostAnimals.breed = request.POST.get("breed")
+                else:
+                    form_lostAnimals.breed = "Не определена"
                 form_lostAnimals.contact = request.POST.get("contact")
                 form_lostAnimals.description = request.POST.get("description")
                 form_lostAnimals.save()
@@ -205,9 +208,14 @@ def partners(request):
 
 def archive(request):
     collection_taken = Collection.objects.filter(status='Забрали')
-    collection_archive = Collection.objects.filter(status='Архив')
+    collection_archive = Collection.objects.filter(status='Другая причина')
     collection_died = Collection.objects.filter(status='Умер')
     return render(request, "archive.html", {"collection_taken": collection_taken, "collection_archive": collection_archive, "collection_died": collection_died})
+
+
+def archive_animal(request, helpID):
+    animal = Collection.objects.get(id=helpID)
+    return render(request, "archiveAnimal.html", {"animal": animal})
 
 
 def about(request):

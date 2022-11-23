@@ -106,7 +106,7 @@ class Collection(models.Model): # Карточка с животным
     summ_persent = models.CharField(max_length=200, blank=True, null=True)
     photo = models.FileField(upload_to='static/img/cardsAnimal', blank=True, null=True)
     video = models.FileField(upload_to='static/video/cardsAnimal', blank=True, null=True)
-    status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Умер", "Умер"), ("Архив", "Архив")))
+    status = models.CharField(max_length=200, choices=(("В приюте", "В приюте"), ("Забрали", "Забрали"), ("Умер", "Умер"), ("Другая причина", "Другая причина (описать)")))
     breed = models.CharField(max_length=200, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=(('Девочка', 'Девочка'), ('Мальчик', 'Мальчик')), blank=True, null=True)
     age = models.CharField(max_length=200, blank=True, null=True)
@@ -144,6 +144,10 @@ class LostAnimals(models.Model): # Раздел с потерянными жив
     breed = models.CharField(max_length=200, blank=True, null=True, default="Без породы")
     contact = models.CharField(max_length=200)
     description = models.CharField(max_length=3000, blank=True, null=True)
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.city
 
     class Meta:
         verbose_name = 'Потерянное животное'

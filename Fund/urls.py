@@ -27,6 +27,7 @@ urlpatterns = [
     path('support', views.support, name='support'),
     path('partners', views.partners, name='partners'),
     path('archive', views.archive, name='archive'),
+    path('archive_animal/<str:helpID>', views.archive_animal, name='archive_animal'),
     path('about', views.about, name='about'),
     path('volunteers', views.volunteers, name='volunteers'),
     path('shelters', views.shelters, name='shelters'),
