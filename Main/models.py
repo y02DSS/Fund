@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 import uuid
 
 class ShelterNews(models.Model): # Все новости приютов
@@ -168,6 +170,7 @@ class ChatLogin(models.Model): # Чат для приютов
 
 class AccountUser(models.Model):
     id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name_user = models.CharField(max_length=200)
     email_user = models.EmailField(max_length=200, unique=True)
     password_user = models.CharField(max_length=200)

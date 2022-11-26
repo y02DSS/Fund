@@ -698,6 +698,24 @@ a, p, h1, h2, h3, h4, h5, h6, span{
     }
 }
 
+.about{
+    font-size: $second_font_size;
+    color: $secondary_color;
+
+    a{
+        color: $secondary_color;
+    }
+
+    p{
+        font-weight: 500;
+    }
+
+    ul, ol, span {
+        font-size: $first_font_size;
+        font-weight: 600;
+    }
+}
+
 .login-title{
     font-size: 64px;
     font-weight: 700 !important;

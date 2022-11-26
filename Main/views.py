@@ -5,6 +5,7 @@ from .models import Collection, Partners, AccountShelter, ShelterNews, ShelterRe
 from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
     BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimal, CreateAnimalReport, LoginFormUser, RegistryFormUser
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core import serializers
 
@@ -12,6 +13,7 @@ from django.contrib import messages
 
 from .send_email import send_for_email
 
+from .models import User
 
 def inject_form(request):  # Работает на всех страницах
     data = {}
@@ -82,6 +84,8 @@ def inject_form(request):  # Работает на всех страницах
             form_registry_user_add.save()
             send_for_email('',str(request.POST.get("name_user")), f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountuser/{form_registry_add.id}/change/", "Новая регистрация пользователя")
             data["info_check"] = 1
+            new_user = User.objects.create_user(form_registry_user_add.name_user, form_registry_user_add.email_user, form_registry_user_add.name_user)
+            
         # else:
         #     data["info_check"] = 4
 
@@ -248,13 +252,15 @@ def shelter_animals(request, name_shelter, id_shelter):
     return render(request, "shelterAnimals.html", {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
 
 
+# @login_required
 def login_user(request, rights):
     temp_user_rights = rights.split('&')
     account_user = AccountUser.objects.filter(email_user=temp_user_rights[0])[0]
 
     return render(request, "loginUser.html", {"rights": rights, "account_user": account_user})
+    
 
-
+@login_required(login_url='login')
 def login(request, rights):
     temp_rights = rights.split('&')
 

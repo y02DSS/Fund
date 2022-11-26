@@ -51,10 +51,17 @@
                         </a>
                     </div>
                     <div class="button-card button-card-header">
+                        {% if user.is_authenticated %}
+                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
+                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                            <div class="text">Профиль</div>
+                        </a>
+                        {% else %}
                         <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
                             <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
                             <div class="text">Регистрация/Вход</div>
                         </a>
+                        {% endif %}
                     </div>            
                 </div>
             </div>
@@ -165,15 +172,15 @@
                 </div>
                 <div class="col-3">
                     <div class="button-card button-card-header">
-                        <a href="tel:899999999" class="button">
+                        <a href="tel:89137775262" class="button">
                             <div class="img"><img src="/static/img/imgForSite/tel_button.svg"></div>
-                            <div class="text">+7(999)999-99-99</div>
+                            <div class="text">+7(913)777-52-62</div>
                         </a>
                     </div>
                     <div class="button-card button-card-header">
-                        <a href="mailto:yandex@gmail.com" class="button">
+                        <a href="mailto:info@elysium2022.ru" class="button">
                             <div class="img"><img src="/static/img/imgForSite/email_button.svg"></div>
-                            <div class="text">yandex@gmail.com</div>
+                            <div class="text">info@elysium2022.ru</div>
                         </a>
                     </div>
                     <div class="button-card button-card-header">

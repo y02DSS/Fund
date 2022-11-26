@@ -494,6 +494,17 @@ a, p, h1, h2, h3, h4, h5, h6, span {
     .form-new-lost-animal form button {
       background-color: #85addc; }
 
+.about {
+  font-size: 20px;
+  color: #115175; }
+  .about a {
+    color: #115175; }
+  .about p {
+    font-weight: 500; }
+  .about ul, .about ol, .about span {
+    font-size: 16px;
+    font-weight: 600; }
+
 .login-title {
   font-size: 64px;
   font-weight: 700 !important;
