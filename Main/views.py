@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -80,16 +81,22 @@ def inject_form(request):  # Работает на всех страницах
 
         form_registry_user = RegistryFormUser(request.POST)
         if form_registry_user.is_valid():
-            form_registry_user_add.name_user = form_registry_user.cleaned_data['name_user']
-            form_registry_user_add.email_user = form_registry_user.cleaned_data['email_user']
-            form_registry_user_add.password_user = form_registry_user.cleaned_data['password_user']
-            form_registry_user_add.save()
-            send_for_email('', str(request.POST.get("name_user")),
+            form_registry_user_add.name_user = form_registry_user.cleaned_data['username']
+            form_registry_user_add.email_user = form_registry_user.cleaned_data['email']
+            form_registry_user_add.password_user = form_registry_user.cleaned_data['password']
+
+            try:
+                form_registry_user_add.save()
+            except IntegrityError:
+                data["info_check"] = 4
+                return data
+
+            send_for_email('', str(request.POST.get("username")),
                            f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountuser/{form_registry_add.id}/change/",
                            "Новая регистрация пользователя")
             data["info_check"] = 1
-            new_user = User.objects.create_user(form_registry_user_add.name_user, form_registry_user_add.email_user,
-                                                form_registry_user_add.name_user)
+            User.objects.create_user(form_registry_user_add.username, form_registry_user_add.email,
+                                                form_registry_user_add.username)
         # else:
         #     data["info_check"] = 4
     return data
