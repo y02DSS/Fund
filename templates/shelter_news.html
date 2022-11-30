@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{shelter_news.name}}</h1>
+<h1>{{shelter_news.username}}</h1>
 <div class="container-fluid all_cards" style="flex-direction: column-reverse;">
     {% for news in shelter_news.news.all %}
     <div class="all_card">

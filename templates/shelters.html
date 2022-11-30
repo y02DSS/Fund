@@ -3,9 +3,9 @@
 {% block content %}
 <div class="container-fluid all_cards">
     {% for shelter in shelterAll %}
-    <a href="{% url 'shelters_news' shelter.name shelter.id %}">
+    <a href="{% url 'shelters_news' shelter.username shelter.id %}">
         <div class="all_card">
-            <h2>{{shelter.name}}</h2>
+            <h2>{{shelter.username}}</h2>
             <div class="main-info">
                 <div class="shelter-img">
                     <img class="w-100" src="{{shelter.logo}}">
@@ -21,8 +21,8 @@
                 </div>                   
             </div>
             <div class="add-info">
-                <div class="button"><a href="{% url 'shelter_reports' shelter.name shelter.id %}">Показать отчеты приюта</a></div>
-                <div class="button"><a href="{% url 'shelter_animals' shelter.name shelter.id %}">Все животные приюта</a></div>
+                <div class="button"><a href="{% url 'shelter_reports' shelter.username shelter.id %}">Показать отчеты приюта</a></div>
+                <div class="button"><a href="{% url 'shelter_animals' shelter.username shelter.id %}">Все животные приюта</a></div>
             </div>
         </div>        
     </a>
