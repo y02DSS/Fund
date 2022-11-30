@@ -44,8 +44,8 @@
                     <span class="want-take-animal">❗<span>Хотят забрать</span></span>
                   {% endif %}
                   <a class="link" href="/help/{{name.id}}" target="_blank">{{name}} </a>
-                  <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
-                  <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, 'sofronov_s@ru.itstep.org&admin')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
+                  <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, '{{rights}}')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
+                  <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, '{{rights}}')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
               </div>
             {% endfor %}          
           </div>
