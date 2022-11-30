@@ -1,10 +1,10 @@
 import time
 import threading
 
-from .models import AccountUser
+from .models import UserAccount
 
 def hello():
-    accounts = AccountUser.objects.all()
+    accounts = UserAccount.objects.all()
     # accounts.update(key_used=2)
     # threading.Timer(86400.0, hello).start()
 

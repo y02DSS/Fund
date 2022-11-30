@@ -3,7 +3,7 @@ from django import forms
 
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from .models import AccountShelter, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport, AnimalReport, AccountUser
+from .models import ShelterAccount, Collection, ShelterNews, LostAnimals, ShelterReport, LostAnimals, TakeAnimal, ShelterHotReport, AnimalReport, UserAccount
 
 # Форма авторизации приюта
 class LoginForm(forms.Form): 
@@ -14,8 +14,8 @@ class LoginForm(forms.Form):
 # Форма регистрации приюта 
 class RegistryForm(ModelForm):
       class Meta:
-         model = AccountShelter
-         fields = ['name', 'email', 'password', 'city', 'address']
+         model = ShelterAccount
+         fields = ['username', 'email', 'password', 'city', 'address']
          labels = {
             'name': 'Название приюта',
             'email': 'Введите email',
@@ -30,28 +30,28 @@ class RegistryForm(ModelForm):
 
 class LoginFormUser(ModelForm):
    class Meta:
-      model = AccountUser
-      fields = ['email_user', 'password_user']
+      model = UserAccount
+      fields = ['email', 'password']
       labels = {
-         'email_user': 'Email',
-         'password_user': 'Пароль'
+         'email': 'Email',
+         'password': 'Пароль'
       }
       widgets = {
-         'password_user': forms.PasswordInput,
+         'password': forms.PasswordInput,
       }
       
 
 class RegistryFormUser(ModelForm):
    class Meta:
-      model = AccountUser
-      fields = ['name_user', 'email_user', 'password_user']
+      model = UserAccount
+      fields = ['username', 'email', 'password']
       labels = {
-         'name_user': 'Введите имя',
-         'email_user': 'Введите email',
-         'password_user': 'Придумайте пароль'
+         'username': 'Введите имя',
+         'email': 'Введите email',
+         'password': 'Придумайте пароль'
       }
       widgets = {
-         'password_user': forms.PasswordInput,
+         'password': forms.PasswordInput,
       }
 
 
@@ -61,7 +61,7 @@ class AddRegisterForm(ModelForm):
          ('bank-card','Добавить счет для юр. лица')]
    choices_type_card = forms.ChoiceField(choices=CHOICES_CARD, widget=forms.RadioSelect, label='Выберите тип счета', required=False)   
    class Meta:
-      model = AccountShelter
+      model = ShelterAccount
       fields = ['about', 'director_name', 'contact', 'choices_type_card', 'requisites', 'social_network', 'number_of_animals', 'logo']
       labels = {
          'about': 'Опишите приют',
@@ -76,7 +76,7 @@ class AddRegisterForm(ModelForm):
 # Даты посещения 
 class DateVisits(ModelForm):
    class Meta:
-      model = AccountShelter
+      model = ShelterAccount
       fields = ['date_visits']
       labels = {'date_visits': 'Даты посещений'}
 

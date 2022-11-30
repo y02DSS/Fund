@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 import uuid
+
 
 class ShelterNews(models.Model): # Все новости приютов
     name_news = models.CharField(max_length=200)
@@ -57,12 +58,8 @@ class AnimalReport(models.Model):
         verbose_name_plural = 'Отчеты питомцев'
 
 
-
-class AccountShelter(models.Model): # Личные кабинеты приютов
+class ShelterAccount(AbstractUser): # Личные кабинеты приютов
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200, unique=True)
-    password = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True, null=True)  
     about = models.TextField(max_length=1000, blank=True, null=True)
@@ -79,8 +76,29 @@ class AccountShelter(models.Model): # Личные кабинеты приюто
     date_visits = models.TextField(max_length=1000, blank=True, null=True)
     register = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
 
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name='groups',
+        blank=True,
+        help_text=(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        related_name="%(class)s_requests_created",
+        related_query_name="user",
+    )
+
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name="%(class)s_requests_created",
+        related_query_name="user",
+    )
+
     def __str__(self):
-        return self.name
+        return self.username
 
     class Meta:
         verbose_name = 'Личный кабинет приюта'
@@ -115,7 +133,7 @@ class Collection(models.Model): # Карточка с животным
     city = models.CharField(max_length=200)
     is_take = models.CharField(max_length=200, blank=True, null=True)
     animalReport = models.ManyToManyField(AnimalReport, blank=True, null=True)
-    choice_shelter = models.ForeignKey(AccountShelter, on_delete=models.CASCADE, blank=True, null=True)
+    choice_shelter = models.ForeignKey(ShelterAccount, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -123,6 +141,7 @@ class Collection(models.Model): # Карточка с животным
     class Meta:
         verbose_name = 'Питомец'
         verbose_name_plural = 'Питомцы'
+
 
 class Partners(models.Model): # Раздел с партнерами
     name = models.CharField(max_length=200)
@@ -168,19 +187,36 @@ class ChatLogin(models.Model): # Чат для приютов
         verbose_name_plural = 'Чат'
 
 
-class AccountUser(models.Model):
+class UserAccount(AbstractUser):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name_user = models.CharField(max_length=200)
-    email_user = models.EmailField(max_length=200, unique=True)
-    password_user = models.CharField(max_length=200)
     key = models.CharField(max_length=50, default=uuid.uuid4)
     helped_animals = models.ManyToManyField(Collection, blank=True, null=True)
     key_used = models.IntegerField(max_length=2, default=2)
     register_user = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
 
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name='groups',
+        blank=True,
+        help_text=(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        related_name="%(class)s_requests_created",
+        related_query_name="user",
+    )
+
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name="%(class)s_requests_created",
+        related_query_name="user",
+    )
+
     def __str__(self):
-        return self.name_user
+        return self.username
 
     class Meta:
         verbose_name = 'Личный кабинет пользователей'
