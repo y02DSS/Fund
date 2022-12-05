@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Collection, Partners, ShelterAccount, ShelterNews, LostAnimals, ShelterReport, ChatLogin, TakeAnimal, ShelterHotReport, AnimalReport, UserAccount
+from .models import AnimalCard, Partners, ShelterAccount, ShelterNews, LostAnimals, ShelterReport, ChatLogin, TakeAnimal, ShelterHotReport, AnimalReport, UserAccount
 
-admin.site.register(Collection)
+admin.site.register(AnimalCard)
 admin.site.register(Partners)
 admin.site.register(ShelterAccount)
 admin.site.register(ShelterNews)

@@ -6,6 +6,8 @@ $('#money_summ').keyup(function() {
 
 // Форма со входом и регистрацией
 var login_form = document.getElementById("login");
+var account_type_field = document.getElementById("id_account_type")
+
 var registry_form = document.getElementById("registry");
 
 var login_user_form = document.getElementById("login_user");
@@ -35,6 +37,8 @@ $(".switch_user_form").on("click", function() {
     login_user_form.style.display = "block"
     registry_form.style.display = "none"
     login_form.style.display = "none"
+
+    account_type_field.value = "user"
 });
 
 $(".switch_shelter_form").on("click", function() { 
@@ -42,6 +46,8 @@ $(".switch_shelter_form").on("click", function() {
     login_form.style.display = "block"
     login_user_form.style.display = "none"
     registry_user_form.style.display = "none"
+
+    account_type_field.value = "shelter"
 });
 
 
@@ -347,7 +353,7 @@ var domParser = new DOMParser()
 
 function load_change(id, url){
 
-    axios.get(`${url}&animalCard_${String(id)}`)
+    axios.get(`${url}/${String(id)}`)
     .then(function (response) {
         var updated_document = document.createElement("html");
 

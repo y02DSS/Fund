@@ -1,13 +1,16 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+import random
+
 from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
-    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimal, \
-    CreateAnimalReport, LoginFormUser, RegistryFormUser
-from .models import Collection, Partners, ShelterAccount, ShelterNews, ShelterReport, LostAnimals, ChatLogin, \
+    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimalForm, \
+    CreateAnimalReport, LoginForm, RegistryFormUser
+from .models import AnimalCard, Partners, ShelterAccount, ShelterNews, ShelterReport, LostAnimals, ChatLogin, \
     TakeAnimal, AnimalReport, UserAccount
 from .send_email import send_for_email
 
@@ -19,7 +22,7 @@ def inject_form(request):  # Работает на всех страницах
     data["form_login"] = LoginForm()
     data["form_registry"] = RegistryForm()
 
-    data["form_login_user"] = LoginFormUser()
+    data["form_login_user"] = LoginForm()
     data["form_rigistry_user"] = RegistryFormUser()
 
     form_registry_add = ShelterAccount()
@@ -28,39 +31,31 @@ def inject_form(request):  # Работает на всех страницах
     if request.method == 'POST':
         # Авторизация
 
-        # form_login_user = LoginFormUser(request.POST)
-        try:
-            temp_registry_user_email_id = UserAccount.objects.get(email_user=request.POST.get('email_user')).id
-            if UserAccount.objects.get(id=temp_registry_user_email_id).password_user == request.POST.get(
-                    'password_user'):
-                if UserAccount.objects.get(id=temp_registry_user_email_id).register_user == "Принять":
-                    redirectc = redirect("login_user",
-                                         rights=f'{request.POST.get("email_user")}&{request.POST.get("password_user")}')
-                    data['redirect'] = redirectc
-                else:
-                    data["info_check"] = 2
-            else:
-                data["info_check"] = 3
-        except:
-            pass
+        form_login_user = LoginForm(request.POST)
 
-        form_login = LoginForm(request.POST)
-        if form_login.is_valid():
+        if form_login_user.is_valid():
+            email = form_login_user.cleaned_data["email"]
+            password = form_login_user.cleaned_data["password"]
+
             try:
-                temp_registry_email_id = ShelterAccount.objects.filter(email=request.POST.get("login_email"))[0].id
-                if ShelterAccount.objects.filter(id=temp_registry_email_id)[0].password == \
-                        ShelterAccount.objects.filter(password=request.POST.get("login_password"))[0].password:
-                    if ShelterAccount.objects.filter(id=temp_registry_email_id)[0].register == "Принять":
-                        redirectc = redirect("login",
-                                             rights=f'{request.POST.get("login_email")}&{request.POST.get("login_password")}')
-                        # data = {}
-                        data['redirect'] = redirectc
-                    else:
-                        data["info_check"] = 2
+                if form_login_user.data["account_type"] == "user":
+                    username = UserAccount.objects.get(email=email)
                 else:
-                    data["info_check"] = 3
-            except:
-                pass
+                    username = ShelterAccount.objects.get(email=email)
+            except UserAccount.DoesNotExist or ShelterAccount.DoesNotExist:
+                data["info_check"] = 3
+                return data
+
+            user = authenticate(request, username=username, password=password)
+
+            if user and (form_login_user.data["account_type"] == "user"):
+                login(request, user)
+                data["redirect"] = redirect("login_user")
+                return data
+            else:
+                login(request, user)
+                data["redirect"] = redirect("login")
+                return data
 
         # Регистрация
         form_registry = RegistryForm(request.POST)
@@ -71,6 +66,7 @@ def inject_form(request):  # Работает на всех страницах
             form_registry_add.city = form_registry.cleaned_data['city']
             form_registry_add.address = form_registry.cleaned_data['address']
             form_registry_add.save()
+
             send_for_email('', str(request.POST.get("name")),
                            f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/",
                            "Новая регистрация приюта")
@@ -103,20 +99,26 @@ def inject_form(request):  # Работает на всех страницах
 
 
 def index(request):
-    collection = Collection.objects.filter(status="В приюте")
+    animal_cards = AnimalCard.objects.filter(status="В приюте")
+
+    if len(animal_cards) >= 3:
+        random_animals = random.sample(tuple(animal_cards), 3)
+    else:
+        random_animals = animal_cards
+
     shelterAll = ShelterAccount.objects.all()
     all_partners = Partners.objects.all()
-    citys = []
+    cities = []
     for city in shelterAll:
-        if city.city not in citys:
-            citys.append(city.city)
+        if city.city not in cities:
+            cities.append(city.city)
     return render(request, "index.html",
-                  {"collection": collection[:3], "shelterAll": shelterAll, "all_partners": all_partners,
-                   "citys": len(citys)})
+                  {"collection": random_animals, "shelterAll": shelterAll, "all_partners": all_partners,
+                   "citys": len(cities)})
 
 
 def allAnimals(request):
-    collection = Collection.objects.filter(status="В приюте")
+    collection = AnimalCard.objects.filter(status="В приюте")
     all_shelters = ShelterAccount.objects.all()
     cities = []
     for city in all_shelters:
@@ -131,7 +133,7 @@ def allAnimals(request):
 
 
 def helpPage(request, help_id):
-    animal = Collection.objects.get(id=help_id)
+    animal = AnimalCard.objects.get(id=help_id)
 
     new_take_animal = TakeAnimal()
 
@@ -221,16 +223,16 @@ def partners(request):
 
 
 def archive(request):
-    collection_taken = Collection.objects.filter(status='Забрали')
-    collection_archive = Collection.objects.filter(status='Другая причина')
-    collection_died = Collection.objects.filter(status='Умер')
+    collection_taken = AnimalCard.objects.filter(status='Забрали')
+    collection_archive = AnimalCard.objects.filter(status='Другая причина')
+    collection_died = AnimalCard.objects.filter(status='Умер')
     return render(request, "archive.html",
                   {"collection_taken": collection_taken, "collection_archive": collection_archive,
                    "collection_died": collection_died})
 
 
 def archive_animal(request, helpID):
-    animal = Collection.objects.get(id=helpID)
+    animal = AnimalCard.objects.get(id=helpID)
     return render(request, "archiveAnimal.html", {"animal": animal})
 
 
@@ -260,12 +262,12 @@ def shelter_reports(request, name_shelter, id_shelter):
 
 
 def shelter_animals(request, name_shelter, id_shelter):
-    shelter_collection = Collection.objects.filter(choice_shelter=id_shelter)
+    shelter_collection = AnimalCard.objects.filter(choice_shelter=id_shelter)
     return render(request, "shelterAnimals.html",
                   {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
 
 
-# @login_required
+@login_required
 def login_user(request, rights):
     temp_user_rights = rights.split('&')
     account_user = UserAccount.objects.filter(email_user=temp_user_rights[0])[0]
@@ -274,218 +276,217 @@ def login_user(request, rights):
 
 
 @login_required
-def login(request, rights):
-    temp_rights = rights.split('&')
-
-    card_id = None
+def login_shelter(request):
     form_change_card_animal = None
-    new_animal_report_id = None
 
-    try:
-        card_id = temp_rights[2]
-        temp_card_id = card_id.split("_")
-        if temp_card_id[0] == "animalCard":
-            change_card_animal_id = int(temp_card_id[1])
-            change_card_animal = Collection.objects.filter(id=change_card_animal_id)[0]
-        elif temp_card_id[0] == "animalReport":
-            new_animal_report_id = int(temp_card_id[1])
-    except IndexError:
-        pass
-
-    temp_registry_email_id = ShelterAccount.objects.filter(email=temp_rights[0])[0].id
-
-    new_shelter = ShelterAccount.objects.filter(email=temp_rights[0])[0]
-    new_collection = Collection()
+    new_shelter = ShelterAccount.objects.filter(email=request.user.email)[0]
     new_news = ShelterNews()
     new_report = ShelterReport()
     new_messages_chat = ChatLogin()
     new_hot_report = ShelterHotReport()
     new_animal_report = AnimalReport()
 
-    collection_budget = Collection.objects.filter(choice_shelter=new_shelter)
+    collection_budget = AnimalCard.objects.filter(choice_shelter=new_shelter)
     need_summ = 0
     for animal_budget in collection_budget:
         need_summ += animal_budget.summ
 
-    if ShelterAccount.objects.filter(id=temp_registry_email_id)[0].password == \
-            ShelterAccount.objects.filter(password=temp_rights[1])[0].password:
-        name_account = ShelterAccount.objects.filter(id=temp_registry_email_id)[0].username
-        if request.method == 'POST':
-            if request.POST.get("id") is not None:
-                form_change_card_animal = ChangeCardAnimal(request.POST, request.FILES)
-                if form_change_card_animal.is_valid():
-                    temp_request_id = request.POST["id"]
-                    Collection.objects.filter(id=temp_request_id).update(**form_change_card_animal.cleaned_data)
-                    if 'photo' in form_change_card_animal.changed_data:
-                        with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}',
-                                  'wb+') as destination:
-                            for chunk in form_change_card_animal.cleaned_data["photo"].chunks():
-                                destination.write(chunk)
-                        Collection.objects.filter(id=temp_request_id).update(
-                            photo=f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}')
-                    if 'video' in form_change_card_animal.changed_data:
-                        Collection.objects.filter(id=temp_request_id).update(
-                            video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
-            else:
-                form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
-                if form_create_card_animal.is_valid():
-                    new_collection.name = form_create_card_animal.cleaned_data["name"]
-                    new_collection.comment = form_create_card_animal.cleaned_data["comment"]
-                    new_collection.summ = form_create_card_animal.cleaned_data["summ"]
-                    new_collection.summ_now = 0
-                    new_collection.photo = form_create_card_animal.cleaned_data["photo"]
-                    new_collection.video = form_create_card_animal.cleaned_data["video"]
-                    new_collection.status = form_create_card_animal.cleaned_data["status"]
-                    new_collection.breed = form_create_card_animal.cleaned_data["breed"]
-                    new_collection.gender = form_create_card_animal.cleaned_data["gender"]
-                    new_collection.age = form_create_card_animal.cleaned_data["age"]
-                    new_collection.city = ShelterAccount.objects.filter(id=temp_registry_email_id)[0].city
-                    new_collection.choice_shelter = ShelterAccount.objects.get(id=temp_registry_email_id)
-                    new_collection.save()
-                    ShelterAccount.objects.filter(email=temp_rights[0]).update(
-                        number_of_animals=new_shelter.number_of_animals + 1)
-                    return redirect(login, rights)
-
-            if request.POST.get("new_animal_report_id", "False"):
-                form_create_animal_report = CreateAnimalReport(request.POST, request.FILES)
-                if form_create_animal_report.is_valid():
-                    this_collection = Collection.objects.get(
-                        id=request.POST["new_animal_report_id"])  # передать тот же самый ID
-                    new_animal_report.name_animal = this_collection.name
-                    new_animal_report.report_animal = form_create_animal_report.cleaned_data["report_animal"]
-                    new_animal_report.text_animal = form_create_animal_report.cleaned_data["text_animal"]
-                    new_animal_report.file_animal = form_create_animal_report.cleaned_data["file_animal"]
-                    new_animal_report.save()
-                    this_collection.animalReport.add(new_animal_report)
-
-            form_hot_email = HotEmail(request.POST)
-            if form_hot_email.is_valid():
-                name = form_hot_email.cleaned_data["name_hot"]
-                new_hot_report.name_hot = name
-                text = form_hot_email.cleaned_data["text_hot"]
-                new_hot_report.text_hot = text
-                new_hot_report.save()
-                new_shelter.hotReport.add(new_hot_report)
-                send_for_email('', str(name), text, "Срочный запрос " + str(new_shelter.name))
-                return redirect(login, rights)
-
-            form_create_card_shelter = AddRegisterForm(request.POST, request.FILES, instance=new_shelter)
-            if form_create_card_shelter.is_valid():
-                new_shelter = form_create_card_shelter.save(commit=False)
-                new_shelter.about = form_create_card_shelter.cleaned_data["about"]
-                new_shelter.director_name = form_create_card_shelter.cleaned_data["director_name"]
-                new_shelter.contact = form_create_card_shelter.cleaned_data["contact"]
-                new_shelter.requisites = form_create_card_shelter.cleaned_data["requisites"]
-                new_shelter.social_network = form_create_card_shelter.cleaned_data["social_network"]
-                new_shelter.number_of_animals = form_create_card_shelter.cleaned_data["number_of_animals"]
-                new_shelter.logo = form_create_card_shelter.cleaned_data["logo"]
-                new_shelter.save()
-                return redirect(login, rights)
-
-            form_create_news_shelter = CreateNewsShelter(request.POST)
-            if form_create_news_shelter.is_valid():
-                new_news.name_news = form_create_news_shelter.cleaned_data["name_news"]
-                new_news.text_news = form_create_news_shelter.cleaned_data["text_news"]
-                new_news.save()
-                new_shelter.news.add(new_news)  # Добавить множество именно к этому объекту
-                return redirect(login, rights)
-
-            form_budget_month = BudgetMonth(request.POST, request.FILES)
-            if form_budget_month.is_valid():
-                budget_money = form_budget_month.cleaned_data["budget_money"]
-                if request.FILES:
-                    budget_file = request.FILES["budget_file"]
-                    with open('static/uploads/files/budget/' + budget_file.name, 'wb+') as destination:
-                        for chunk in budget_file.chunks():
-                            destination.write(chunk)
-                    send_for_email('', str(ShelterAccount.objects.filter(email=temp_rights[0])[
-                                               0].name) + ' Необходимая сумма: ' + budget_money,
-                                   budget_money,
-                                   "Бюджет от " + str(ShelterAccount.objects.filter(email=temp_rights[0])[0].name),
-                                   'static/uploads/files/budget/' + budget_file.name)
-                else:
-                    send_for_email('', str(ShelterAccount.objects.filter(email=temp_rights[0])[
-                                               0].name) + ' Необходимая сумма: ' + budget_money,
-                                   budget_money,
-                                   "Бюджет от " + str(ShelterAccount.objects.filter(email=temp_rights[0])[0].name))
-                return redirect(login, rights)
-
-            form_new_shelter_report = NewShelterReport(request.POST, request.FILES)
-            if form_new_shelter_report.is_valid():
-                company_report = str(ShelterAccount.objects.filter(email=temp_rights[0])[0].name)
-                new_report.company_report = company_report
-                name_report = form_new_shelter_report.cleaned_data["name_report"]
-                new_report.name_report = name_report
-                text_report = form_new_shelter_report.cleaned_data["text_report"]
-                new_report.text_report = text_report
-                file_report = form_new_shelter_report.cleaned_data["file_report"]
-                new_report.file_report = file_report
-                new_report.save()
-                send_for_email('',
-                               name_report,
-                               text_report,
-                               "Отчет от " + company_report,
-                               'static/uploads/files/reports/' + file_report.name)
-                return redirect(login, rights)
-
-            form_chat = FormChatLogin(request.POST)
-            if form_chat.is_valid():
-                new_messages_chat.name = new_shelter.city
-                new_messages_chat.text = form_chat.cleaned_data['text']
-                new_messages_chat.save()
-                return redirect(login, rights)
-
-            form_date_visits = DateVisits(request.POST)
-            if form_date_visits.is_valid():
-                temp_dates = form_date_visits.cleaned_data['date_visits']
-                if temp_dates != "":
-                    ShelterAccount.objects.filter(id=temp_registry_email_id).update(
-                        date_visits=form_date_visits.cleaned_data['date_visits'])
-                return redirect(login, rights)
-
-
+    if request.method == 'POST':
+        if request.POST.get("id"):
+            change_animal_card(request)
         else:
-            form_create_card_shelter = AddRegisterForm(instance=new_shelter)
-            form_create_card_animal = CreateCardAnimal()
+            create_animal_card(request)
 
-            if card_id:
-                if card_id.split("_")[0] == "animalCard":
-                    form_change_card_animal = ChangeCardAnimal(instance=change_card_animal)
-            # form_change_card_animal = ChangeCardAnimal()
+        if request.POST.get("new_animal_report_id", "False"):
+            form_create_animal_report = CreateAnimalReport(request.POST, request.FILES)
+            if form_create_animal_report.is_valid():
+                this_collection = AnimalCard.objects.get(
+                    id=request.POST["new_animal_report_id"])  # передать тот же самый ID
+                new_animal_report.name_animal = this_collection.name
+                new_animal_report.report_animal = form_create_animal_report.cleaned_data["report_animal"]
+                new_animal_report.text_animal = form_create_animal_report.cleaned_data["text_animal"]
+                new_animal_report.file_animal = form_create_animal_report.cleaned_data["file_animal"]
+                new_animal_report.save()
+                this_collection.animalReport.add(new_animal_report)
 
-            form_create_animal_report = CreateAnimalReport()
-            form_create_news_shelter = CreateNewsShelter()
-            form_date_visits = DateVisits(instance=new_shelter)
-            form_hot_email = HotEmail()
-            form_chat = FormChatLogin()
-            form_budget_month = BudgetMonth()
-            form_new_shelter_report = NewShelterReport()
+        form_hot_email = HotEmail(request.POST)
+        if form_hot_email.is_valid():
+            name = form_hot_email.cleaned_data["name_hot"]
+            new_hot_report.name_hot = name
+            text = form_hot_email.cleaned_data["text_hot"]
+            new_hot_report.text_hot = text
+            new_hot_report.save()
+            new_shelter.hotReport.add(new_hot_report)
+            send_for_email('', str(name), text, "Срочный запрос " + str(new_shelter.name))
+            return redirect(login_shelter)
 
+        form_create_card_shelter = AddRegisterForm(request.POST, request.FILES, instance=new_shelter)
+        if form_create_card_shelter.is_valid():
+            new_shelter = form_create_card_shelter.save(commit=False)
+            new_shelter.about = form_create_card_shelter.cleaned_data["about"]
+            new_shelter.director_name = form_create_card_shelter.cleaned_data["director_name"]
+            new_shelter.contact = form_create_card_shelter.cleaned_data["contact"]
+            new_shelter.requisites = form_create_card_shelter.cleaned_data["requisites"]
+            new_shelter.social_network = form_create_card_shelter.cleaned_data["social_network"]
+            new_shelter.number_of_animals = form_create_card_shelter.cleaned_data["number_of_animals"]
+            new_shelter.logo = form_create_card_shelter.cleaned_data["logo"]
+            new_shelter.save()
+            return redirect(login_shelter)
+
+        form_create_news_shelter = CreateNewsShelter(request.POST)
+        if form_create_news_shelter.is_valid():
+            new_news.name_news = form_create_news_shelter.cleaned_data["name_news"]
+            new_news.text_news = form_create_news_shelter.cleaned_data["text_news"]
+            new_news.save()
+            new_shelter.news.add(new_news)  # Добавить множество именно к этому объекту
+            return redirect(login_shelter)
+
+        form_budget_month = BudgetMonth(request.POST, request.FILES)
+        if form_budget_month.is_valid():
+            budget_money = form_budget_month.cleaned_data["budget_money"]
+            if request.FILES:
+                budget_file = request.FILES["budget_file"]
+                with open('static/uploads/files/budget/' + budget_file.name, 'wb+') as destination:
+                    for chunk in budget_file.chunks():
+                        destination.write(chunk)
+                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
+                                           0].name) + ' Необходимая сумма: ' + budget_money,
+                               budget_money,
+                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].name),
+                               'static/uploads/files/budget/' + budget_file.name)
+            else:
+                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
+                                           0].name) + ' Необходимая сумма: ' + budget_money,
+                               budget_money,
+                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].name))
+            return redirect(login_shelter)
+
+        form_new_shelter_report = NewShelterReport(request.POST, request.FILES)
+        if form_new_shelter_report.is_valid():
+            company_report = str(ShelterAccount.objects.filter(email=request.user.email)[0].name)
+            new_report.company_report = company_report
+            name_report = form_new_shelter_report.cleaned_data["name_report"]
+            new_report.name_report = name_report
+            text_report = form_new_shelter_report.cleaned_data["text_report"]
+            new_report.text_report = text_report
+            file_report = form_new_shelter_report.cleaned_data["file_report"]
+            new_report.file_report = file_report
+            new_report.save()
+            send_for_email('',
+                           name_report,
+                           text_report,
+                           "Отчет от " + company_report,
+                           'static/uploads/files/reports/' + file_report.name)
+            return redirect(login_shelter)
+
+        form_chat = FormChatLogin(request.POST)
+        if form_chat.is_valid():
+            new_messages_chat.name = new_shelter.city
+            new_messages_chat.text = form_chat.cleaned_data['text']
+            new_messages_chat.save()
+            return redirect(login_shelter)
+
+        form_date_visits = DateVisits(request.POST)
+        if form_date_visits.is_valid():
+            temp_dates = form_date_visits.cleaned_data['date_visits']
+            if temp_dates != "":
+                ShelterAccount.objects.filter(id=request.user.id).update(
+                    date_visits=form_date_visits.cleaned_data['date_visits'])
+            return redirect(login_shelter)
+
+
+    else:
+        form_create_card_shelter = AddRegisterForm(instance=new_shelter)
+        form_create_card_animal = CreateCardAnimal()
+
+        # form_change_card_animal = ChangeCardAnimal()
+
+        form_create_animal_report = CreateAnimalReport()
+        form_create_news_shelter = CreateNewsShelter()
+        form_date_visits = DateVisits(instance=new_shelter)
+        form_hot_email = HotEmail()
+        form_chat = FormChatLogin()
+        form_budget_month = BudgetMonth()
+        form_new_shelter_report = NewShelterReport()
+
+    messages_chat = ChatLogin.objects.all()
+    collection = AnimalCard.objects.filter(choice_shelter=ShelterAccount.objects.filter(email=request.user.email)[0].id)
+
+    if request.is_ajax():
+        temp_chat = ''
         messages_chat = ChatLogin.objects.all()
-        collection = Collection.objects.filter(choice_shelter=ShelterAccount.objects.filter(email=temp_rights[0])[0].id)
+        for message in messages_chat:
+            temp_chat += message.name + '$' + message.text + '$'
+        return HttpResponse(temp_chat)
 
-        if request.is_ajax():
-            temp_chat = ''
-            messages_chat = ChatLogin.objects.all()
-            for message in messages_chat:
-                temp_chat += message.name + '$' + message.text + '$'
-            return HttpResponse(temp_chat)
+    return render(request, "login.html", {"rights": "&".join((request.user.email, request.user.password)),
+                                          "name_account": request.user.username,
+                                          "form_create_card_shelter": form_create_card_shelter,
+                                          "form_create_card_animal": form_create_card_animal,
+                                          "form_change_card_animal": form_change_card_animal,
+                                          "form_create_news_shelter": form_create_news_shelter,
+                                          "form_date_visits": form_date_visits,
+                                          "form_budget_month": form_budget_month,
+                                          "form_new_shelter_report": form_new_shelter_report,
+                                          "form_hot_email": form_hot_email,
+                                          "form_create_animal_report": form_create_animal_report,
+                                          "form_chat": form_chat,
+                                          "shelter": new_shelter,
+                                          "collection": collection,
+                                          "collection_budget": collection_budget,
+                                          "need_summ": need_summ,
+                                          "messages_chat": messages_chat
+                                          })
 
-        return render(request, "login.html", {"rights": rights,
-                                              "name_account": name_account,
-                                              "form_create_card_shelter": form_create_card_shelter,
-                                              "form_create_card_animal": form_create_card_animal,
-                                              "form_change_card_animal": form_change_card_animal,
-                                              "form_create_news_shelter": form_create_news_shelter,
-                                              "form_date_visits": form_date_visits,
-                                              "form_budget_month": form_budget_month,
-                                              "form_new_shelter_report": form_new_shelter_report,
-                                              "form_hot_email": form_hot_email,
-                                              "form_create_animal_report": form_create_animal_report,
-                                              "form_chat": form_chat,
-                                              "shelter": new_shelter,
-                                              "collection": collection,
-                                              "collection_budget": collection_budget,
-                                              "need_summ": need_summ,
-                                              "messages_chat": messages_chat
-                                              })
+
+def create_animal_card(request):
+    new_shelter = ShelterAccount.objects.filter(email=request.user.email)[0]
+
+    new_collection = AnimalCard()
+
+    form_create_card_animal = CreateCardAnimal(request.POST, request.FILES)
+    if form_create_card_animal.is_valid():
+        new_collection.name = form_create_card_animal.cleaned_data["name"]
+        new_collection.comment = form_create_card_animal.cleaned_data["comment"]
+        new_collection.summ = form_create_card_animal.cleaned_data["summ"]
+        new_collection.summ_now = 0
+        new_collection.photo = form_create_card_animal.cleaned_data["photo"]
+        new_collection.video = form_create_card_animal.cleaned_data["video"]
+        new_collection.status = form_create_card_animal.cleaned_data["status"]
+        new_collection.breed = form_create_card_animal.cleaned_data["breed"]
+        new_collection.gender = form_create_card_animal.cleaned_data["gender"]
+        new_collection.age = form_create_card_animal.cleaned_data["age"]
+        new_collection.city = ShelterAccount.objects.filter(email=request.user.email)[0].city
+        new_collection.choice_shelter = ShelterAccount.objects.get(email=request.user.email)
+        new_collection.save()
+        ShelterAccount.objects.filter(email=request.user.email).update(
+            number_of_animals=new_shelter.number_of_animals + 1)
+        return redirect(login_shelter)
+
+
+def change_animal_card(request):
+    form_change_card_animal = ChangeCardAnimalForm(request.POST, request.FILES)
+    if form_change_card_animal.is_valid():
+        temp_request_id = request.POST["id"]
+        AnimalCard.objects.filter(id=temp_request_id).update(**form_change_card_animal.cleaned_data)
+        if 'photo' in form_change_card_animal.changed_data:
+            with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}',
+                      'wb+') as destination:
+                for chunk in form_change_card_animal.cleaned_data["photo"].chunks():
+                    destination.write(chunk)
+            AnimalCard.objects.filter(id=temp_request_id).update(
+                photo=f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}')
+        if 'video' in form_change_card_animal.changed_data:
+            AnimalCard.objects.filter(id=temp_request_id).update(
+                video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
+
+
+def get_animal_change_form(request, animal_card_id):
+    animal_card = AnimalCard.objects.get(id=animal_card_id)
+
+    form_change_card_animal = ChangeCardAnimalForm(instance=animal_card)
+
+    return render(request, "login.html", {"rights": "&".join((request.user.email, request.user.password)),
+                                          "name_account": request.user.username,
+                                          "form_change_card_animal": form_change_card_animal})
+

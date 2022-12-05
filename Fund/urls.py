@@ -34,7 +34,9 @@ urlpatterns = [
     path('shelter_reports/<str:name_shelter>&<str:id_shelter>', views.shelter_reports, name='shelter_reports'),
     path('shelter_animals/<str:name_shelter>&<str:id_shelter>', views.shelter_animals, name='shelter_animals'),
     path('shelters/<str:name_shelter>&<str:id_shelter>', views.shelters_news, name='shelters_news'),
-    path('login/<str:rights>', views.login, name='login'),
-    path('login_user/<str:rights>', views.login_user, name='login_user'),
+    path('get_animal_change_form/<str:animal_card_id>', views.get_animal_change_form, name="get_animal_change_form"),
+    path('login', views.login_shelter, name='login'),
+    # path('login?animal_report=<str:animal_report>', name="animal_report"),
+    path('login_user', views.login_user, name='login_user'),
     path('admin/', admin.site.urls),
 ]

@@ -60,6 +60,7 @@ class AnimalReport(models.Model):
 
 class ShelterAccount(AbstractUser): # Личные кабинеты приютов
     id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True, blank=True)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True, null=True)  
     about = models.TextField(max_length=1000, blank=True, null=True)
@@ -118,7 +119,7 @@ class TakeAnimal(models.Model):
         verbose_name_plural = 'Забрать питомцев'
 
 
-class Collection(models.Model): # Карточка с животным
+class AnimalCard(models.Model): # Карточка с животным
     name = models.CharField(max_length=200)
     comment = models.TextField(blank=True, null=True)
     summ = models.FloatField(max_length=200)
@@ -189,8 +190,9 @@ class ChatLogin(models.Model): # Чат для приютов
 
 class UserAccount(AbstractUser):
     id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True, blank=True)
     key = models.CharField(max_length=50, default=uuid.uuid4)
-    helped_animals = models.ManyToManyField(Collection, blank=True, null=True)
+    helped_animals = models.ManyToManyField(AnimalCard, blank=True, null=True)
     key_used = models.IntegerField(max_length=2, default=2)
     register_user = models.CharField(max_length=10, choices=(('Отклонить', 'Отклонить'), ('Принять', 'Принять')), default="Отклонить")
 
