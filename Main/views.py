@@ -80,9 +80,9 @@ def inject_form(request):  # Работает на всех страницах
 
         form_registry_user = RegistryFormUser(request.POST)
         if form_registry_user.is_valid():
-            form_registry_user_add.name_user = form_registry_user.cleaned_data['username']
-            form_registry_user_add.email_user = form_registry_user.cleaned_data['email']
-            form_registry_user_add.password_user = form_registry_user.cleaned_data['password']
+            form_registry_user_add.username = form_registry_user.cleaned_data['username']
+            form_registry_user_add.email = form_registry_user.cleaned_data['email']
+            form_registry_user_add.set_password(form_registry_user.cleaned_data['password'])
 
             try:
                 form_registry_user_add.save()
