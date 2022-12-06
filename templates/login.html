@@ -43,9 +43,9 @@
                   {% if name.is_take is not None %}
                     <span class="want-take-animal">❗<span>Хотят забрать</span></span>
                   {% endif %}
-                  <a class="link" href="/help/{{name.id}}" target="_blank">{{name}} </a>
+                  <a class="link" href="{% url 'helpPage' name.id %}" target="_blank">{{name}} </a>
                   <a style="margin-left: 5px; color: red" onclick="load_change({{name.id}}, '/get_animal_change_form')" class="form_change_card_animal" id="animal_card_{{name.id}}">Редактировать</a>
-                  <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, '/login')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
+                  <a style="margin-left: 5px; color: green"  onclick="load_report({{name.id}}, '/get_animal_report_form')" class="form_create_animal_report" id="report_animal_card_{{name.id}}">Отчет</a>
               </div>
             {% endfor %}          
           </div>
