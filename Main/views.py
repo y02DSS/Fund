@@ -16,6 +16,9 @@ from .send_email import send_for_email
 
 
 def inject_form(request):  # Работает на всех страницах
+    if "admin" in request.path:
+        return {}
+
     data = {}
     data["info_check"] = 0
 
