@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -102,6 +102,9 @@ def inject_form(request):  # Работает на всех страницах
 
 
 def index(request):
+    if request.user.is_authenticated:
+        logout(request)
+
     animal_cards = AnimalCard.objects.filter(status="В приюте")
 
     if len(animal_cards) >= 3:
