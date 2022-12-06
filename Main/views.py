@@ -2,13 +2,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 
 import random
 
 from .forms import RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
-    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimalForm, \
+    BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, \
+    ChangeCardAnimalForm, \
     CreateAnimalReport, LoginForm, RegistryFormUser
 from .models import AnimalCard, Partners, ShelterAccount, ShelterNews, ShelterReport, LostAnimals, ChatLogin, \
     TakeAnimal, AnimalReport, UserAccount
@@ -294,7 +295,7 @@ def logout_account(request):
 
 def login_user(request):
     if not request.user.is_authenticated:
-        redirect(unauthorized_access)
+        return HttpResponseForbidden()
 
     account_user = UserAccount.objects.get(email=request.user.email)
 
@@ -303,7 +304,7 @@ def login_user(request):
 
 def login_shelter(request):
     if not request.user.is_authenticated:
-        redirect(unauthorized_access)
+        return HttpResponseForbidden()
 
     form_change_card_animal = None
 
