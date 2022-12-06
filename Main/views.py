@@ -19,14 +19,12 @@ def inject_form(request):  # Работает на всех страницах
     if "admin" in request.path:
         return {}
 
-    data = {}
-    data["info_check"] = 0
+    data = {"info_check": 0, "form_login": LoginForm(), "form_registry": RegistryForm(), "form_login_user": LoginForm(),
+            "form_rigistry_user": RegistryFormUser()}
 
-    data["form_login"] = LoginForm()
-    data["form_registry"] = RegistryForm()
+    data["form_login"].fields["account_type"].initial = "shelter"
 
-    data["form_login_user"] = LoginForm()
-    data["form_rigistry_user"] = RegistryFormUser()
+    data["form_login_user"].fields["account_type"].initial = "user"
 
     form_registry_add = ShelterAccount()
     form_registry_user_add = UserAccount()

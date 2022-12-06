@@ -1,12 +1,12 @@
+
+
 $('#money_summ').keyup(function() {
     var val = $('#money_summ').val();//Получаем данные из input
     $('#money_summ_view').html('Поддержать на '+ val+' руб');//Вставляем значение в тег с классом txt
 });
 
-
 // Форма со входом и регистрацией
 var login_form = document.getElementById("login");
-var account_type_field = document.getElementById("id_account_type")
 
 var registry_form = document.getElementById("registry");
 
@@ -37,8 +37,6 @@ $(".switch_user_form").on("click", function() {
     login_user_form.style.display = "block"
     registry_form.style.display = "none"
     login_form.style.display = "none"
-
-    account_type_field.value = "user"
 });
 
 $(".switch_shelter_form").on("click", function() { 
@@ -46,8 +44,6 @@ $(".switch_shelter_form").on("click", function() {
     login_form.style.display = "block"
     login_user_form.style.display = "none"
     registry_user_form.style.display = "none"
-
-    account_type_field.value = "shelter"
 });
 
 
