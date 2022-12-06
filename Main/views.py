@@ -433,13 +433,6 @@ def login_shelter(request):
     messages_chat = ChatLogin.objects.all()
     collection = AnimalCard.objects.filter(choice_shelter=ShelterAccount.objects.filter(email=request.user.email)[0].id)
 
-    if request.is_ajax():
-        temp_chat = ''
-        messages_chat = ChatLogin.objects.all()
-        for message in messages_chat:
-            temp_chat += message.name + '$' + message.text + '$'
-        return HttpResponse(temp_chat)
-
     return render(request, "login.html", {"rights": "&".join((request.user.email, request.user.password)),
                                           "name_account": request.user.username,
                                           "form_create_card_shelter": form_create_card_shelter,
