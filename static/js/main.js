@@ -370,7 +370,7 @@ function load_change(id, url){
 };
 
 function load_report(id, url){
-    axios.get(`${url}&animalReport_${String(id)}`)
+    axios.get(`${url}/${String(id)}`)
     .then(function (response) {
         var updated_document = document.createElement("html");
 
@@ -393,13 +393,13 @@ function load_report(id, url){
 };
 
 // Многострочная вставка в placeholder
-document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' + 
-                                                        'Вторник - 8:30-17:00' + '\n' +
-                                                        'Среда - 8:30-17:00' + '\n' +
-                                                        'Четверг - 8:30-17:00' + '\n' +
-                                                        'Пятница - 8:30-17:00' + '\n' +
-                                                        'Суббота - не работаем' + '\n' +
-                                                        'Воскресенье - не работаем' + '\n' 
+//document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' +
+//                                                        'Вторник - 8:30-17:00' + '\n' +
+//                                                        'Среда - 8:30-17:00' + '\n' +
+//                                                        'Четверг - 8:30-17:00' + '\n' +
+//                                                        'Пятница - 8:30-17:00' + '\n' +
+//                                                        'Суббота - не работаем' + '\n' +
+//                                                        'Воскресенье - не работаем' + '\n'
 
 
 
