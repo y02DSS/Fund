@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
@@ -417,10 +416,8 @@ def login_shelter(request):
 
         form_date_visits = DateVisits(request.POST)
         if form_date_visits.is_valid():
-            temp_dates = form_date_visits.cleaned_data['date_visits']
-            if temp_dates != "":
-                ShelterAccount.objects.filter(id=request.user.id).update(
-                    date_visits=form_date_visits.cleaned_data['date_visits'])
+            ShelterAccount.objects.filter(email=request.user.email).update(
+                date_visits=form_date_visits.cleaned_data['date_visits'])
             return redirect(login_shelter)
 
 
