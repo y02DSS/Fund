@@ -67,7 +67,7 @@ class ShelterAccount(AbstractUser): # Личные кабинеты приюто
     logo = models.FileField(upload_to='static/img/accounts', blank=True)
     director_name = models.CharField(max_length=200, blank=True)
     contact = models.CharField(max_length=200, blank=True)
-    requisites = models.CharField(max_length=200, blank=True)
+    requisites = models.CharField(max_length=500, blank=True)
     social_network = models.CharField(max_length=200, blank=True)
     number_of_animals = models.IntegerField(default=0)
     news = models.ManyToManyField(ShelterNews, blank=True)
