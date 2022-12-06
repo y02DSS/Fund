@@ -526,11 +526,6 @@ def ajax_chat(request):
         for message in messages_chat:
             temp_chat += message.name + '$' + message.text + '$'
 
-        response = HttpResponse(temp_chat)
-
-        response.headers = request.headers
-        response.cookies = request.cookies
-
-        return response
+        return HttpResponse(temp_chat)
     else:
         return HttpResponseNotAllowed(permitted_methods=("GET",))
