@@ -492,7 +492,15 @@ def get_animal_change_form(request, animal_card_id):
 
     form_change_card_animal = ChangeCardAnimalForm(instance=animal_card)
 
-    return render(request, "login.html", {"rights": "&".join((request.user.email, request.user.password)),
-                                          "name_account": request.user.username,
+    return render(request, "login.html", {"rights": "&".join(("user", "pass")),
+                                          "name_account": "user",
                                           "form_change_card_animal": form_change_card_animal})
 
+
+def get_animal_report_form(request, animal_card_id):
+    animal_card = AnimalCard.objects.get(id=animal_card_id)
+    animal_report_form = CreateAnimalReport(instance=animal_card)
+
+    return render(request, "login.html", {"rights": "&".join(("user", "pass")),
+                                          "name_account": "user",
+                                          "form_create_animal_report": animal_report_form})
