@@ -68,6 +68,9 @@ def inject_form(request):  # Работает на всех страницах
             form_registry_add.address = form_registry.cleaned_data['address']
             form_registry_add.save()
 
+            User.objects.create_user(form_registry.cleaned_data['username'], email=form_registry.cleaned_data['email'],
+                                     password=form_registry.cleaned_data['password'])
+
             send_for_email('', str(request.POST.get("name")),
                            f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountshelter/{form_registry_add.id}/change/",
                            "Новая регистрация приюта")
@@ -87,6 +90,10 @@ def inject_form(request):  # Работает на всех страницах
             except IntegrityError:
                 data["info_check"] = 4
                 return data
+
+            User.objects.create_user(form_registry_user.cleaned_data['username'],
+                                     email=form_registry_user.cleaned_data['email'],
+                                     password=form_registry_user.cleaned_data['password'])
 
             send_for_email('', str(request.POST.get("username")),
                            f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountuser/{form_registry_add.id}/change/",
