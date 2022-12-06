@@ -13,7 +13,7 @@ def my_not_save(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=UserAccount)
 def my_save(sender, instance, *args, **kwargs):
     if instance.register_user == 'Принять' and instance.pre_register_user == 'Отклонить':
-        send_for_email(str(instance.email_user), 'Ваши данные для входа:', f"Ваш email: {instance.email_user}\nВаш пароль: {instance.password_user}", "Успешная регистрация!")
+        send_for_email(str(instance.email), 'Ваши данные для входа:', f"Ваш email: {instance.email}\nВаш пароль: {instance.password}", "Успешная регистрация!")
 
 
 
