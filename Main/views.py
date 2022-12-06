@@ -101,9 +101,6 @@ def inject_form(request):  # Работает на всех страницах
 
 
 def index(request):
-    if request.user.is_authenticated:
-        logout(request)
-
     animal_cards = AnimalCard.objects.filter(status="В приюте")
 
     if len(animal_cards) >= 3:
@@ -272,11 +269,27 @@ def shelter_animals(request, name_shelter, id_shelter):
                   {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
 
 
+def login_type(request):
+    if request.user.is_authenticated:
+        try:
+            UserAccount.objects.get(email=request.user.email)
+            return redirect(login_user)
+        except:
+            ShelterAccount.objects.get(email=request.user.email)
+            return redirect(login_shelter)
+
+
+def logout_account(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect(index)
+
+
 def login_user(request):
     if not request.user.is_authenticated:
         redirect(unauthorized_access)
 
-    account_user = UserAccount.objects.get(email_user=request.user.email)
+    account_user = UserAccount.objects.get(email=request.user.email)
 
     return render(request, "loginUser.html", {"account_user": account_user})
 
@@ -325,7 +338,7 @@ def login_shelter(request):
             new_hot_report.text_hot = text
             new_hot_report.save()
             new_shelter.hotReport.add(new_hot_report)
-            send_for_email('', str(name), text, "Срочный запрос " + str(new_shelter.name))
+            send_for_email('', str(name), text, "Срочный запрос " + str(new_shelter.username))
             return redirect(login_shelter)
 
         form_create_card_shelter = AddRegisterForm(request.POST, request.FILES, instance=new_shelter)
@@ -358,20 +371,20 @@ def login_shelter(request):
                     for chunk in budget_file.chunks():
                         destination.write(chunk)
                 send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
-                                           0].name) + ' Необходимая сумма: ' + budget_money,
+                                           0].username) + ' Необходимая сумма: ' + budget_money,
                                budget_money,
-                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].name),
+                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].username),
                                'static/uploads/files/budget/' + budget_file.name)
             else:
                 send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
-                                           0].name) + ' Необходимая сумма: ' + budget_money,
+                                           0].username) + ' Необходимая сумма: ' + budget_money,
                                budget_money,
-                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].name))
+                               "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].username))
             return redirect(login_shelter)
 
         form_new_shelter_report = NewShelterReport(request.POST, request.FILES)
         if form_new_shelter_report.is_valid():
-            company_report = str(ShelterAccount.objects.filter(email=request.user.email)[0].name)
+            company_report = str(ShelterAccount.objects.filter(email=request.user.email)[0].username)
             new_report.company_report = company_report
             name_report = form_new_shelter_report.cleaned_data["name_report"]
             new_report.name_report = name_report

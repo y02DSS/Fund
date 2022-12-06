@@ -52,15 +52,18 @@
                     </div>
                     <div class="button-card button-card-header">
                         {% if user.is_authenticated %}
-                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
-                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
-                            <div class="text">Профиль</div>
-                        </a>
+                            <div class="d-flex">
+                                <a href="{% url 'login_type' %}" class="button w-75">
+                                    <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                                    <div class="text">Профиль</div>
+                                </a>
+                                <a href="{% url 'logout_account' %}" style="display: flex; align-items: center; justify-content: center;" class="w-25"><img class="w-100" src="/static/img/imgForSite/logout.png"></a>                                
+                            </div>
                         {% else %}
-                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
-                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
-                            <div class="text">Регистрация/Вход</div>
-                        </a>
+                            <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
+                                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                                <div class="text">Регистрация/Вход</div>
+                            </a>
                         {% endif %}
                     </div>            
                 </div>
@@ -153,10 +156,20 @@
                         </a>
                     </div>
                     <div class="button-card button-card-footer">
-                        <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
-                            <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
-                            <div class="text">Регистрация/Вход</div>
-                        </a>
+                        {% if user.is_authenticated %}
+                        <div class="d-flex">
+                            <a href="{% url 'login_type' %}" class="button w-75">
+                                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                                <div class="text">Профиль</div>
+                            </a>
+                            <a href="{% url 'logout_account' %}" style="display: flex; align-items: center; justify-content: center;" class="w-25"><img class="w-100" src="/static/img/imgForSite/logout.png"></a>                                
+                        </div>
+                        {% else %}
+                            <a href="#" class="button"  data-bs-toggle="modal" data-bs-target="#registry_form">
+                                <div class="img"><img src="/static/img/imgForSite/logo_button.svg"></div>
+                                <div class="text">Регистрация/Вход</div>
+                            </a>
+                        {% endif %}
                     </div>        
                 </div>
                 <div class="col-7">

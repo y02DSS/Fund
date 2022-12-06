@@ -38,5 +38,7 @@ urlpatterns = [
     path('login', views.login_shelter, name='login'),
     path('get_animal_report_form/<str:animal_card_id>', views.get_animal_report_form, name="get_animal_report_form"),
     path('login_user', views.login_user, name='login_user'),
+    path('login_type', views.login_type, name='login_type'),
+    path('logout_account/', views.logout_account, name='logout_account'),
     path('admin/', admin.site.urls),
 ]
