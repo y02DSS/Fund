@@ -207,8 +207,8 @@ def newLostAnimal(request):
                   {"newLostAnimal": newLostAnimal, "info_check_animal": info_check_animal})
 
 
-def fullLostAnimal(request, lostID):
-    lostAnimal = LostAnimals.objects.get(id=lostID)
+def fullLostAnimal(request, lost_id):
+    lostAnimal = LostAnimals.objects.get(id=lost_id)
     return render(request, "fullLostAnimal.html", {"lostAnimal": lostAnimal})
 
 
@@ -231,8 +231,8 @@ def archive(request):
                    "collection_died": collection_died})
 
 
-def archive_animal(request, helpID):
-    animal = AnimalCard.objects.get(id=helpID)
+def archive_animal(request, help_id):
+    animal = AnimalCard.objects.get(id=help_id)
     return render(request, "archiveAnimal.html", {"animal": animal})
 
 

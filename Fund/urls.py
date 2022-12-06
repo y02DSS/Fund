@@ -19,15 +19,15 @@ from Main import views
 
 urlpatterns = [
     path('', views.index),
-    path('help/<int:helpID>', views.helpPage, name='helpPage'),
+    path('help/<int:help_id>', views.helpPage, name='helpPage'),
     path('allAnimals', views.allAnimals, name='allAnimals'),
     path('lostAnimal', views.lostAnimal, name='lostAnimal'),
     path('newLostAnimal', views.newLostAnimal, name='newLostAnimal'),
-    path('fullLostAnimal/<int:lostID>', views.fullLostAnimal, name='fullLostAnimal'),
+    path('fullLostAnimal/<int:lost_id>', views.fullLostAnimal, name='fullLostAnimal'),
     path('support', views.support, name='support'),
     path('partners', views.partners, name='partners'),
     path('archive', views.archive, name='archive'),
-    path('archive_animal/<str:helpID>', views.archive_animal, name='archive_animal'),
+    path('archive_animal/<str:help_id>', views.archive_animal, name='archive_animal'),
     path('about', views.about, name='about'),
     path('volunteers', views.volunteers, name='volunteers'),
     path('shelters', views.shelters, name='shelters'),
