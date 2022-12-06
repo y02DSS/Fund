@@ -345,10 +345,8 @@ for (let elm of elements) {
 
 
 // отображение форм редактировать и отчет
-var domParser = new DOMParser()
 
 function load_change(id, url){
-
     axios.get(`${url}/${String(id)}`)
     .then(function (response) {
         var updated_document = document.createElement("html");
@@ -372,7 +370,6 @@ function load_change(id, url){
 };
 
 function load_report(id, url){
-
     axios.get(`${url}&animalReport_${String(id)}`)
     .then(function (response) {
         var updated_document = document.createElement("html");
