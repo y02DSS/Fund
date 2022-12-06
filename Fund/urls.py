@@ -40,5 +40,6 @@ urlpatterns = [
     path('login_user', views.login_user, name='login_user'),
     path('login_type', views.login_type, name='login_type'),
     path('logout_account/', views.logout_account, name='logout_account'),
+    path('chat', views.ajax_chat, name='ajax_chat'),
     path('admin/', admin.site.urls),
 ]

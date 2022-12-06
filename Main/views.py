@@ -520,5 +520,19 @@ def get_animal_report_form(request, animal_card_id):
                                           "name_account": "user",
                                           "form_create_animal_report": animal_report_form})
 
-def unauthorized_access(request):
-    return HttpResponseForbidden()
+
+def ajax_chat(request):
+    if request.is_ajax():
+        temp_chat = ''
+        messages_chat = ChatLogin.objects.all()
+        for message in messages_chat:
+            temp_chat += message.name + '$' + message.text + '$'
+
+        response = HttpResponse(temp_chat)
+
+        response.headers = request.headers
+        response.cookies = request.cookies
+
+        return response
+    else:
+        return HttpResponseNotAllowed(permitted_methods=("GET",))

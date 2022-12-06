@@ -1,6 +1,6 @@
-function ajax_chat(rights) {
+function ajax_chat(url) {
     setTimeout(() => {
-        $.ajax({url: rights, success: function(result){
+        $.ajax({url: url, success: function(result){
             var finish_result = document.getElementById("chat")
                 finish_result.innerHTML = ''
                 var result_temp = result.split("$")
@@ -17,23 +17,23 @@ function ajax_chat(rights) {
                     finish_result.appendChild(teg_p);
                 };
         }});
-        ajax_chat(rights)
+        ajax_chat(url)
     }, "5000")
 }
 
 $(document).ready(function () {
-    var rights = document.getElementById("rights").innerHTML.replace('amp;', '');
-    ajax_chat(rights)
+    var url = "/chat"
+    ajax_chat(url)
 });
 
 // Многострочная вставка в placeholder
-document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' + 
+document.getElementById("id_date_visits").placeholder = 'Понедельник - 8:30-17:00' + '\n' +
                                                         'Вторник - 8:30-17:00' + '\n' +
                                                         'Среда - 8:30-17:00' + '\n' +
                                                         'Четверг - 8:30-17:00' + '\n' +
                                                         'Пятница - 8:30-17:00' + '\n' +
                                                         'Суббота - не работаем' + '\n' +
-                                                        'Воскресенье - не работаем' + '\n' 
+                                                        'Воскресенье - не работаем' + '\n'
 
 
 
