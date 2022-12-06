@@ -2,12 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 
 import random
 
-from .forms import LoginForm, RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
+from .forms import RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
     BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, ChangeCardAnimalForm, \
     CreateAnimalReport, LoginForm, RegistryFormUser
 from .models import AnimalCard, Partners, ShelterAccount, ShelterNews, ShelterReport, LostAnimals, ChatLogin, \
@@ -92,10 +92,11 @@ def inject_form(request):  # Работает на всех страницах
                            f"http://xn-----6kcsebroh5bqkw3c.xn--p1ai/admin/Main/accountuser/{form_registry_add.id}/change/",
                            "Новая регистрация пользователя")
             data["info_check"] = 1
-            User.objects.create_user(form_registry_user_add.username, form_registry_user_add.email,
-                                                form_registry_user_add.username)
+            # User.objects.create_user(form_registry_user_add.username, form_registry_user_add.email,
+            #                                     form_registry_user_add.username)
         # else:
         #     data["info_check"] = 4
+
     return data
 
 
@@ -271,16 +272,19 @@ def shelter_animals(request, name_shelter, id_shelter):
                   {"shelter_collection": shelter_collection, "name_shelter": name_shelter})
 
 
-@login_required
-def login_user(request, rights):
-    temp_user_rights = rights.split('&')
-    account_user = UserAccount.objects.filter(email_user=temp_user_rights[0])[0]
+def login_user(request):
+    if not request.user.is_authenticated:
+        redirect(unauthorized_access)
 
-    return render(request, "loginUser.html", {"rights": rights, "account_user": account_user})
+    account_user = UserAccount.objects.get(email_user=request.user.email)
+
+    return render(request, "loginUser.html", {"account_user": account_user})
 
 
-@login_required
 def login_shelter(request):
+    if not request.user.is_authenticated:
+        redirect(unauthorized_access)
+
     form_change_card_animal = None
 
     new_shelter = ShelterAccount.objects.filter(email=request.user.email)[0]
@@ -502,3 +506,6 @@ def get_animal_report_form(request, animal_card_id):
     return render(request, "login.html", {"rights": "&".join(("user", "pass")),
                                           "name_account": "user",
                                           "form_create_animal_report": animal_report_form})
+
+def unauthorized_access(request):
+    return HttpResponseForbidden()
