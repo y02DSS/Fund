@@ -45,7 +45,7 @@ def inject_form(request):  # Работает на всех страницах
                     username = UserAccount.objects.get(email=email)
                 else:
                     username = ShelterAccount.objects.get(email=email)
-            except UserAccount.DoesNotExist or ShelterAccount.DoesNotExist:
+            except UserAccount.DoesNotExist and ShelterAccount.DoesNotExist:
                 data["info_check"] = 3
                 return data
 
