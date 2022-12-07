@@ -349,7 +349,7 @@ a, p, h1, h2, h3, h4, h5, h6, span {
     width: 100%;
     margin-bottom: 10px; }
     .hotReports .hotReport-line div img, .hotReports .Report_animals-line div img, .Report_animals .hotReport-line div img, .Report_animals .Report_animals-line div img {
-      width: 100%; }
+      width: 30%; }
 
 .helpPage-video:hover {
   z-index: 10; }

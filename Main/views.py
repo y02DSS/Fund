@@ -487,7 +487,14 @@ def change_animal_card(request):
     form_change_card_animal = ChangeCardAnimalForm(request.POST, request.FILES)
     if form_change_card_animal.is_valid():
         temp_request_id = request.POST["id"]
-        AnimalCard.objects.filter(id=temp_request_id).update(**form_change_card_animal.cleaned_data)
+        change_card = AnimalCard.objects.filter(id=temp_request_id)
+        change_card.name = form_change_card_animal.cleaned_data["name"]
+        change_card.comment = form_change_card_animal.cleaned_data["comment"]
+        change_card.summ = form_change_card_animal.cleaned_data["summ"]
+        change_card.status = form_change_card_animal.cleaned_data["status"]
+        change_card.breed = form_change_card_animal.cleaned_data["breed"]
+        change_card.gender = form_change_card_animal.cleaned_data["gender"]
+        change_card.age = form_change_card_animal.cleaned_data["age"]
         if 'photo' in form_change_card_animal.changed_data:
             with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}',
                       'wb+') as destination:

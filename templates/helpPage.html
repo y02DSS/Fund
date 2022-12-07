@@ -117,8 +117,10 @@
                 <div>
                     {% for animal_report in animal.animalReport.all %}
                     <h3>{{animal_report.report_animal}}</h3>
-                    <p>{{animal_report.text_animal}}</p>
-                    <img src="/{{animal_report.file_animal}}">
+                    <div class="d-flex">
+                        <img src="/{{animal_report.file_animal}}">                        
+                        <p>{{animal_report.text_animal}}</p>
+                    </div>
                     <p>{{animal_report.date_animal}}</p>
                     <hr>
                     {% endfor %}
