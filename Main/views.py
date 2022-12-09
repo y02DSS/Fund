@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllo
 from django.shortcuts import render, redirect
 
 import random
+from transliterate import translit
 
 from .forms import RegistryForm, CreateCardAnimal, CreateNewsShelter, DateVisits, AddRegisterForm, HotEmail, \
     BudgetMonth, NewShelterReport, FormLostAnimals, FormChatLogin, FormTakeAnimal, ShelterHotReport, \
@@ -334,6 +335,8 @@ def login_shelter(request):
                 new_animal_report.report_animal = form_create_animal_report.cleaned_data["report_animal"]
                 new_animal_report.text_animal = form_create_animal_report.cleaned_data["text_animal"]
                 new_animal_report.file_animal = form_create_animal_report.cleaned_data["file_animal"]
+                # new_animal_report.file_animal.name = translit(new_animal_report.file_animal.name, 'ru', reversed=True)
+                # new_animal_report.file_animal.name = new_animal_report.file_animal.name.replace(' ', '_')
                 new_animal_report.save()
                 this_collection.animalReport.add(new_animal_report)
 
@@ -374,6 +377,8 @@ def login_shelter(request):
             budget_money = form_budget_month.cleaned_data["budget_money"]
             if request.FILES:
                 budget_file = request.FILES["budget_file"]
+                budget_file.name = translit(budget_file.name, 'ru', reversed=True)
+                budget_file.name = budget_file.name.replace(' ', '_')
                 with open('static/uploads/files/budget/' + budget_file.name, 'wb+') as destination:
                     for chunk in budget_file.chunks():
                         destination.write(chunk)
@@ -394,6 +399,8 @@ def login_shelter(request):
             text_report = form_new_shelter_report.cleaned_data["text_report"]
             new_report.text_report = text_report
             file_report = form_new_shelter_report.cleaned_data["file_report"]
+            file_report.name = translit(file_report.name, 'ru', reversed=True)
+            file_report.name = file_report.name.replace(' ', '_')
             new_report.file_report = file_report
             new_report.save()
             send_for_email('',
