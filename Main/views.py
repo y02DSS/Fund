@@ -377,15 +377,11 @@ def login_shelter(request):
                 with open('static/uploads/files/budget/' + budget_file.name, 'wb+') as destination:
                     for chunk in budget_file.chunks():
                         destination.write(chunk)
-                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
-                                           0].username) + ' Необходимая сумма: ' + budget_money,
-                               budget_money,
+                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[0].username) + ' Необходимая сумма: ' + budget_money, '',
                                "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].username),
                                'static/uploads/files/budget/' + budget_file.name)
             else:
-                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[
-                                           0].username) + ' Необходимая сумма: ' + budget_money,
-                               budget_money,
+                send_for_email('', str(ShelterAccount.objects.filter(email=request.user.email)[0].username) + ' Необходимая сумма: ' + budget_money, '',
                                "Бюджет от " + str(ShelterAccount.objects.filter(email=request.user.email)[0].username))
             return redirect(login_shelter)
 
@@ -487,7 +483,7 @@ def change_animal_card(request):
     form_change_card_animal = ChangeCardAnimalForm(request.POST, request.FILES)
     if form_change_card_animal.is_valid():
         temp_request_id = request.POST["id"]
-        change_card = AnimalCard.objects.filter(id=temp_request_id)
+        change_card = AnimalCard.objects.filter(id=temp_request_id)[0]
         change_card.name = form_change_card_animal.cleaned_data["name"]
         change_card.comment = form_change_card_animal.cleaned_data["comment"]
         change_card.summ = form_change_card_animal.cleaned_data["summ"]
@@ -495,6 +491,7 @@ def change_animal_card(request):
         change_card.breed = form_change_card_animal.cleaned_data["breed"]
         change_card.gender = form_change_card_animal.cleaned_data["gender"]
         change_card.age = form_change_card_animal.cleaned_data["age"]
+        change_card.save()
         if 'photo' in form_change_card_animal.changed_data:
             with open(f'static/img/cardsAnimal/{form_change_card_animal.cleaned_data["photo"]}',
                       'wb+') as destination:
@@ -505,6 +502,7 @@ def change_animal_card(request):
         if 'video' in form_change_card_animal.changed_data:
             AnimalCard.objects.filter(id=temp_request_id).update(
                 video=f'static/video/cardsAnimal/{form_change_card_animal.cleaned_data["video"]}')
+        
 
 
 def get_animal_change_form(request, animal_card_id):

@@ -5,6 +5,7 @@ $secondary_color: rgba(17, 81, 117, 1);
 $main_color: rgba(133, 173, 220, 1);
 
 $first_font_size: 16px;
+$button_font_size: 18px;
 $second_font_size: 20px;
 $third_font_size: 22px;
 $fourth_font_size: 28px;
@@ -113,7 +114,7 @@ a, p, h1, h2, h3, h4, h5, h6, span{
             padding: 7px;
             width: 100%;
             background-color: white;
-            font-size: $second_font_size;
+            font-size: $button_font_size;
             color: $secondary_color;
             
         }

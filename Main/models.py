@@ -63,7 +63,7 @@ class ShelterAccount(AbstractUser): # Личные кабинеты приюто
     email = models.EmailField(unique=True, blank=True)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True)
-    about = models.TextField(max_length=1000, blank=True)
+    about = models.TextField(max_length=5000, blank=True)
     logo = models.FileField(upload_to='static/img/accounts', blank=True)
     director_name = models.CharField(max_length=200, blank=True)
     contact = models.CharField(max_length=200, blank=True)
